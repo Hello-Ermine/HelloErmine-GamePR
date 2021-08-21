@@ -2,10 +2,13 @@ import Phaser from "phaser";
 
 //button
 let play;
-let howtoplay;
+let tutorial;
 let logo;
 let arcade;
 let story;
+let snowbig;
+let snowsmall;
+let back;
 //BG
 let backGround;
 let middleGround;
@@ -39,24 +42,28 @@ class MainMenu extends Phaser.Scene {
 
     preload() {
         //Back Ground
-        this.load.image('backGround', 'src/image/BG ermine.png');
-        this.load.image('midGround', 'src/image/MG ermine.png');
-        this.load.image('foreGround', 'src/image/FG ermine.png');
+        this.load.image('backGround', 'src/image/background/BG ermine.png');
+        this.load.image('midGround', 'src/image/background/MG ermine.png');
+        this.load.image('foreGround', 'src/image/background/FG ermine.png');
         //Logo
         this.load.image('logo', 'src/image/logo.png');
         this.load.image('game', 'src/image/on top logo.png');
         //Button
-        this.load.image('arcade', 'src/image/Arcade.png');
-        this.load.image('howtoplay', 'src/image/how to button.png');
-        this.load.image('story', 'src/image/story.png');
-        this.load.image('play', 'src/image/button.png');
+        this.load.image('arcade', 'src/image/button/Arcade.png');
+        this.load.image('howtoplay', 'src/image/button/Tutorial.png');
+        this.load.image('story', 'src/image/button/Story.png');
+        this.load.image('play', 'src/image/button/Play.png');
+        this.load.image('snowbig', 'src/image/button/snowbig.png');
+        this.load.image('snowsmall', 'src/image/button/snowsmall.png');
+        this.load.image('snowsmall', 'src/image/button/back.png');
         //Character
         this.load.spritesheet('ermineMenu', 'src/image/ermineAll.png',
             { frameWidth: 500, frameHeight: 300 });
         this.load.spritesheet('snowmanMenu', 'src/image/Snowman.png',
             { frameWidth: 1000, frameHeight: 1000 });
         this.load.spritesheet('golemMenu', 'src/image/Demo2/Demo2/Golem2_sprite.png', {
-            frameWidth: 1000, frameHeight: 1000 });
+            frameWidth: 1000, frameHeight: 1000
+        });
     }
 
     create() {
@@ -79,7 +86,7 @@ class MainMenu extends Phaser.Scene {
             .setScale(1, 1.5);
         foreGround = this.add.tileSprite(0, 0, 1600, 720, 'foreGround')
             .setOrigin(0, 0)
-            .setDepth(3000);
+            .setDepth(99);
         backGround = this.add.tileSprite(0, -50, 1280, 720, 'backGround')
             .setOrigin(0, 0)
 
@@ -311,14 +318,37 @@ class MainMenu extends Phaser.Scene {
 
         //Play Button
         play = this.physics.add.image(this.game.renderer.width / 2, 400, 'play')
-            .setDepth(100);
-        play.setInteractive();
+            .setDepth(100)
+            .setInteractive();
+        snowsmall = this.physics.add.image((this.game.renderer.width / 2) - 3, 400, 'snowsmall')
+            .setDepth(101);
+        play.on('pointerover', () => {
+            // snowsmall.setVisible(false);
+            // snowsmall.alpha = 0.5;
+            snowsmall.setScale(1.1);
+        })
+        play.on('pointerout', () => {
+            // snowsmall.setVisible(true);
+            // snowsmall.alpha = 1;
+            snowsmall.setScale(1);
+        })
         play.on('pointerup', () => {
+            tutorial.destroy();
+            snowbig.destroy();
             play.destroy();
+            snowsmall.destroy();
             //Story Button
             story = this.physics.add.image(this.game.renderer.width / 2 - 200, 400, 'story')
-                .setDepth(100);
-            story.setInteractive();
+                .setDepth(100)
+                .setInteractive();
+            let snowsmall1 = this.physics.add.image(this.game.renderer.width / 2 - 200, 400, 'snowsmall')
+                .setDepth(101);
+            story.on('pointerover', () => {
+                snowsmall1.setScale(1.1);
+            })
+            story.on('pointerout', () => {
+                snowsmall1.setScale(1);
+            })
             story.on('pointerup', () => {
                 this.scene.start('GameScene');
                 this.scene.destroy();
@@ -327,24 +357,39 @@ class MainMenu extends Phaser.Scene {
             })
             //Arcade Buttlon
             arcade = this.physics.add.image(this.game.renderer.width / 2 + 200, 400, 'arcade')
-                .setDepth(100);
-            arcade.setInteractive();
+                .setDepth(100)
+                .setInteractive();
+            let snowsmall2 = this.physics.add.image(this.game.renderer.width / 2 + 200, 400, 'snowsmall')
+                .setDepth(101)
+            arcade.on('pointerover', () => {
+                snowsmall2.setScale(1.1);
+            })
+            arcade.on('pointerout', () => {
+                snowsmall2.setScale(1);
+            })
             arcade.on('pointerdown', () => {
                 this.scene.start('GameScene');
             })
+
         })
         //How to play Button
-        howtoplay = this.physics.add.image(this.game.renderer.width / 2, 540, 'howtoplay')
+        tutorial = this.physics.add.image(this.game.renderer.width / 2, 540, 'howtoplay')
             .setScale(0.8)
-            .setDepth(100);
-        howtoplay.setInteractive();
-        howtoplay.on('pointerdown', () => {
+            .setDepth(100)
+            .setInteractive();
+        snowbig = this.physics.add.image(this.game.renderer.width / 2, 540, 'snowbig')
+            .setScale(0.8)
+            .setDepth(101)
+        tutorial.on('pointerover', () => {
+            snowbig.setScale(0.9);
+        })
+        tutorial.on('pointerout', () => {
+            snowbig.setScale(0.8);
+        })
+        tutorial.on('pointerdown', () => {
             // this.scene.start('GameScene') //รอหน้า Tutorial
         });
-
     }
-
-
 
     update(delta, time) {
         //Show X Y

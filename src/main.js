@@ -5,6 +5,7 @@ import GameOver from './scenes/GameOver';
 import LoadingBar from './scenes/LoadingBar';
 import Default from './scenes/Defualt';
 import MainMenu from './scenes/MainMenu';
+import BossFight from './scenes/BossFight';
 
 
 const config = {
@@ -25,8 +26,9 @@ const config = {
     scene: [
         // LoadingBar,
         // MainMenu,
-        GameScene,
-        GameOver,
+        // GameScene,
+        // GameOver,
+        BossFight
         // Default
     ],
 

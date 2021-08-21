@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-var logo;
+var logo=[];
 var progressBar;
 var progressBox;
 let loadingCount;
@@ -17,9 +17,9 @@ class LoadingBar extends Phaser.Scene {
         progressBox.fillStyle(0x222222, 0.8);
         progressBox.fillRect((this.cameras.main.width / 2)-170, 270, 320, 50);
         //240,270
-        this.load.image('logo','src/image/logo.png');
-        for (var i=0;i<50;i++){
-            this.load.image('logo_'+i,'src/image/logo.png');
+        // this.load.image('game','src/image/pause.png');
+        for (let i=0;i<500;i++){
+            this.load.image('loader'+i,'src/image/pause.png');
         }
 
         this.load.on('progress',(percent)=>{

@@ -10,17 +10,17 @@ let skybox;
 let ermine;
 let snowball;
 let snowman;
-let Golem;
 let ermineATK;
 let heart;
 let playerHeart = 3;
 let heartGroup;
 
 //Event
-let snowEvent;
+let snowballEvent;
 let snowGroup;
 let snowManEvent;
 let snowManGroup;
+// let golemEvent;
 
 //Controller
 let keyW;
@@ -28,6 +28,9 @@ let keyA;
 let keyS;
 let keyD;
 let keyAtk;
+
+//Any 
+let countDestroy=0;
 
 class GameScene extends Phaser.Scene {
     constructor(test) {
@@ -38,19 +41,23 @@ class GameScene extends Phaser.Scene {
 
     preload() {
         //Back ground
-        this.load.image("foreGround", "src/image/FG ermine.png");
-        this.load.image("middleGround", "src/image/MG ermine.png");
-        this.load.image("backGround", "src/image/BG ermine.png");
-        this.load.image("skyblock", "src/image/SkyBlock.png");
+        this.load.image("foreGround", "src/image/background/FG ermine.png");
+        this.load.image("middleGround", "src/image/background/MG ermine.png");
+        this.load.image("backGround", "src/image/background/BG ermine.png");
+        this.load.image("skyblock", "src/image/background/SkyBlock.png");
 
         //Animation
         this.load.spritesheet("ermine", "src/image/ErmineAll.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("snowball", "src/image/snowball.png", { frameWidth: 300, frameHeight: 300, });
         this.load.spritesheet("snowman", "src/image/Snowman.png", { frameWidth: 1000, frameHeight: 1000, });
         this.load.spritesheet("heart", "src/image/heart.png", { frameWidth: 64, frameHeight: 66, });
+        // this.load.spritesheet('golem', 'src/image/Demo2/Demo2/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000});
+
+
     }
 
     create() {
+        this.cameras.main.fadeIn(6000);
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -147,8 +154,8 @@ class GameScene extends Phaser.Scene {
         //create snow group for destroy
         snowGroup = this.physics.add.group();
 
-        //Snow Event
-        snowEvent = this.time.addEvent({
+        //Snow ball Event
+        snowballEvent = this.time.addEvent({
             delay: Phaser.Math.Between(1000, 3000),
             callback: function () {
                 snowball = this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
@@ -162,28 +169,43 @@ class GameScene extends Phaser.Scene {
                     if (ermine.immortal == false) {
                         playerHeart--;
                         if (playerHeart <= 0) {
-                            this.scene.start("GameOver");
-                            snowballAni.destroy();
-                            snowmanAni.destroy();
-                            ermineAni.destroy();
-                            ermineAniATK.destroy();
-                            HeartAni.destroy();
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.W
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.A
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.S
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.D
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.SPACE
-                            );
-                            playerHeart = 3;
+                            //Trasition Fade
+                            snowManEvent.paused=true;
+                            snowballEvent.paused=true;
+                            this.cameras.main.fadeOut(3000);
+                            if('camerafadeincomplete'){
+                                this.cameras.main.fadeOut(1000);
+                            }
+                            this.time.addEvent({
+                                delay:5000,
+                                callback: function(){
+                                    this.scene.start("GameOver");
+                                    snowballAni.destroy();
+                                    snowmanAni.destroy();
+                                    ermineAni.destroy();
+                                    ermineAniATK.destroy();
+                                    HeartAni.destroy();
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.W
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.A
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.S
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.D
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.SPACE
+                                    );
+                                    playerHeart = 3;
+                                },
+                                callbackScope: this,
+                                loop: false,
+                                paused: false,
+                            });
                         }
                         for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                             if (playerHeart < i + 1) {
@@ -241,34 +263,64 @@ class GameScene extends Phaser.Scene {
                 snowManGroup.add(snowman);
                 snowman.setVelocityX(Phaser.Math.Between(-300, -800));
                 snowman.anims.play("snowmanAni", true);
-                this.physics.add.overlap(ermine, snowman, snowmanDestroy, () => {
+                this.physics.add.overlap(ermine, snowman,snowmanDestroy, () => {
                     if (keyAtk.isUp) {
                         if (ermine.immortal == false) {
-                            snowman.destroy();
                             playerHeart--;
                             if (playerHeart <= 0) {
-                                this.scene.start("GameOver");
-                                snowmanAni.destroy();
-                                snowballAni.destroy();
-                                ermineAni.destroy();
-                                ermineAniATK.destroy();
-                                HeartAni.destroy();
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.W
-                                );
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.A
-                                );
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.S
-                                );
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.D
-                                );
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.SPACE
-                                );
-                                playerHeart = 3;
+                                //Trasition Fade 
+                                snowManEvent.paused=true;
+                                snowballEvent.paused=true;
+                                this.cameras.main.fadeOut(3000);
+                                if('camerafadeincomplete'){
+                                    this.cameras.main.fadeOut(1000);
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.W
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.A
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.S
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.D
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.SPACE
+                                    );
+                                    ermine.setVelocity=0;
+                                }
+                                this.time.addEvent({
+                                delay:3000,
+                                callback: function(){
+                                    this.scene.start("GameOver");
+                                    snowballAni.destroy();
+                                    snowmanAni.destroy();
+                                    ermineAni.destroy();
+                                    ermineAniATK.destroy();
+                                    HeartAni.destroy();
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.W
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.A
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.S
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.D
+                                    );
+                                    this.input.keyboard.removeKey(
+                                        Phaser.Input.Keyboard.KeyCodes.SPACE
+                                    );
+                                    playerHeart = 3;
+                                },
+                                callbackScope: this,
+                                loop: false,
+                                paused: false,
+                            });
                             }
                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                 if (playerHeart < i + 1) {
@@ -292,11 +344,14 @@ class GameScene extends Phaser.Scene {
                             });
                         }
                     }
-                    // else if (keyAtk.isDown) {
-                    //     if (ermine.anims.isPlaying && ermine.anims.currentAnim.key == 'ermineAniATK') {
-                    //         snowman.destroy();
-                    //     }
-                    // }
+                    else if (keyAtk.isDown) {
+                        countDestroy++;
+                        // console.log(countDestroy);
+                        // if (ermine.anims.isPlaying && ermine.anims.currentAnim.key == 'ermineAniATK') {
+                        //     snowman.destroy();
+                        //     snowmanDestroy;
+                        // } 
+                    }
                 });
                 snowman.depth = snowman.y;
             },
@@ -304,10 +359,44 @@ class GameScene extends Phaser.Scene {
             loop: true,
             paused: false,
         });
+        //not use
+        {
+        // //golem Animation
+        // let golemAni=this.anims.create({
+        //     key:"golemAni",
+        //     frames: this.anims.generateFrameNumbers("golem",{
+        //         start:0,
+        //         end:3
+        //     }),
+        //     duration:750,
+        //     framerate:1,
+        //     repeat:-1,
+        // });
+
+        // //Golem Event
+        // golemEvent=this.time.addEvent({
+        //     delay: 100,
+        //     callback: function (){
+        //         golem=this.physics.add.sprite(this.game.renderer.width / 2+800,this.game.renderer.height / 2-100,"golem")
+        //             .setScale(0.4)
+        //             .setSize(500,500)
+        //             .setOffset(300,300);
+        //         golem.anims.play("golemAni",true);
+        //         golem.depth=golem.y;
+        //     },
+        //     callbackScope:this,
+        //     loop:false,
+        //     paused:false,
+        // });
+        }
+
 
         function snowmanDestroy(ermine, snowman) {
             snowman.destroy();
         }
+        
+
+
 
         //Player Control
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -327,10 +416,11 @@ class GameScene extends Phaser.Scene {
         ermine.depth = ermine.y - (ermine.height - 254);
 
         //BG Tile Sprite
-        foreGround.tilePositionX += 10;
-        middleGround.tilePositionX += 6;
-        backGround.tilePositionX += 3;
-
+        if(countDestroy<3){
+            foreGround.tilePositionX += 10;
+            middleGround.tilePositionX += 6;
+            backGround.tilePositionX += 3;
+        }
         //Input from keyboard
         if (keyW.isDown) {
             ermine.setVelocityY(-200);
@@ -356,6 +446,7 @@ class GameScene extends Phaser.Scene {
         for (let i = 0; i < snowGroup.getChildren().length; i++) {
             if (snowGroup.getChildren()[i].x < -150) {
                 snowGroup.getChildren()[i].destroy();
+                // console.log("hi");
             }
         }
 
@@ -363,7 +454,28 @@ class GameScene extends Phaser.Scene {
         for (let i = 0; i < snowManGroup.getChildren().length; i++) {
             if (snowManGroup.getChildren()[i].x < -10) {
                 snowManGroup.getChildren()[i].destroy();
+                // console.log("hi");
             }
+        }
+
+        //Not use now
+        {
+        if(countDestroy==3){
+            snowManEvent.paused=true;
+            snowballEvent.paused=true;
+            foreGround =0;
+            middleGround=0;
+            backGround=0;
+            // this.game.physics.startSystem(Phaser.Physics.P2JS);
+            // this.camera.fade(0x000000, 4000);
+        //     let target=new Phaser.Math.Vector2();
+        //     target.x=this.game.renderer.width / 2 +400 ;
+        //     target.y=this.game.renderer.height / 2-100 ;
+        //     this.physics.moveToObject(golem,target,200);
+        }
+        // if('camerafadeprogress'){
+        //     console.log("wow");
+        //     }wd
         }
     }
 }
