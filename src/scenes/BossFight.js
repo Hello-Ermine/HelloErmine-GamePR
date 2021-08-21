@@ -126,11 +126,6 @@ class BossFight extends Phaser.Scene {
                     if(golem.setVelocityY==0 &&golem.y<this.game.renderer.height/2){
                         golem.setVelocityY(100);
                     }
-                    if()
-
-                    else if(golem.setVelocityY>0){
-                        golem.setVelocityY(100);
-                    }
                 }
             },
             callbackScope:this,
