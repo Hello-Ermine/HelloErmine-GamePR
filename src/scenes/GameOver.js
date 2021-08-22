@@ -2,7 +2,7 @@ import Phaser from "phaser";
 
 let end;
 let tryAgain;
-let backGround;
+let backOver;
 let backEvent;
 let treePoster;
 let cursors;
@@ -24,7 +24,7 @@ class GameOver extends Phaser.Scene {
         this.load.image('snowbig', 'src/image/gameOver/snowbig.png');
         this.load.image('snowsmall', 'src/image/gameOver/snowsmall.png');
         //backGround
-        this.load.image("backGround", "src/image/gameOver/BG.png");
+        this.load.image("backOver", "src/image/gameOver/BG.png");
         //poster
         this.load.image("treePoster", "src/image/gameOver/treeposter.png");
         //text
@@ -37,7 +37,7 @@ class GameOver extends Phaser.Scene {
             .setDepth(100);
         this.pointer = this.input.activePointer;
 
-        backGround = this.physics.add.image(0, 0, 'backGround')
+        backOver = this.physics.add.image(0, 0, 'backOver')
             .setOrigin(0, 0)
             .setScale(1.5)
             .setVelocityX(-200);
@@ -106,7 +106,7 @@ class GameOver extends Phaser.Scene {
         this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
 
         if (treePoster.x < this.game.renderer.width / 2) {
-            backGround.setVelocityX(0);
+            backOver.setVelocityX(0);
             treePoster.setVelocityX(0);
         }
 
