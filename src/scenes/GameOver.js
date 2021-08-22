@@ -9,6 +9,7 @@ let cursors;
 let textOver;
 let snowbig;
 let snowsmall;
+let transEvent;
 
 class GameOver extends Phaser.Scene {
     constructor(test) {
@@ -37,6 +38,8 @@ class GameOver extends Phaser.Scene {
             .setDepth(100);
         this.pointer = this.input.activePointer;
 
+        this.cameras.main.fadeIn(2000);
+
         backOver = this.physics.add.image(0, 0, 'backOver')
             .setOrigin(0, 0)
             .setScale(1.5)
@@ -46,16 +49,7 @@ class GameOver extends Phaser.Scene {
             .setScale(1)
             .setVelocityX(-450);
 
-        // backEvent = this.time.addEvent({  
-        //     delay: 5000,
-        //     callback: function(){
-        //     },
-        //     callbackScope: this,
-        //     loop: false,  
-        //     startAt: 1000,     
-        //     timeScale: 1,
-        //     repeat: 10
-        // })
+        
 
         textOver = this.physics.add.image((this.game.renderer.width / 2), (this.game.renderer.height + 1100), 'TextOver')
             .setScale(1)
@@ -76,9 +70,18 @@ class GameOver extends Phaser.Scene {
         tryAgain.on('pointerover', () => {
             snowbig.setScale(0.8)
         })
-        tryAgain.on('pointerdown', () => {
-            // this.scene.restart('GameScene')
-            this.scene.start('GameScene')
+        tryAgain.on('pointerup', () => {
+            this.cameras.main.fadeOut(1000);
+            transEvent = this.time.addEvent({  
+                delay: 1000,
+                callback: function(){
+                    this.scene.start('GameScene');
+                },
+                callbackScope: this,
+                loop: false,
+            })
+                
+
         })
 
         snowsmall = this.physics.add.image(this.game.renderer.width - 102, this.game.renderer.height - 38, 'snowsmall')
@@ -93,8 +96,17 @@ class GameOver extends Phaser.Scene {
         end.on('pointerover', () => {
             snowsmall.setScale(0.6)
         })
-        end.on('pointerdown', () => {
-            location.reload();
+        end.on('pointerup', () => {
+            this.cameras.main.fadeOut(1000);
+            transEvent = this.time.addEvent({  
+                delay: 1000,
+                callback: function(){
+                    location.reload();
+                },
+                callbackScope: this,
+                loop: false,
+            })
+            
         })
 
     }

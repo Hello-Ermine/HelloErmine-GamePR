@@ -32,6 +32,7 @@ let firstEvent;
 let secoundEvent;
 let thirdEvent;
 let fourthEvent;
+let transEvent;
 
 class MainMenu extends Phaser.Scene {
     constructor(test) {
@@ -79,6 +80,9 @@ class MainMenu extends Phaser.Scene {
         this.progress4 = this.add.text(110, 70, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
         this.pointer = this.input.activePointer;
+
+        //fade
+        this.cameras.main.fadeIn(2000);
 
         //create BG
         middleGround = this.add.tileSprite(0, -300, 1280, 720, 'midGround')
@@ -350,10 +354,19 @@ class MainMenu extends Phaser.Scene {
                 snowsmall1.setScale(1);
             })
             story.on('pointerup', () => {
-                this.scene.start('GameScene');
-                this.scene.destroy();
-                ermineAni.destroy();
-                snowmanAni.destroy();
+                this.cameras.main.fadeOut(1000);
+                transEvent = this.time.addEvent({
+                    delay: 1000,
+                    callback: function () {
+                        this.scene.start('GameScene');
+                        this.scene.destroy();
+                        ermineAni.destroy();
+                        snowmanAni.destroy();
+                    },
+                    callbackScope: this,
+                    loop: false,
+                })
+
             })
             //Arcade Buttlon
             arcade = this.physics.add.image(this.game.renderer.width / 2 + 200, 400, 'arcade')
@@ -368,7 +381,18 @@ class MainMenu extends Phaser.Scene {
                 snowsmall2.setScale(1);
             })
             arcade.on('pointerdown', () => {
-                this.scene.start('GameScene');
+                this.cameras.main.fadeOut(1000);
+                transEvent = this.time.addEvent({
+                    delay: 1000,
+                    callback: function () {
+                        this.scene.start('GameScene');
+                        this.scene.destroy();
+                        ermineAni.destroy();
+                        snowmanAni.destroy();
+                    },
+                    callbackScope: this,
+                    loop: false,
+                })
             })
 
         })

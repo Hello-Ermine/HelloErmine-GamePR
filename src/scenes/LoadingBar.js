@@ -34,7 +34,7 @@ class LoadingBar extends Phaser.Scene {
             // console.log('complete');
             progressBar.destroy();
             progressBox.destroy();
-            this.scene.start('GameScene');
+            this.scene.start('MainMenu');
         });
     }
 }
