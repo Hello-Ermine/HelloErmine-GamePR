@@ -18,6 +18,10 @@ let golemATKEvent;
 let golemAni;
 let golemATK;
 
+//Any
+let delay;
+let countATK=0;
+
 class BossFight extends Phaser.Scene {
     constructor(test) {
         super({
@@ -106,31 +110,52 @@ class BossFight extends Phaser.Scene {
                 start:4,
                 end: 8
             }),
-            duration:900,
-            framerate:1,
+            duration:1000,
+            framerate:10,
             repeat:-1
         });
-        
         // Golem Event
         golemATKEvent=this.time.addEvent({
-            delay: 1000,
+            delay: 5000,//Phaser.Math.RND.pick([1000,2000,3000,4000,5000]),//6000,7000,8000,9000,10000]),//Phaser.Math.Between(1000,10000)
             callback: function(){
+                golemATKEvent.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);//,6000,7000,8000,9000,10000]);
+                countATK=golemATKEvent.delay/golemATK.duration;
                 if(golem.anims.currentAnim.key === 'golemAni'){
                     golem.anims.play("golemATK",true);
                     golem.setVelocityY(0);
-                // console.log("wows");
-                    // golem.anims.stop("golemATK");
+                    console.log(countATK);
+                    //snowball
+                    switch(countATK){
+                        case 1:// 5 snowball  
+                        case 2:// 7 snowball
+                        case 3:// 9 snowball
+                        case 4:// 11 snowball
+                        case 5:// 13 snowball
+                    }
                 }
                 else{
                     golem.anims.play("golemAni",true);
-                    if(golem.setVelocityY==0 &&golem.y<this.game.renderer.height/2){
+                    if(golem.setVelocityY<0){
                         golem.setVelocityY(100);
                     }
+                    else if(golem.setVelocityY>0){
+                        golem.setVelocityY(-100);
+                    }
+                    else{
+                        // golem.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);
+                        if(golem.y<this.game.renderer.height/2){
+                            golem.setVelocityY(100);
+                        }
+                        if(golem.y>this.game.renderer.height/2){
+                            golem.setVelocityY(-100);
+                        }
+                    }
+
                 }
             },
             callbackScope:this,
             loop: true,
-            paused:false
+            paused: false
         });
         // golemEvent=this.time.addEvent({
         //     delay: 100,
