@@ -449,7 +449,7 @@ class GameScene extends Phaser.Scene {
                 // console.log("hi");
             }
         }
-
+s
         //destroy snowManGroup when x = -150
         for (let i = 0; i < snowManGroup.getChildren().length; i++) {
             if (snowManGroup.getChildren()[i].x < -10) {

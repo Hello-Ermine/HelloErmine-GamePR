@@ -51,36 +51,23 @@ class BossFight extends Phaser.Scene {
 
     create() {
         //Create Background
-        foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
-            .setOrigin(0, 0)
-            .setDepth(3000);
-            foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
-            .setOrigin(0, 0)
-            .setDepth(3000);
-        middleGround = this.add.tileSprite(0, -300, 1280, 720, "middleGround")
-            .setOrigin(0, 0)
-            .setDepth(1)
-            .setScale(1, 1.5);
-        backGround = this.add.tileSprite(0, -150, 1280, 720, "backGround")
-            .setOrigin(0, 0)
-            .setDepth(3);
-
         skybox = this.physics.add.image(0, 0, "skyblock")
             .setScale(5, 0.8)
             .setVisible()
             .setImmovable();
+        foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
+            .setOrigin(0, 0)
+            .setDepth(3000);
+        // middleGround = this.add.tileSprite(0, -300, 1280, 720, "middleGround")
+        //     .setOrigin(0, 0)
+        //     .setDepth(1)
+        //     .setScale(1, 1.5);
+        backGround = this.add.tileSprite(0, -150, 1280, 720, "backGround")
+            .setOrigin(0, 0)
+            .setDepth(3);
+        
 
-        //Character
-
-        //ermine
-        ermine = this.physics.add.sprite(190, 360, "ermine")
-            .setScale(0.5)
-            .setSize(250, 80)
-            .setOffset(200, 150);
-        this.physics.add.collider(ermine, skybox);
-        this.physics.add.collider(ermine, backGround);
-        ermine.setCollideWorldBounds(true);
-
+        //Object
         //Snow-Ball
         //SnowBall Animation
         snowballAni= this.anims.create({
@@ -97,13 +84,22 @@ class BossFight extends Phaser.Scene {
         //Group
         snowballgroup=this.physics.add.group();
 
+        //Character
+        //ermine
+        ermine = this.physics.add.sprite(190, 360, "ermine")
+            .setScale(0.5)
+            .setSize(250, 80)
+            .setOffset(200, 150);
+        this.physics.add.collider(ermine, skybox);
+        this.physics.add.collider(ermine, backGround);
+        ermine.setCollideWorldBounds(true);
 
         //Golem
         golem=this.physics.add.sprite(this.game.renderer.width / 2 +400,this.game.renderer.height / 2-100,"golem")
                     .setScale(0.4)
                     .setSize(600,300)
                     .setOffset(250,500)
-                    .setDepth(100)
+                    .setDepth(3)
                     .setVelocityY(-100);
         this.physics.add.collider(golem,skybox,()=>{
             golem.setVelocityY(100);
@@ -146,9 +142,9 @@ class BossFight extends Phaser.Scene {
         });
         // Golem Event
         golemATKEvent=this.time.addEvent({
-            delay: 5000,//Phaser.Math.RND.pick([1000,2000,3000,4000,5000]),//6000,7000,8000,9000,10000]),//Phaser.Math.Between(1000,10000)
+            delay: 1000,//Phaser.Math.RND.pick([1000,2000,3000,4000,5000]),//6000,7000,8000,9000,10000]),//Phaser.Math.Between(1000,10000)
             callback: function(){
-                golemATKEvent.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);//,6000,7000,8000,9000,10000]);
+                // golemATKEvent.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);//,6000,7000,8000,9000,10000]);
                 countATK=golemATKEvent.delay/golemATK.duration;
                 if(golem.anims.currentAnim.key === 'golemAni'){
                     golem.anims.play("golemATK",true);
@@ -157,90 +153,82 @@ class BossFight extends Phaser.Scene {
                     //snowball
                     switch(countATK){
                         case 1:// 5 snowball
-                        snowballEvent=this.time.addEvent({
-                            delay: Phaser.Math.Between(1000, 3000),
-                            callback: function () {
-                                snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                        snowball=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
                                     .setScale(0.65)
                                     .setSize(230, 60)
-                                    .setOffset(30, 220);  
+                                    .setOffset(30, 220);
                                 snowballgroup.add(snowball);
                                 snowball.setVelocityX(Phaser.Math.Between(-200, -500));
                                 snowball.anims.play("snowballAni", true);
                                 snowball.depth=snowball.y;
-                            },
-                            callbackScope:this,
-                            loop: true,
-                            paused: false
-                            });
-                        case 2:// 7 snowball
-                        snowballEvent=this.time.addEvent({
-                            delay: Phaser.Math.Between(1000, 3000),
-                            callback: function () {
-                                snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
-                                    .setScale(0.65)
-                                    .setSize(230, 60)
-                                    .setOffset(30, 220);  
-                                snowballgroup.add(snowball);
-                                snowball.setVelocityX(Phaser.Math.Between(-200, -500));
-                                snowball.anims.play("snowballAni", true);
-                                snowball.depth=snowball.y;
-                            },
-                            callbackScope:this,
-                            loop: true,
-                            paused: false
-                            });
-                        case 3:// 9 snowball
-                        snowballEvent=this.time.addEvent({
-                            delay: Phaser.Math.Between(1000, 3000),
-                            callback: function () {
-                                snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
-                                    .setScale(0.65)
-                                    .setSize(230, 60)
-                                    .setOffset(30, 220);  
-                                snowballgroup.add(snowball);
-                                snowball.setVelocityX(Phaser.Math.Between(-200, -500));
-                                snowball.anims.play("snowballAni", true);
-                                snowball.depth=snowball.y;
-                            },
-                            callbackScope:this,
-                            loop: true,
-                            paused: false
-                            });
-                        case 4:// 11 snowball
-                        snowballEvent=this.time.addEvent({
-                            delay: Phaser.Math.Between(1000, 3000),
-                            callback: function () {
-                                snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
-                                    .setScale(0.65)
-                                    .setSize(230, 60)
-                                    .setOffset(30, 220);  
-                                snowballgroup.add(snowball);
-                                snowball.setVelocityX(Phaser.Math.Between(-200, -500));
-                                snowball.anims.play("snowballAni", true);
-                                snowball.depth=snowball.y;
-                            },
-                            callbackScope:this,
-                            loop: true,
-                            paused: false
-                            });
-                        case 5:// 13 snowball
-                        snowballEvent=this.time.addEvent({
-                            delay: Phaser.Math.Between(1000, 3000),
-                            callback: function () {
-                                snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
-                                    .setScale(0.65)
-                                    .setSize(230, 60)
-                                    .setOffset(30, 220);  
-                                snowballgroup.add(snowball);
-                                snowball.setVelocityX(Phaser.Math.Between(-200, -500));
-                                snowball.anims.play("snowballAni", true);
-                                snowball.depth=snowball.y;
-                            },
-                            callbackScope:this,
-                            loop: true,
-                            paused: false
-                            });
+                        // case 2:// 7 snowball
+                        // snowballEvent=this.time.addEvent({
+                        //     delay: Phaser.Math.Between(1000, 3000),
+                        //     callback: function () {
+                        //         snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                        //             .setScale(0.65)
+                        //             .setSize(230, 60)
+                        //             .setOffset(30, 220);  
+                        //         snowballgroup.add(snowball);
+                        //         snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                        //         snowball.anims.play("snowballAni", true);
+                        //         snowball.depth=snowball.y;
+                        //     },
+                        //     callbackScope:this,
+                        //     loop: true,
+                        //     paused: false
+                        //     });
+                        // case 3:// 9 snowball
+                        // snowballEvent=this.time.addEvent({
+                        //     delay: Phaser.Math.Between(1000, 3000),
+                        //     callback: function () {
+                        //         snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                        //             .setScale(0.65)
+                        //             .setSize(230, 60)
+                        //             .setOffset(30, 220);  
+                        //         snowballgroup.add(snowball);
+                        //         snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                        //         snowball.anims.play("snowballAni", true);
+                        //         snowball.depth=snowball.y;
+                        //     },
+                        //     callbackScope:this,
+                        //     loop: true,
+                        //     paused: false
+                        //     });
+                        // case 4:// 11 snowball
+                        // snowballEvent=this.time.addEvent({
+                        //     delay: Phaser.Math.Between(1000, 3000),
+                        //     callback: function () {
+                        //         snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                        //             .setScale(0.65)
+                        //             .setSize(230, 60)
+                        //             .setOffset(30, 220);  
+                        //         snowballgroup.add(snowball);
+                        //         snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                        //         snowball.anims.play("snowballAni", true);
+                        //         snowball.depth=snowball.y;
+                        //     },
+                        //     callbackScope:this,
+                        //     loop: true,
+                        //     paused: false
+                        //     });
+                        // case 5:// 13 snowball
+                        // snowballEvent=this.time.addEvent({
+                        //     delay: Phaser.Math.Between(1000, 3000),
+                        //     callback: function () {
+                        //         snowball= this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                        //             .setScale(0.65)
+                        //             .setSize(230, 60)
+                        //             .setOffset(30, 220);  
+                        //         snowballgroup.add(snowball);
+                        //         snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                        //         snowball.anims.play("snowballAni", true);
+                        //         snowball.depth=snowball.y;
+                        //     },
+                        //     callbackScope:this,
+                        //     loop: true,
+                        //     paused: false
+                        //     });
                     }
                 }
                 else{
@@ -274,6 +262,7 @@ class BossFight extends Phaser.Scene {
 
     update(delta, time) {
         ermine.depth = ermine.y - (ermine.height - 254);
+        // golem.depth = golem.y - (golem.height - 254);
 
         for (let i = 0; i < snowballgroup.getChildren().length; i++) {
             if (snowballgroup.getChildren()[i].x < ermine.x) {
