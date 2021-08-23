@@ -354,9 +354,9 @@ class MainMenu extends Phaser.Scene {
                 snowsmall1.setScale(1);
             })
             story.on('pointerup', () => {
-                this.cameras.main.fadeOut(1000);
+                this.cameras.main.fadeOut(500);
                 transEvent = this.time.addEvent({
-                    delay: 1000,
+                    delay: 500,
                     callback: function () {
                         this.scene.start('GameScene');
                         this.scene.destroy();
@@ -381,9 +381,9 @@ class MainMenu extends Phaser.Scene {
                 snowsmall2.setScale(1);
             })
             arcade.on('pointerdown', () => {
-                this.cameras.main.fadeOut(1000);
+                this.cameras.main.fadeOut(500);
                 transEvent = this.time.addEvent({
-                    delay: 1000,
+                    delay: 500,
                     callback: function () {
                         this.scene.start('GameScene');
                         this.scene.destroy();
@@ -410,8 +410,19 @@ class MainMenu extends Phaser.Scene {
         tutorial.on('pointerout', () => {
             snowbig.setScale(0.8);
         })
-        tutorial.on('pointerdown', () => {
-            // this.scene.start('GameScene') //รอหน้า Tutorial
+
+        tutorial.on('pointerup', () => {
+            this.cameras.main.fadeOut(500)
+            transEvent = this.time.addEvent({
+                delay: 500,
+                callback: function () {
+                    this.scene.start('TutorialScene');
+                    ermineAni.destroy();
+                    snowmanAni.destroy();
+                },
+                callbackScope: this,
+                loop: false,
+            });
         });
     }
 
