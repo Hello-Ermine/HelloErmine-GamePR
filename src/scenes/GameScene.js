@@ -57,7 +57,9 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
+        //Fade IN
         this.cameras.main.fadeIn(6000);
+
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -421,6 +423,7 @@ class GameScene extends Phaser.Scene {
             middleGround.tilePositionX += 6;
             backGround.tilePositionX += 3;
         }
+        
         //Input from keyboard
         if (keyW.isDown) {
             ermine.setVelocityY(-200);
@@ -449,7 +452,6 @@ class GameScene extends Phaser.Scene {
                 // console.log("hi");
             }
         }
-s
         //destroy snowManGroup when x = -150
         for (let i = 0; i < snowManGroup.getChildren().length; i++) {
             if (snowManGroup.getChildren()[i].x < -10) {
