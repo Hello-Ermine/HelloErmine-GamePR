@@ -19,13 +19,13 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false,
+            debug: true,
             // gravity: {y:300}
         }
     },
     scene: [
-        LoadingBar,
-        MainMenu,
+        // LoadingBar,
+        // MainMenu,
         GameScene,
         GameOver,
         // BossFight

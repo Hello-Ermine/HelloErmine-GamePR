@@ -31,6 +31,7 @@ let keyAtk;
 
 //Any 
 let countDestroy=0;
+let fade=0;
 
 class GameScene extends Phaser.Scene {
     constructor(test) {
@@ -57,7 +58,7 @@ class GameScene extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.fadeIn(6000);
+        this.cameras.main.fadeIn(3000);
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -169,13 +170,11 @@ class GameScene extends Phaser.Scene {
                     if (ermine.immortal == false) {
                         playerHeart--;
                         if (playerHeart <= 0) {
+                            ermine.body.enable = false;
                             //Trasition Fade
                             snowManEvent.paused=true;
                             snowballEvent.paused=true;
                             this.cameras.main.fadeOut(3000);
-                            if('camerafadeincomplete'){
-                                this.cameras.main.fadeOut(1000);
-                            }
                             this.time.addEvent({
                                 delay:5000,
                                 callback: function(){
@@ -268,31 +267,28 @@ class GameScene extends Phaser.Scene {
                         if (ermine.immortal == false) {
                             playerHeart--;
                             if (playerHeart <= 0) {
+                                ermine.body.enable = false;
                                 //Trasition Fade 
                                 snowManEvent.paused=true;
                                 snowballEvent.paused=true;
-                                this.cameras.main.fadeOut(3000);
-                                if('camerafadeincomplete'){
-                                    this.cameras.main.fadeOut(1000);
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.W
-                                    );
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.A
-                                    );
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.S
-                                    );
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.D
-                                    );
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.SPACE
-                                    );
-                                    ermine.setVelocity=0;
-                                }
+                                this.input.keyboard.removeKey(
+                                    Phaser.Input.Keyboard.KeyCodes.W
+                                );
+                                this.input.keyboard.removeKey(
+                                    Phaser.Input.Keyboard.KeyCodes.A
+                                );
+                                this.input.keyboard.removeKey(
+                                    Phaser.Input.Keyboard.KeyCodes.S
+                                );
+                                this.input.keyboard.removeKey(
+                                    Phaser.Input.Keyboard.KeyCodes.D
+                                );
+                                this.input.keyboard.removeKey(
+                                    Phaser.Input.Keyboard.KeyCodes.SPACE
+                                );
+                                this.cameras.main.fadeOut(2000);
                                 this.time.addEvent({
-                                delay:3000,
+                                delay:2000,
                                 callback: function(){
                                     this.scene.start("GameOver");
                                     snowballAni.destroy();
@@ -422,6 +418,7 @@ class GameScene extends Phaser.Scene {
             backGround.tilePositionX += 3;
         }
         //Input from keyboard
+        if(playerHeart>0){
         if (keyW.isDown) {
             ermine.setVelocityY(-200);
         } else if (keyS.isDown) {
@@ -440,6 +437,11 @@ class GameScene extends Phaser.Scene {
             ermine.anims.play("ermineAniATK", true);
         } else {
             ermine.anims.play("ermineAni", true);
+        }
+        }
+        else if(playerHeart==0){
+            ermine.setVelocityY(0);
+            ermine.setVelocityX(-100);
         }
 
         //destroy snowGroup when x = -150
@@ -466,6 +468,10 @@ class GameScene extends Phaser.Scene {
             foreGround =0;
             middleGround=0;
             backGround=0;
+            if(fade==0){
+                this.cameras.main.fadeOut(2000);
+                fade++
+            }
             // this.game.physics.startSystem(Phaser.Physics.P2JS);
             // this.camera.fade(0x000000, 4000);
         //     let target=new Phaser.Math.Vector2();
