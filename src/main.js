@@ -1,7 +1,8 @@
 import 'phaser';
 import Phaser from 'phaser';
 import GameScene from './scenes/GameScene';
-import GameOver from './scenes/GameOver';
+import GameOverStory from './scenes/GameOverStory';
+import GameOverArcade from './scenes/GameOverArcade';
 import LoadingBar from './scenes/LoadingBar';
 import Default from './scenes/Defualt';
 import MainMenu from './scenes/MainMenu';
@@ -24,10 +25,11 @@ const config = {
         }
     },
     scene: [
-        LoadingBar,
-        MainMenu,
-        GameScene,
-        GameOver,
+        // LoadingBar,
+        // MainMenu,
+        // GameScene,
+        // GameOverStory,
+        GameOverArcade,
         // BossFight,
         // Default
     ],

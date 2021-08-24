@@ -11,10 +11,10 @@ let snowbig;
 let snowsmall;
 let transEvent;
 
-class GameOver extends Phaser.Scene {
+class GameOverStory extends Phaser.Scene {
     constructor(test) {
         super({
-            key: 'GameOver'
+            key: 'GameOverStory'
         });
     }
 
@@ -132,4 +132,4 @@ class GameOver extends Phaser.Scene {
     }
 }
 
-export default GameOver;
+export default GameOverStory;
