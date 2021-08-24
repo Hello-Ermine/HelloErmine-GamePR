@@ -48,12 +48,11 @@ class GameScene extends Phaser.Scene {
         this.load.image("skyblock", "src/image/background/SkyBlock.png");
 
         //Animation
-        this.load.spritesheet("ermine", "src/image/ErmineAll.png", { frameWidth: 500, frameHeight: 300, });
-        this.load.spritesheet("snowball", "src/image/snowball.png", { frameWidth: 300, frameHeight: 300, });
-        this.load.spritesheet("snowman", "src/image/Snowman.png", { frameWidth: 1000, frameHeight: 1000, });
-        this.load.spritesheet("heart", "src/image/heart.png", { frameWidth: 64, frameHeight: 66, });
+        this.load.spritesheet("ermine", "src/image/Character/ermine/ErmineAll.png", { frameWidth: 500, frameHeight: 300, });
+        this.load.spritesheet("snowball", "src/image/Character/snowball.png", { frameWidth: 300, frameHeight: 300, });
+        this.load.spritesheet("snowman", "src/image/Character/Snowman.png", { frameWidth: 1000, frameHeight: 1000, });
+        this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
         // this.load.spritesheet('golem', 'src/image/Demo2/Demo2/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000});
-
 
     }
 
@@ -81,7 +80,7 @@ class GameScene extends Phaser.Scene {
             .setVisible()
             .setImmovable();
         ermine = this.physics.add.sprite(190, 360, "ermine")
-            .setScale(0.5)
+            .setScale(0.45)
             .setSize(250, 80)
             .setOffset(200, 150);
 
@@ -174,9 +173,9 @@ class GameScene extends Phaser.Scene {
                             //Trasition Fade
                             snowManEvent.paused=true;
                             snowballEvent.paused=true;
-                            this.cameras.main.fadeOut(3000);
+                            this.cameras.main.fadeOut(2000);
                             this.time.addEvent({
-                                delay:5000,
+                                delay:2000,
                                 callback: function(){
                                     this.scene.start("GameOver");
                                     snowballAni.destroy();

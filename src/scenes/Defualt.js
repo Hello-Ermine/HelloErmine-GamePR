@@ -12,7 +12,7 @@ class Defualt extends Phaser.Scene {
     }
 
     preload() {
-        this.load.spritesheet('golemTest', 'src/image/Demo2/Demo2/Golem2_sprite.png', {
+        this.load.spritesheet('golemTest', 'src/image/Character/golem/Golem2_sprite.png', {
             frameWidth: 1000, frameHeight: 1000
         });
     }
