@@ -2,6 +2,9 @@ version: '3.7'
 services: 
   web:
     container_name: nginx
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     image: nginx
     volumes:
       - ./build:/usr/share/nginx/html:ro
