@@ -32,6 +32,9 @@ let keyAtk;
 //Any 
 let countDestroy=0;
 let fade=0;
+let countATK=0;
+const cooldown=500;
+
 
 class GameScene extends Phaser.Scene {
     constructor(test) {
@@ -118,7 +121,7 @@ class GameScene extends Phaser.Scene {
             key: "ermineAni",
             frames: this.anims.generateFrameNumbers("ermine", {
                 start: 0,
-                end: 2,
+                end: 3,
             }),
             duration: 450,
             framerate: 10,
@@ -132,12 +135,12 @@ class GameScene extends Phaser.Scene {
         let ermineAniATK = this.anims.create({
             key: "ermineAniATK",
             frames: this.anims.generateFrameNumbers("ermine", {
-                start: 3,
-                end: 7,
+                start: 4,
+                end: 9,
             }),
-            duration: 300,
-            framerate: 1,
-            repeat: -1,
+            duration: 500,
+            framerate: 120,
+            repeat: 10,
         });
 
         //Snow Ball Animation
@@ -267,25 +270,12 @@ class GameScene extends Phaser.Scene {
                         if (ermine.immortal == false) {
                             playerHeart--;
                             if (playerHeart <= 0) {
+                                //Should be create function
+                                {
                                 ermine.body.enable = false;
                                 //Trasition Fade 
                                 snowManEvent.paused=true;
                                 snowballEvent.paused=true;
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.W
-                                );
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.A
-                                );
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.S
-                                );
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.D
-                                );
-                                this.input.keyboard.removeKey(
-                                    Phaser.Input.Keyboard.KeyCodes.SPACE
-                                );
                                 this.cameras.main.fadeOut(2000);
                                 this.time.addEvent({
                                 delay:2000,
@@ -317,6 +307,7 @@ class GameScene extends Phaser.Scene {
                                 loop: false,
                                 paused: false,
                             });
+                                }
                             }
                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                 if (playerHeart < i + 1) {
@@ -341,12 +332,72 @@ class GameScene extends Phaser.Scene {
                         }
                     }
                     else if (keyAtk.isDown) {
-                        countDestroy++;
-                        // console.log(countDestroy);
-                        // if (ermine.anims.isPlaying && ermine.anims.currentAnim.key == 'ermineAniATK') {
-                        //     snowman.destroy();
-                        //     snowmanDestroy;
-                        // } 
+                        if(ermine.anims.currentAnim.key == 'ermineAniATK'){
+                            countDestroy++;
+                        }
+                        if (ermine.anims.currentAnim.key != 'ermineAniATK'){
+                            if (ermine.immortal == false){
+                            playerHeart--;
+                            ermine.immortal = true;
+                            ermine.flickerTimer = this.time.addEvent({
+                                delay: 100,
+                                callback: function () {
+                                    ermine.setVisible(!ermine.visible);
+                                    if (ermine.flickerTimer.repeatCount == 0) {
+                                        ermine.immortal = false;
+                                        ermine.setVisible(true);
+                                        ermine.flickerTimer.remove();
+                                    }
+                                },
+                                repeat: 15,
+                            });
+                            if (playerHeart <= 0) {
+                                ermine.body.enable = false;
+                                //Trasition Fade
+                                snowManEvent.paused=true;
+                                snowballEvent.paused=true;
+                                this.cameras.main.fadeOut(3000);
+                                this.time.addEvent({
+                                    delay:5000,
+                                    callback: function(){
+                                        this.scene.start("GameOver");
+                                        snowballAni.destroy();
+                                        snowmanAni.destroy();
+                                        ermineAni.destroy();
+                                        ermineAniATK.destroy();
+                                        HeartAni.destroy();
+                                        this.input.keyboard.removeKey(
+                                            Phaser.Input.Keyboard.KeyCodes.W
+                                        );
+                                        this.input.keyboard.removeKey(
+                                            Phaser.Input.Keyboard.KeyCodes.A
+                                        );
+                                        this.input.keyboard.removeKey(
+                                            Phaser.Input.Keyboard.KeyCodes.S
+                                        );
+                                        this.input.keyboard.removeKey(
+                                            Phaser.Input.Keyboard.KeyCodes.D
+                                        );
+                                        this.input.keyboard.removeKey(
+                                            Phaser.Input.Keyboard.KeyCodes.SPACE
+                                        );
+                                        playerHeart = 3;
+                                    },
+                                    callbackScope: this,
+                                    loop: false,
+                                    paused: false,
+                                });
+                            }
+                            for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                                if (playerHeart < i + 1) {
+                                    heartGroup.getChildren()[i].setVisible(false);
+                                } else {
+                                    heartGroup.getChildren()[i].setVisible(true);
+                                }
+                            }
+                        }
+                         
+                    }
                     }
                 });
                 snowman.depth = snowman.y;
@@ -355,37 +406,6 @@ class GameScene extends Phaser.Scene {
             loop: true,
             paused: false,
         });
-        //not use
-        {
-        // //golem Animation
-        // let golemAni=this.anims.create({
-        //     key:"golemAni",
-        //     frames: this.anims.generateFrameNumbers("golem",{
-        //         start:0,
-        //         end:3
-        //     }),
-        //     duration:750,
-        //     framerate:1,
-        //     repeat:-1,
-        // });
-
-        // //Golem Event
-        // golemEvent=this.time.addEvent({
-        //     delay: 100,
-        //     callback: function (){
-        //         golem=this.physics.add.sprite(this.game.renderer.width / 2+800,this.game.renderer.height / 2-100,"golem")
-        //             .setScale(0.4)
-        //             .setSize(500,500)
-        //             .setOffset(300,300);
-        //         golem.anims.play("golemAni",true);
-        //         golem.depth=golem.y;
-        //     },
-        //     callbackScope:this,
-        //     loop:false,
-        //     paused:false,
-        // });
-        }
-
 
         function snowmanDestroy(ermine, snowman) {
             snowman.destroy();
@@ -434,7 +454,21 @@ class GameScene extends Phaser.Scene {
             ermine.setVelocityX(0);
         }
         if (keyAtk.isDown) {
-            ermine.anims.play("ermineAniATK", true);
+            if(countATK<cooldown){
+                ermine.anims.play("ermineAniATK", true);
+                countATK++;
+                console.log(countATK);
+            }
+            else{
+                ermine.anims.play("ermineAni", true);
+                this.time.addEvent({
+                    delay:5000,
+                    callback: function(){
+                        countATK=0;
+                    },
+                })
+            }
+
         } else {
             ermine.anims.play("ermineAni", true);
         }
@@ -463,6 +497,7 @@ class GameScene extends Phaser.Scene {
         //Not use now
         {
         if(countDestroy==3){
+            ermine.immortal=true;
             snowManEvent.paused=true;
             snowballEvent.paused=true;
             foreGround =0;
@@ -471,19 +506,10 @@ class GameScene extends Phaser.Scene {
             if(fade==0){
                 this.cameras.main.fadeOut(2000);
                 fade++
+                }
             }
-            // this.game.physics.startSystem(Phaser.Physics.P2JS);
-            // this.camera.fade(0x000000, 4000);
-        //     let target=new Phaser.Math.Vector2();
-        //     target.x=this.game.renderer.width / 2 +400 ;
-        //     target.y=this.game.renderer.height / 2-100 ;
-        //     this.physics.moveToObject(golem,target,200);
-        }
-        // if('camerafadeprogress'){
-        //     console.log("wow");
-        //     }wd
         }
     }
-}
+}   
 
 export default GameScene;
