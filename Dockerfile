@@ -8,7 +8,7 @@ RUN apk update && apk upgrade
 WORKDIR  /home/HelloErmine-Game-PR/HelloErmine-GamePR/app
 COPY .  /home/HelloErmine-Game-PR/HelloErmine-GamePR/app
 RUN yarn install
-RUN yarn build
+RUN yarn deploy
 
 #USER node
 
