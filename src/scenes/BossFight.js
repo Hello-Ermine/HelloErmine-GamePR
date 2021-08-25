@@ -25,6 +25,7 @@ let golemAni;
 let golemATK;
 let snowballAni;
 let ermineAni;
+let HeartAni;
 
 //Object
 let snowball=[];
@@ -32,9 +33,11 @@ let heart;
 
 //Group
 let snowballgroup;
+let heartGroup;
 
 //Any
 let countATK=0;
+let playerHeart = 3;
 
 class BossFight extends Phaser.Scene {
     constructor(test) {
@@ -52,8 +55,8 @@ class BossFight extends Phaser.Scene {
         //Character
         this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000});
         this.load.spritesheet("ermine", "src/image/Character/ermine/ErmineAll.png", { frameWidth: 500, frameHeight: 300, });
-        this.load.spritesheet("heart", "src/image/heart.png", { frameWidth: 64, frameHeight: 66, });
-        this.load.spritesheet("snowball", "src/image/snowball.png", { frameWidth: 300, frameHeight: 300, });
+        this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
+        this.load.spritesheet("snowball", "src/image/Character/snowball.png", { frameWidth: 300, frameHeight: 300, });
 
     }
 
@@ -94,6 +97,30 @@ class BossFight extends Phaser.Scene {
         //Group
         snowballgroup=this.physics.add.group();
 
+         //Heart Group
+        heartGroup = this.physics.add.group();
+
+         //heart Animation
+         HeartAni = this.anims.create({
+             key: "heartAni",
+             frames: this.anims.generateFrameNumbers("heart", {
+                 start: 0,
+                 end: 7,
+             }),
+             duration: 450,
+             framerate: 60,
+             repeat: -1,
+         });
+ 
+         //Heart
+         for (let i = 0; i < playerHeart; i++) {
+             heart = this.physics.add.sprite(30 + i * 45, 250, "heart")
+                 .setDepth(100000)
+                 .setScale(0.75);
+             heartGroup.add(heart);
+             heart.anims.play("heartAni", true);
+         }
+
         //Character
         //ermine
         ermine = this.physics.add.sprite(-100, 360, "ermine")
@@ -115,7 +142,7 @@ class BossFight extends Phaser.Scene {
         });
         ermine.anims.play("ermineAni",true);
         ermine.setCollideWorldBounds(false);
-        //set Walk in
+        ermine.immortal = false;
 
         //Golem
         golem=this.physics.add.sprite(this.game.renderer.width / 2 +400,this.game.renderer.height / 2-100,"golem")
@@ -138,7 +165,6 @@ class BossFight extends Phaser.Scene {
           }, golem);
 
         //golem Animation
-
         //Walk
         golemAni=this.anims.create({
             key:"golemAni",
@@ -165,9 +191,9 @@ class BossFight extends Phaser.Scene {
         });
         // Golem Event
         golemATKEvent=this.time.addEvent({
-            delay: Phaser.Math.RND.pick([1000,2000,3000,4000,5000]),//6000,7000,8000,9000,10000]),//Phaser.Math.Between(1000,10000)
+            delay: Phaser.Math.RND.pick([1000,2000,3000,4000,5000]),
             callback: function(){
-                golemATKEvent.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);//,6000,7000,8000,9000,10000]);
+                golemATKEvent.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);
                 countATK=golemATKEvent.delay/golemATK.duration;
                 if(golem.anims.currentAnim.key === 'golemAni'){
                     golem.anims.play("golemATK",true);
@@ -175,7 +201,7 @@ class BossFight extends Phaser.Scene {
                     console.log(countATK);
                     //snowball
                     switch(countATK){
-                        case 1:// 5 snowball
+                        case 1:
                             for(let i=0;i<5;i++){
                                 snowball[i]=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
                                     .setScale(0.65)
@@ -193,6 +219,18 @@ class BossFight extends Phaser.Scene {
                                         snowball[i].depth=snowball[i].y;
                                     }
                                 },
+                            });
+                            this.physics.add.overlap(ermine, snowball, () => {
+                                if (ermine.immortal == false) {
+                                    playerHeart--;
+                                    for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                                        if (playerHeart < i + 1) {
+                                            heartGroup.getChildren()[i].setVisible(false);
+                                        } else {
+                                            heartGroup.getChildren()[i].setVisible(true);
+                                        }
+                                    }
+                                }
                             });
 
                         case 2:
@@ -214,6 +252,18 @@ class BossFight extends Phaser.Scene {
                                 },
 
                             });
+                            this.physics.add.overlap(ermine, snowball, () => {
+                                if (ermine.immortal == false) {
+                                    playerHeart--;
+                                    for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                                        if (playerHeart < i + 1) {
+                                            heartGroup.getChildren()[i].setVisible(false);
+                                        } else {
+                                            heartGroup.getChildren()[i].setVisible(true);
+                                        }
+                                    }
+                                }
+                            });
                         case 3:
                             for(let i=0;i<5;i++){
                                 snowball[i]=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
@@ -233,6 +283,18 @@ class BossFight extends Phaser.Scene {
                                     }
                                 },
 
+                            });
+                            this.physics.add.overlap(ermine, snowball, () => {
+                                if (ermine.immortal == false) {
+                                    playerHeart--;
+                                    for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                                        if (playerHeart < i + 1) {
+                                            heartGroup.getChildren()[i].setVisible(false);
+                                        } else {
+                                            heartGroup.getChildren()[i].setVisible(true);
+                                        }
+                                    }
+                                }
                             });
                         case 4:
                             for(let i=0;i<5;i++){
@@ -254,6 +316,18 @@ class BossFight extends Phaser.Scene {
                                 },
 
                             });
+                            this.physics.add.overlap(ermine, snowball, () => {
+                                if (ermine.immortal == false) {
+                                    playerHeart--;
+                                    for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                                        if (playerHeart < i + 1) {
+                                            heartGroup.getChildren()[i].setVisible(false);
+                                        } else {
+                                            heartGroup.getChildren()[i].setVisible(true);
+                                        }
+                                    }
+                                }
+                            });
                         case 5:
                             for(let i=0;i<5;i++){
                                 snowball[i]=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
@@ -273,6 +347,18 @@ class BossFight extends Phaser.Scene {
                                     }
                                 },
 
+                            });
+                            this.physics.add.overlap(ermine, snowball, () => {
+                                if (ermine.immortal == false) {
+                                    playerHeart--;
+                                    for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                                        if (playerHeart < i + 1) {
+                                            heartGroup.getChildren()[i].setVisible(false);
+                                        } else {
+                                            heartGroup.getChildren()[i].setVisible(true);
+                                        }
+                                    }
+                                }
                             });
                         }
                     }
