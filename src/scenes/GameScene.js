@@ -12,7 +12,7 @@ let snowball;
 let snowman;
 let ermineATK;
 let heart;
-let playerHeart = 3;
+let playerHeart = 10;
 let heartGroup;
 
 //Event
@@ -30,10 +30,13 @@ let keyD;
 let keyAtk;
 
 //Any 
-let countDestroy=0;
-let fade=0;
-let countATK=0;
-const cooldown=500;
+let countDestroy = 0;
+let fade = 0;
+
+//cooldown
+let DELAY = 1000;
+let timeSinceLastAttack = 0;
+let scratch = 0;
 
 
 class GameScene extends Phaser.Scene {
@@ -126,6 +129,7 @@ class GameScene extends Phaser.Scene {
             framerate: 10,
             repeat: -1,
         });
+
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
         ermine.immortal = false;
@@ -137,8 +141,8 @@ class GameScene extends Phaser.Scene {
                 start: 6,
                 end: 9,
             }),
-            duration: 500,
-            framerate: 120, 
+            duration: 650,
+            framerate: 120,
             repeat: 10,
         });
 
@@ -174,12 +178,12 @@ class GameScene extends Phaser.Scene {
                         if (playerHeart <= 0) {
                             ermine.body.enable = false;
                             //Trasition Fade
-                            snowManEvent.paused=true;
-                            snowballEvent.paused=true;
+                            snowManEvent.paused = true;
+                            snowballEvent.paused = true;
                             this.cameras.main.fadeOut(2000);
                             this.time.addEvent({
-                                delay:2000,
-                                callback: function(){
+                                delay: 2000,
+                                callback: function () {
                                     this.scene.start("GameOver");
                                     snowballAni.destroy();
                                     snowmanAni.destroy();
@@ -264,48 +268,48 @@ class GameScene extends Phaser.Scene {
                 snowManGroup.add(snowman);
                 snowman.setVelocityX(Phaser.Math.Between(-300, -800));
                 snowman.anims.play("snowmanAni", true);
-                this.physics.add.overlap(ermine, snowman,snowmanDestroy, () => {
-                    if (keyAtk.isUp) {
+                this.physics.add.overlap(ermine, snowman, snowmanDestroy, () => {
+                    if (scratch == 0) {
                         if (ermine.immortal == false) {
                             playerHeart--;
                             if (playerHeart <= 0) {
                                 //Should be create function
                                 {
-                                ermine.body.enable = false;
-                                //Trasition Fade 
-                                snowManEvent.paused=true;
-                                snowballEvent.paused=true;
-                                this.cameras.main.fadeOut(2000);
-                                this.time.addEvent({
-                                delay:2000,
-                                callback: function(){
-                                    this.scene.start("GameOver");
-                                    snowballAni.destroy();
-                                    snowmanAni.destroy();
-                                    ermineAni.destroy();
-                                    ermineAniATK.destroy();
-                                    HeartAni.destroy();
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.W
-                                    );
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.A
-                                    );
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.S
-                                    );
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.D
-                                    );
-                                    this.input.keyboard.removeKey(
-                                        Phaser.Input.Keyboard.KeyCodes.SPACE
-                                    );
-                                    playerHeart = 3;
-                                },
-                                callbackScope: this,
-                                loop: false,
-                                paused: false,
-                            });
+                                    ermine.body.enable = false;
+                                    //Trasition Fade 
+                                    snowManEvent.paused = true;
+                                    snowballEvent.paused = true;
+                                    this.cameras.main.fadeOut(2000);
+                                    this.time.addEvent({
+                                        delay: 2000,
+                                        callback: function () {
+                                            this.scene.start("GameOver");
+                                            snowballAni.destroy();
+                                            snowmanAni.destroy();
+                                            ermineAni.destroy();
+                                            ermineAniATK.destroy();
+                                            HeartAni.destroy();
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.W
+                                            );
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.A
+                                            );
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.S
+                                            );
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.D
+                                            );
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.SPACE
+                                            );
+                                            playerHeart = 3;
+                                        },
+                                        callbackScope: this,
+                                        loop: false,
+                                        paused: false,
+                                    });
                                 }
                             }
                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
@@ -330,73 +334,73 @@ class GameScene extends Phaser.Scene {
                             });
                         }
                     }
-                    else if (keyAtk.isDown) {
-                        if(ermine.anims.currentAnim.key == 'ermineAniATK'){
+                    //keyAtk.isDown
+                    else if (scratch == 1) {
+                        if (ermine.anims.currentAnim.key == 'ermineAniATK') {
                             countDestroy++;
                         }
-                        if (ermine.anims.currentAnim.key != 'ermineAniATK'){
-                            if (ermine.immortal == false){
-                            playerHeart--;
-                            ermine.immortal = true;
-                            ermine.flickerTimer = this.time.addEvent({
-                                delay: 100,
-                                callback: function () {
-                                    ermine.setVisible(!ermine.visible);
-                                    if (ermine.flickerTimer.repeatCount == 0) {
-                                        ermine.immortal = false;
-                                        ermine.setVisible(true);
-                                        ermine.flickerTimer.remove();
-                                    }
-                                },
-                                repeat: 15,
-                            });
-                            if (playerHeart <= 0) {
-                                ermine.body.enable = false;
-                                //Trasition Fade
-                                snowManEvent.paused=true;
-                                snowballEvent.paused=true;
-                                this.cameras.main.fadeOut(3000);
-                                this.time.addEvent({
-                                    delay:5000,
-                                    callback: function(){
-                                        this.scene.start("GameOver");
-                                        snowballAni.destroy();
-                                        snowmanAni.destroy();
-                                        ermineAni.destroy();
-                                        ermineAniATK.destroy();
-                                        HeartAni.destroy();
-                                        this.input.keyboard.removeKey(
-                                            Phaser.Input.Keyboard.KeyCodes.W
-                                        );
-                                        this.input.keyboard.removeKey(
-                                            Phaser.Input.Keyboard.KeyCodes.A
-                                        );
-                                        this.input.keyboard.removeKey(
-                                            Phaser.Input.Keyboard.KeyCodes.S
-                                        );
-                                        this.input.keyboard.removeKey(
-                                            Phaser.Input.Keyboard.KeyCodes.D
-                                        );
-                                        this.input.keyboard.removeKey(
-                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                        );
-                                        playerHeart = 3;
+                        if (ermine.anims.currentAnim.key != 'ermineAniATK') {
+                            if (ermine.immortal == false) {
+                                playerHeart--;
+                                ermine.immortal = true;
+                                ermine.flickerTimer = this.time.addEvent({
+                                    delay: 100,
+                                    callback: function () {
+                                        ermine.setVisible(!ermine.visible);
+                                        if (ermine.flickerTimer.repeatCount == 0) {
+                                            ermine.immortal = false;
+                                            ermine.setVisible(true);
+                                            ermine.flickerTimer.remove();
+                                        }
                                     },
-                                    callbackScope: this,
-                                    loop: false,
-                                    paused: false,
+                                    repeat: 15,
                                 });
-                            }
-                            for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
-                                if (playerHeart < i + 1) {
-                                    heartGroup.getChildren()[i].setVisible(false);
-                                } else {
-                                    heartGroup.getChildren()[i].setVisible(true);
+                                if (playerHeart <= 0) {
+                                    ermine.body.enable = false;
+                                    //Trasition Fade
+                                    snowManEvent.paused = true;
+                                    snowballEvent.paused = true;
+                                    this.cameras.main.fadeOut(3000);
+                                    this.time.addEvent({
+                                        delay: 5000,
+                                        callback: function () {
+                                            this.scene.start("GameOver");
+                                            snowballAni.destroy();
+                                            snowmanAni.destroy();
+                                            ermineAni.destroy();
+                                            ermineAniATK.destroy();
+                                            HeartAni.destroy();
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.W
+                                            );
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.A
+                                            );
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.S
+                                            );
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.D
+                                            );
+                                            this.input.keyboard.removeKey(
+                                                Phaser.Input.Keyboard.KeyCodes.SPACE
+                                            );
+                                            playerHeart = 3;
+                                        },
+                                        callbackScope: this,
+                                        loop: false,
+                                        paused: false,
+                                    });
+                                }
+                                for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                                    if (playerHeart < i + 1) {
+                                        heartGroup.getChildren()[i].setVisible(false);
+                                    } else {
+                                        heartGroup.getChildren()[i].setVisible(true);
+                                    }
                                 }
                             }
                         }
-                         
-                    }
                     }
                 });
                 snowman.depth = snowman.y;
@@ -409,7 +413,7 @@ class GameScene extends Phaser.Scene {
         function snowmanDestroy(ermine, snowman) {
             snowman.destroy();
         }
-        
+
 
 
 
@@ -424,54 +428,53 @@ class GameScene extends Phaser.Scene {
     update(delta, time) {
         //Show X Y
         this.label.setText(
-            "(" + this.pointer.x + ", " + this.pointer.y + ")" + playerHeart
+            "(" + this.pointer.x + ", " + this.pointer.y + ")" + "[" + delta + "]" + "[" + timeSinceLastAttack + "]"
         );
 
         //set Depth ermine
         ermine.depth = ermine.y - (ermine.height - 254);
 
         //BG Tile Sprite
-        if(countDestroy<3){
+        if (countDestroy < 3) {
             foreGround.tilePositionX += 10;
             middleGround.tilePositionX += 6;
             backGround.tilePositionX += 3;
         }
         //Input from keyboard
-        if(playerHeart>0){
-        if (keyW.isDown) {
-            ermine.setVelocityY(-200);
-        } else if (keyS.isDown) {
-            ermine.setVelocityY(200);
-        } else {
-            ermine.setVelocityY(0);
-        }
-        if (keyA.isDown) {
-            ermine.setVelocityX(-300);
-        } else if (keyD.isDown) {
-            ermine.setVelocityX(300);
-        } else {
-            ermine.setVelocityX(0);
-        }
-        if (keyAtk.isDown) {
-            if(countATK<cooldown){
-                ermine.anims.play("ermineAniATK", true);
-                countATK++;
+        if (playerHeart > 0) {
+            if (keyW.isDown) {
+                ermine.setVelocityY(-200);
+            } else if (keyS.isDown) {
+                ermine.setVelocityY(200);
+            } else {
+                ermine.setVelocityY(0);
             }
-            else{
-                ermine.anims.play("ermineAni", true);
-                this.time.addEvent({
-                    delay:6000,
-                    callback: function(){
-                        countATK=0;
-                    },
-                })
+            if (keyA.isDown) {
+                ermine.setVelocityX(-300);
+            } else if (keyD.isDown) {
+                ermine.setVelocityX(300);
+            } else {
+                ermine.setVelocityX(0);
             }
+            if (keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)) {
 
-        } else {
-            ermine.anims.play("ermineAni", true);
+                ermine.anims.play("ermineAniATK", true);
+                scratch = 1;
+
+                this.time.addEvent({
+                    delay: 650,
+                    callback: function () {
+                        ermine.anims.play("ermineAni", true);
+                        scratch = 0;
+                    },
+                    callbackScope: this,
+                    loop: false
+                });
+
+                timeSinceLastAttack = delta;
+            }
         }
-        }
-        else if(playerHeart==0){
+        else if (playerHeart == 0) {
             ermine.setVelocityY(0);
             ermine.setVelocityX(-100);
         }
@@ -492,20 +495,20 @@ class GameScene extends Phaser.Scene {
 
         //Not use now
         {
-        if(countDestroy==3){
-            ermine.immortal=true;
-            snowManEvent.paused=true;
-            snowballEvent.paused=true;
-            foreGround =0;
-            middleGround=0;
-            backGround=0;
-            if(fade==0){
-                this.cameras.main.fadeOut(2000);
-                fade++
+            if (countDestroy == 3) {
+                ermine.immortal = true;
+                snowManEvent.paused = true;
+                snowballEvent.paused = true;
+                foreGround = 0;
+                middleGround = 0;
+                backGround = 0;
+                if (fade == 0) {
+                    this.cameras.main.fadeOut(2000);
+                    fade++
                 }
             }
         }
     }
-}   
+}
 
 export default GameScene;
