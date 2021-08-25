@@ -55,7 +55,6 @@ class GameScene extends Phaser.Scene {
         this.load.spritesheet("snowball", "src/image/snowball.png", { frameWidth: 300, frameHeight: 300, });
         this.load.spritesheet("snowman", "src/image/Snowman.png", { frameWidth: 1000, frameHeight: 1000, });
         this.load.spritesheet("heart", "src/image/heart.png", { frameWidth: 64, frameHeight: 66, });
-        // this.load.spritesheet('golem', 'src/image/Demo2/Demo2/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000});
 
 
     }
@@ -135,11 +134,11 @@ class GameScene extends Phaser.Scene {
         let ermineAniATK = this.anims.create({
             key: "ermineAniATK",
             frames: this.anims.generateFrameNumbers("ermine", {
-                start: 4,
+                start: 6,
                 end: 9,
             }),
             duration: 500,
-            framerate: 120,
+            framerate: 120, 
             repeat: 10,
         });
 
@@ -457,12 +456,11 @@ class GameScene extends Phaser.Scene {
             if(countATK<cooldown){
                 ermine.anims.play("ermineAniATK", true);
                 countATK++;
-                console.log(countATK);
             }
             else{
                 ermine.anims.play("ermineAni", true);
                 this.time.addEvent({
-                    delay:5000,
+                    delay:6000,
                     callback: function(){
                         countATK=0;
                     },
@@ -482,7 +480,6 @@ class GameScene extends Phaser.Scene {
         for (let i = 0; i < snowGroup.getChildren().length; i++) {
             if (snowGroup.getChildren()[i].x < -150) {
                 snowGroup.getChildren()[i].destroy();
-                // console.log("hi");
             }
         }
 
@@ -490,7 +487,6 @@ class GameScene extends Phaser.Scene {
         for (let i = 0; i < snowManGroup.getChildren().length; i++) {
             if (snowManGroup.getChildren()[i].x < -10) {
                 snowManGroup.getChildren()[i].destroy();
-                // console.log("hi");
             }
         }
 
