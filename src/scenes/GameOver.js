@@ -20,12 +20,12 @@ class GameOver extends Phaser.Scene {
 
     preload() {
         //button
-        this.load.image('end', 'src/image/gameOver/End.png');
-        this.load.image('tryAgain', 'src/image/gameOver/Again.png');
-        this.load.image('snowbig', 'src/image/gameOver/snowbig.png');
-        this.load.image('snowsmall', 'src/image/gameOver/snowsmall.png');
+        this.load.image('end', 'src/image/button/end.png');
+        this.load.image('tryAgain', 'src/image/button/again.png');
+        this.load.image('snowbig', 'src/image/button/snowbig.png');
+        this.load.image('snowsmall', 'src/image/button/snowsmall.png');
         //backGround
-        this.load.image("backOver", "src/image/gameOver/BG.png");
+        this.load.image("backOver", "src/image/background/fullBG.png");
         //poster
         this.load.image("treePoster", "src/image/gameOver/treeposter.png");
         //text
