@@ -28,7 +28,7 @@ const config = {
         // MainMenu,
         GameScene,
         GameOver,
-        // BossFight
+        BossFight
         // Default
     ],
 

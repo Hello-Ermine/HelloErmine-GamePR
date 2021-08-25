@@ -51,6 +51,7 @@ class BossFight extends Phaser.Scene {
     }
 
     create() {
+        this.cameras.main.fadeIn(3000); 
         //Create Background
         foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
             .setOrigin(0, 0)
