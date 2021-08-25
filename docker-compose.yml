@@ -12,4 +12,4 @@ services:
     ports:
     - "443:80"
     environment:
-    - NGINX_PORT=6000
+    - NGINX_PORT=80
