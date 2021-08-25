@@ -14,4 +14,4 @@ RUN yarn deploy
 
 EXPOSE 443
 
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "dev" ]
