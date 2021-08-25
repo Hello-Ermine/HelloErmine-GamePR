@@ -10,6 +10,7 @@ let textOver;
 let snowbig;
 let snowsmall;
 let transEvent;
+let blackGround;
 
 var finalScore;
 let scoreText;
@@ -32,6 +33,7 @@ class GameOverArcade extends Phaser.Scene {
         this.load.image('snowsmall', 'src/image/button/snowsmall.png');
         //backGround
         this.load.image("backOver", "src/image/background/fullBG.png");
+        this.load.image("blackGround", "src/image/background/SkyBlock.png");
         //poster
         this.load.image("treePoster", "src/image/gameOver/treeposter.png");
         //text
@@ -50,6 +52,12 @@ class GameOverArcade extends Phaser.Scene {
             .setOrigin(0, 0)
             .setScale(1.5)
             .setVelocityX(-200);
+        //-600
+        blackGround = this.physics.add.image(675, 140, 'blackGround')
+            .setOrigin(0, 0)
+            .setScale(1, 1)
+            .setVelocityY(0);
+        blackGround.alpha = 0.5;
 
         treePoster = this.physics.add.image(this.game.renderer.width + 350, 360, 'treePoster')
             .setScale(1)
@@ -118,10 +126,11 @@ class GameOverArcade extends Phaser.Scene {
         })
 
         //Score
-        scoreText = this.add.text(540, 450, 'score : 0', { fontFamily: 'Hello World', fill: '#fff' })
+        scoreText = this.add.text(720, 250, 'score : 0', { fontFamily: 'slkscr',Silkscreen, fill: '#fff' })
             .setDepth(10)
             .setScale(4)
             .setResolution(1);
+        
 
 
     }
@@ -138,10 +147,16 @@ class GameOverArcade extends Phaser.Scene {
             backOver.setVelocityX(0);
             treePoster.setVelocityX(0);
         }
-
         if (textOver.y > 100) {
             textOver.setVelocityY(0);
+            
+            // if (blackGround.y > 140) {
+            //     blackGround.setVelocityY(0);
+            // }else{
+            //     blackGround.setVelocityY(1000);
+            // }
         }
+
         if (tryAgain.y < 520) {
             tryAgain.setVelocityY(0);
             snowbig.setVelocityY(0);
