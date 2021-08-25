@@ -12,6 +12,6 @@ RUN yarn deploy
 
 #USER node
 
-EXPOSE 443
+EXPOSE 3001
 
 CMD [ "yarn", "dev" ]
