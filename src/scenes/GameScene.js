@@ -52,7 +52,6 @@ class GameScene extends Phaser.Scene {
         this.load.spritesheet("snowball", "src/image/snowball.png", { frameWidth: 300, frameHeight: 300, });
         this.load.spritesheet("snowman", "src/image/Snowman.png", { frameWidth: 1000, frameHeight: 1000, });
         this.load.spritesheet("heart", "src/image/heart.png", { frameWidth: 64, frameHeight: 66, });
-        // this.load.spritesheet('golem', 'src/image/Demo2/Demo2/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000});
 
 
     }
@@ -369,7 +368,7 @@ class GameScene extends Phaser.Scene {
         changeScene=this.time.addEvent({
             delay:2000,
             callback: function(){
-                this.scene.start("BossFight");
+                this.scene.start("BossFight",);
                 snowballAni.destroy();
                 snowmanAni.destroy();
                 ermineAni.destroy();
@@ -433,7 +432,6 @@ class GameScene extends Phaser.Scene {
             }
         }
 
-        //Not use now
         {
         if(countDestroy==3){
             ermine.immortal=true;

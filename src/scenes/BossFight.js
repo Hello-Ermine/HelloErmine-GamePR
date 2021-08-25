@@ -15,6 +15,11 @@ let golemEvent;
 let golemATKEvent;
 let snowballEvent;
 
+//Controller
+let keyW;
+let keyS;
+let keyAtk;
+
 //Animation
 let golemAni;
 let golemATK;
@@ -23,11 +28,12 @@ let ermineAni;
 
 //Object
 let snowball=[];
+let heart;
 
 //Group
 let snowballgroup;
+
 //Any
-let delay;
 let countATK=0;
 
 class BossFight extends Phaser.Scene {
@@ -89,14 +95,13 @@ class BossFight extends Phaser.Scene {
 
         //Character
         //ermine
-        ermine = this.physics.add.sprite(190, 360, "ermine")
+        ermine = this.physics.add.sprite(-100, 360, "ermine")
             .setScale(0.5)
             .setSize(250, 80)
             .setOffset(200, 150);
         this.physics.add.collider(ermine, skybox);
         this.physics.add.collider(ermine, backGround);
-        ermine.setCollideWorldBounds(true);
-
+        //ermine Aanimation
         ermineAni=this.anims.create({
             key:"ermineAni",
             frames: this.anims.generateFrameNumbers("ermine",{
@@ -108,6 +113,8 @@ class BossFight extends Phaser.Scene {
             repeat:-1,
         });
         ermine.anims.play("ermineAni",true);
+        ermine.setCollideWorldBounds(false);
+        //set Walk in
 
         //Golem
         golem=this.physics.add.sprite(this.game.renderer.width / 2 +400,this.game.renderer.height / 2-100,"golem")
@@ -293,19 +300,37 @@ class BossFight extends Phaser.Scene {
             paused: false
         });
 
-        // function CreateSnowman(golem,snowball){
+        //Player Control
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyAtk = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
         
     }
 
     update(delta, time) {
         ermine.depth = ermine.y - (ermine.height - 254);
-        // golem.depth = golem.y - (golem.height - 254);
 
         for (let i = 0; i < snowballgroup.getChildren().length; i++) {
-            if (snowballgroup.getChildren()[i].x < ermine.x) {
+            if (snowballgroup.getChildren()[i].x < 0) {
                 snowballgroup.getChildren()[i].destroy();
-                // console.log("hi");
             }
+        }
+
+        if (keyW.isDown) {
+            ermine.setVelocityY(-200);
+        } else if (keyS.isDown) {
+            ermine.setVelocityY(200);
+        } else {
+            ermine.setVelocityY(0);
+        }
+
+        if(ermine.x<100){
+            ermine.setVelocityX(200);
+        }
+        else if(ermine.x>=200){
+            ermine.setVelocityX(0);
+            ermine.setCollideWorldBounds(true);
         }
     }
 }
