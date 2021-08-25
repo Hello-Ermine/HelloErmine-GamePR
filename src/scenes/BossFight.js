@@ -19,6 +19,7 @@ let snowballEvent;
 let golemAni;
 let golemATK;
 let snowballAni;
+let ermineAni;
 
 //Object
 let snowball=[];
@@ -95,6 +96,18 @@ class BossFight extends Phaser.Scene {
         this.physics.add.collider(ermine, backGround);
         ermine.setCollideWorldBounds(true);
 
+        ermineAni=this.anims.create({
+            key:"ermineAni",
+            frames: this.anims.generateFrameNumbers("ermine",{
+                start:0,
+                end:3
+            }),
+            duration:750,
+            framerate:1,
+            repeat:-1,
+        });
+        ermine.anims.play("ermineAni",true);
+
         //Golem
         golem=this.physics.add.sprite(this.game.renderer.width / 2 +400,this.game.renderer.height / 2-100,"golem")
                     .setScale(0.4)
@@ -143,9 +156,9 @@ class BossFight extends Phaser.Scene {
         });
         // Golem Event
         golemATKEvent=this.time.addEvent({
-            delay: 5000,//Phaser.Math.RND.pick([1000,2000,3000,4000,5000]),//6000,7000,8000,9000,10000]),//Phaser.Math.Between(1000,10000)
+            delay: Phaser.Math.RND.pick([1000,2000,3000,4000,5000]),//6000,7000,8000,9000,10000]),//Phaser.Math.Between(1000,10000)
             callback: function(){
-                // golemATKEvent.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);//,6000,7000,8000,9000,10000]);
+                golemATKEvent.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);//,6000,7000,8000,9000,10000]);
                 countATK=golemATKEvent.delay/golemATK.duration;
                 if(golem.anims.currentAnim.key === 'golemAni'){
                     golem.anims.play("golemATK",true);
@@ -171,19 +184,89 @@ class BossFight extends Phaser.Scene {
                                         snowball[i].depth=snowball[i].y;
                                     }
                                 },
-                            })
-                            // snowball=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
-                            //     .setScale(0.65)
-                            //     .setSize(230, 60)
-                            //     .setOffset(30, 220);
-                            // snowballgroup.add(snowball);
-                            // snowball.setVelocityX(Phaser.Math.Between(-200, -500));
-                            // snowball.anims.play("snowballAni", true);
-                            // snowball.depth=snowball.y;
-                        case 2:
+                            });
 
+                        case 2:
+                            for(let i=0;i<5;i++){
+                                snowball[i]=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                                    .setScale(0.65)
+                                    .setSize(230, 60)
+                                    .setOffset(30, 220);
+                                    snowballgroup.add(snowball[i]);
+                                }
+                            this.time.addEvent({
+                                delay:1000,
+                                callback: function(){
+                                    for(let i=0;i<5;i++){
+                                        snowball[i].setVelocityX(Phaser.Math.Between(-200, -500));
+                                        snowball[i].anims.play("snowballAni",true);
+                                        snowball[i].depth=snowball[i].y;
+                                    }
+                                },
+
+                            });
+                        case 3:
+                            for(let i=0;i<5;i++){
+                                snowball[i]=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                                    .setScale(0.65)
+                                    .setSize(230, 60)
+                                    .setOffset(30, 220);
+                                    snowballgroup.add(snowball[i]);
+                                }
+                                
+                            this.time.addEvent({
+                                delay:1000,
+                                callback: function(){
+                                    for(let i=0;i<5;i++){
+                                        snowball[i].setVelocityX(Phaser.Math.Between(-200, -500));
+                                        snowball[i].anims.play("snowballAni",true);
+                                        snowball[i].depth=snowball[i].y;
+                                    }
+                                },
+
+                            });
+                        case 4:
+                            for(let i=0;i<5;i++){
+                                snowball[i]=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                                    .setScale(0.65)
+                                    .setSize(230, 60)
+                                    .setOffset(30, 220);
+                                    snowballgroup.add(snowball[i]);
+                                }
+                                
+                            this.time.addEvent({
+                                delay:1000,
+                                callback: function(){
+                                    for(let i=0;i<5;i++){
+                                        snowball[i].setVelocityX(Phaser.Math.Between(-200, -500));
+                                        snowball[i].anims.play("snowballAni",true);
+                                        snowball[i].depth=snowball[i].y;
+                                    }
+                                },
+
+                            });
+                        case 5:
+                            for(let i=0;i<5;i++){
+                                snowball[i]=this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
+                                    .setScale(0.65)
+                                    .setSize(230, 60)
+                                    .setOffset(30, 220);
+                                    snowballgroup.add(snowball[i]);
+                                }
+                                
+                            this.time.addEvent({
+                                delay:1000,
+                                callback: function(){
+                                    for(let i=0;i<5;i++){
+                                        snowball[i].setVelocityX(Phaser.Math.Between(-200, -500));
+                                        snowball[i].anims.play("snowballAni",true);
+                                        snowball[i].depth=snowball[i].y;
+                                    }
+                                },
+
+                            });
+                        }
                     }
-                }
                 else{
                     golem.anims.play("golemAni",true);
                     if(golem.setVelocityY<0){
@@ -193,7 +276,7 @@ class BossFight extends Phaser.Scene {
                         golem.setVelocityY(-100);
                     }
                     else{
-                        // golem.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);
+
                         if(golem.y<this.game.renderer.height/2){
                             golem.setVelocityY(100);
                         }
