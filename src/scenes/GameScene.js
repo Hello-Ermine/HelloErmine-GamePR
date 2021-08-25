@@ -269,6 +269,7 @@ class GameScene extends Phaser.Scene {
                 snowman.setVelocityX(Phaser.Math.Between(-300, -800));
                 snowman.anims.play("snowmanAni", true);
                 this.physics.add.overlap(ermine, snowman, snowmanDestroy, () => {
+                    //keyAtk.isUp
                     if (scratch == 0) {
                         if (ermine.immortal == false) {
                             playerHeart--;
@@ -455,7 +456,7 @@ class GameScene extends Phaser.Scene {
                 ermine.setVelocityX(300);
             } else {
                 ermine.setVelocityX(0);
-            }
+            }                     //10           10        +        5   =    15
             if (keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)) {
 
                 ermine.anims.play("ermineAniATK", true);
