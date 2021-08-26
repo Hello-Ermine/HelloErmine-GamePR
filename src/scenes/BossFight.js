@@ -17,7 +17,9 @@ let snowballEvent;
 
 //Controller
 let keyW;
+let keyA;
 let keyS;
+let keyD;
 let keyAtk;
 
 //Animation
@@ -38,6 +40,8 @@ let heartGroup;
 //Any
 let countATK = 0;
 let playerHeart = 3;
+
+let open = 0;
 
 class BossFight extends Phaser.Scene {
     constructor(test) {
@@ -154,12 +158,71 @@ class BossFight extends Phaser.Scene {
             .setScale(0.4)
             .setSize(600, 300)
             .setOffset(250, 500)
-            // .setDepth(3)
             .setVelocityY(-100);
+
         this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
         });
-        // golem.depth = golem.y;
+        this.physics.add.overlap(ermine, golem, () => {
+            if (ermine.immortal == false) {
+                playerHeart--;
+                if (playerHeart <= 0) {
+                    ermine.immortal = true;
+                    snowballEvent.paused = true;
+                    this.cameras.main.fadeOut(2000);
+                    this.time.addEvent({
+                        delay: 2000,
+                        callback: function () {
+                            this.scene.start("GameOver");
+                            snowballAni.destroy();
+                            // snowmanAni.destroy();
+                            ermineAni.destroy();
+                            // ermineAniATK.destroy();
+                            HeartAni.destroy();
+                            this.input.keyboard.removeKey(
+                                Phaser.Input.Keyboard.KeyCodes.W
+                            );
+                            this.input.keyboard.removeKey(
+                                Phaser.Input.Keyboard.KeyCodes.A
+                            );
+                            this.input.keyboard.removeKey(
+                                Phaser.Input.Keyboard.KeyCodes.S
+                            );
+                            this.input.keyboard.removeKey(
+                                Phaser.Input.Keyboard.KeyCodes.D
+                            );
+                            this.input.keyboard.removeKey(
+                                Phaser.Input.Keyboard.KeyCodes.SPACE
+                            );
+                            playerHeart = 3;
+                        },
+                        callbackScope: this,
+                        loop: false,
+                        paused: false,
+                    });
+                }
+                for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                    if (playerHeart < i + 1) {
+                        heartGroup.getChildren()[i].setVisible(false);
+                    } else {
+                        heartGroup.getChildren()[i].setVisible(true);
+                    }
+                }
+            }
+            ermine.immortal = true;
+            ermine.flickerTimer = this.time.addEvent({
+                delay: 100,
+                callback: function () {
+                    ermine.setVisible(!ermine.visible);
+                    if (ermine.flickerTimer.repeatCount == 0) {
+                        ermine.immortal = false;
+                        ermine.setVisible(true);
+                        ermine.flickerTimer.remove();
+                    }
+                },
+                repeat: 15,
+            });  //--------------------------------
+        });
 
         //Set Walk Way
         golem.setCollideWorldBounds(true);
@@ -630,7 +693,9 @@ class BossFight extends Phaser.Scene {
 
         //Player Control
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyAtk = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
@@ -648,26 +713,46 @@ class BossFight extends Phaser.Scene {
                 snowballgroup.getChildren()[i].destroy();
             }
         }
-        if (playerHeart > 0) {
-            if (keyW.isDown) {
-                ermine.setVelocityY(-200);
-            } else if (keyS.isDown) {
-                ermine.setVelocityY(200);
-            } else {
-                ermine.setVelocityY(0);
-            }
-        }
-        else if (playerHeart <= 0) {
+
+        if (playerHeart <= 0) {
             ermine.setVelocityX(-100);
         }
 
-        if (ermine.x < 100) {
-            ermine.setVelocityX(200);
+        if (open == 1) {
+            if (playerHeart > 0) {
+                if (keyW.isDown) {
+                    ermine.setVelocityY(-200);
+                } else if (keyS.isDown) {
+                    ermine.setVelocityY(200);
+                } else {
+                    ermine.setVelocityY(0);
+                }
+                if (keyA.isDown) {
+                    ermine.setVelocityX(-300);
+                } else if (keyD.isDown) {
+                    ermine.setVelocityX(300);
+                } else {
+                    ermine.setVelocityX(0);
+                }
+                if (keyAtk.isDown) {
+                    // ermine.anims.play("ermineAniATK", true);
+                } else {
+                    // ermine.anims.play("ermineAni", true);
+                }
+            }
+        } else if (open == 0) {
+            if (ermine.x < 100 && playerHeart > 0) {
+                ermine.setVelocityX(200);
+            }
+            else if (ermine.x >= 200 && playerHeart > 0) {
+                ermine.setVelocityX(0);
+                ermine.setCollideWorldBounds(true);
+                open = 1;
+            }
         }
-        else if (ermine.x >= 200) {
-            ermine.setVelocityX(0);
-            ermine.setCollideWorldBounds(true);
-        }
+
+
+
     }
 }
 
