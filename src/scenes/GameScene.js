@@ -12,7 +12,7 @@ let snowball;
 let snowman;
 let ermineATK;
 let heart;
-let playerHeart = 10;
+let playerHeart = 3;
 let heartGroup;
 
 //Event
@@ -163,14 +163,14 @@ class GameScene extends Phaser.Scene {
 
         //Snow ball Event
         snowballEvent = this.time.addEvent({
-            delay: Phaser.Math.Between(1000, 3000),
+            delay: Phaser.Math.Between(300, 700),
             callback: function () {
                 snowball = this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
                     .setScale(0.65)
                     .setSize(230, 60)
                     .setOffset(30, 220);
                 snowGroup.add(snowball);
-                snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                snowball.setVelocityX(Phaser.Math.Between(-800, -1000));
                 snowball.anims.play("snowballAni", true);
                 this.physics.add.overlap(ermine, snowball, () => {
                     if (ermine.immortal == false) {
@@ -183,7 +183,7 @@ class GameScene extends Phaser.Scene {
                             snowballEvent.paused = true;
                             this.cameras.main.fadeOut(2000);
                             this.time.addEvent({
-                                delay: 2000,
+                                delay: 5000,
                                 callback: function () {
                                     this.scene.start("GameOver");
                                     snowballAni.destroy();
@@ -259,7 +259,7 @@ class GameScene extends Phaser.Scene {
 
         //Snowman Event
         snowManEvent = this.time.addEvent({
-            delay: Phaser.Math.Between(1000, 3000),
+            delay: Phaser.Math.Between(500, 700),
             callback: function () {
                 snowman = this.physics.add.sprite(1380, Phaser.Math.Between(150, 550), "snowman")
                     .setScale(0.3)
@@ -267,7 +267,7 @@ class GameScene extends Phaser.Scene {
                     .setOffset(350, 765);
                 snowman.flipX = !snowman.flipX;
                 snowManGroup.add(snowman);
-                snowman.setVelocityX(Phaser.Math.Between(-300, -800));
+                snowman.setVelocityX(Phaser.Math.Between(-700, -1000));
                 snowman.anims.play("snowmanAni", true);
                 this.physics.add.overlap(ermine, snowman, snowmanDestroy, () => {
                     if (scratch == 0) {
@@ -376,6 +376,24 @@ class GameScene extends Phaser.Scene {
             callbackScope: this,
             paused: true
         });
+
+        this.time.addEvent({
+            delay: 60000,
+            callback: function () {
+                ermine.setVelocityX(500);
+                ermine.immortal = true;
+                ermine.setCollideWorldBounds(false);
+                snowManEvent.paused = true;
+                snowballEvent.paused = true;
+                if (fade == 0) {
+                    this.cameras.main.fadeOut(2000);
+                    fade++
+                }
+                changeScene.paused=false;
+            },
+            callbackScope: this,
+            paused: false
+        });
     }
 
     update(delta, time) {
@@ -442,21 +460,6 @@ class GameScene extends Phaser.Scene {
         for (let i = 0; i < snowManGroup.getChildren().length; i++) {
             if (snowManGroup.getChildren()[i].x < -10) {
                 snowManGroup.getChildren()[i].destroy();
-            }
-        }
-
-        {
-            if (countDestroy == 10) {
-                ermine.setVelocityX(500);
-                ermine.immortal = true;
-                ermine.setCollideWorldBounds(false);
-                snowManEvent.paused = true;
-                snowballEvent.paused = true;
-                if (fade == 0) {
-                    this.cameras.main.fadeOut(2000);
-                    fade++
-                }
-                changeScene.paused=false;
             }
         }
     }

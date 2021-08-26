@@ -246,7 +246,6 @@ class BossFight extends Phaser.Scene {
                             this.input.keyboard.removeKey(
                                 Phaser.Input.Keyboard.KeyCodes.SPACE
                             );
-                            playerHeart = 3;
                         },
                         callbackScope: this,
                         loop: false,
@@ -366,7 +365,6 @@ class BossFight extends Phaser.Scene {
                                                         this.input.keyboard.removeKey(
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
-                                                        playerHeart = 3;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -447,7 +445,6 @@ class BossFight extends Phaser.Scene {
                                                         this.input.keyboard.removeKey(
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
-                                                        playerHeart = 3;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -527,7 +524,6 @@ class BossFight extends Phaser.Scene {
                                                         this.input.keyboard.removeKey(
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
-                                                        playerHeart = 3;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -607,7 +603,6 @@ class BossFight extends Phaser.Scene {
                                                         this.input.keyboard.removeKey(
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
-                                                        playerHeart = 3;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -687,7 +682,6 @@ class BossFight extends Phaser.Scene {
                                                         this.input.keyboard.removeKey(
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
-                                                        playerHeart = 3;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
