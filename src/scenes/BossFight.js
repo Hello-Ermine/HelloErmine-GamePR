@@ -36,7 +36,7 @@ let snowballgroup;
 let heartGroup;
 
 //Any
-let countATK=0;
+let countATK = 0;
 let playerHeart = 3;
 
 class BossFight extends Phaser.Scene {
@@ -53,7 +53,7 @@ class BossFight extends Phaser.Scene {
         this.load.image("skyblock", "src/image/background/SkyBlock.png");
 
         //Character
-        this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000});
+        this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000 });
         this.load.spritesheet("ermine", "src/image/Character/ermine/ErmineAll.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
         this.load.spritesheet("snowball", "src/image/Character/snowball.png", { frameWidth: 300, frameHeight: 300, });
@@ -61,7 +61,12 @@ class BossFight extends Phaser.Scene {
     }
 
     create() {
-        this.cameras.main.fadeIn(3000); 
+        //Show X Y
+        this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
+            .setDepth(100);
+        this.pointer = this.input.activePointer;
+
+        this.cameras.main.fadeIn(3000);
         //Create Background
         foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
             .setOrigin(0, 0)
@@ -78,12 +83,12 @@ class BossFight extends Phaser.Scene {
             .setScale(5, 0.8)
             .setVisible()
             .setImmovable();
-        
+
 
         //Object
         //Snow-Ball
         //SnowBall Animation
-        snowballAni= this.anims.create({
+        snowballAni = this.anims.create({
             key: "snowballAni",
             frames: this.anims.generateFrameNumbers("snowball", {
                 start: 0,
@@ -95,31 +100,31 @@ class BossFight extends Phaser.Scene {
         });
 
         //Group
-        snowballgroup=this.physics.add.group();
+        snowballgroup = this.physics.add.group();
 
-         //Heart Group
+        //Heart Group
         heartGroup = this.physics.add.group();
 
-         //heart Animation
-         HeartAni = this.anims.create({
-             key: "heartAni",
-             frames: this.anims.generateFrameNumbers("heart", {
-                 start: 0,
-                 end: 7,
-             }),
-             duration: 450,
-             framerate: 60,
-             repeat: -1,
-         });
- 
-         //Heart
-         for (let i = 0; i < playerHeart; i++) {
-             heart = this.physics.add.sprite(30 + i * 45, 250, "heart")
-                 .setDepth(100000)
-                 .setScale(0.75);
-             heartGroup.add(heart);
-             heart.anims.play("heartAni", true);
-         }
+        //heart Animation
+        HeartAni = this.anims.create({
+            key: "heartAni",
+            frames: this.anims.generateFrameNumbers("heart", {
+                start: 0,
+                end: 7,
+            }),
+            duration: 450,
+            framerate: 60,
+            repeat: -1,
+        });
+
+        //Heart
+        for (let i = 0; i < playerHeart; i++) {
+            heart = this.physics.add.sprite(30 + i * 45, 250, "heart")
+                .setDepth(100000)
+                .setScale(0.75);
+            heartGroup.add(heart);
+            heart.anims.play("heartAni", true);
+        }
 
         //Character
         //ermine
@@ -130,77 +135,77 @@ class BossFight extends Phaser.Scene {
         this.physics.add.collider(ermine, skybox);
         this.physics.add.collider(ermine, backGround);
         //ermine Aanimation
-        ermineAni=this.anims.create({
-            key:"ermineAni",
-            frames: this.anims.generateFrameNumbers("ermine",{
-                start:0,
-                end:3
+        ermineAni = this.anims.create({
+            key: "ermineAni",
+            frames: this.anims.generateFrameNumbers("ermine", {
+                start: 0,
+                end: 3
             }),
-            duration:750,
-            framerate:1,
-            repeat:-1,
+            duration: 750,
+            framerate: 1,
+            repeat: -1,
         });
-        ermine.anims.play("ermineAni",true);
+        ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(false);
         ermine.immortal = false;
 
         //Golem
-        golem=this.physics.add.sprite(this.game.renderer.width / 2 +400,this.game.renderer.height / 2-100,"golem")
-                    .setScale(0.4)
-                    .setSize(600,300)
-                    .setOffset(250,500)
-                    .setDepth(3)
-                    .setVelocityY(-100);
-        this.physics.add.collider(golem,skybox,()=>{
+        golem = this.physics.add.sprite(this.game.renderer.width / 2 + 400, this.game.renderer.height / 2 - 100, "golem")
+            .setScale(0.4)
+            .setSize(600, 300)
+            .setOffset(250, 500)
+            // .setDepth(3)
+            .setVelocityY(-100);
+        this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
         });
-        golem.depth = golem.y;
+        // golem.depth = golem.y;
 
         //Set Walk Way
         golem.setCollideWorldBounds(true);
         golem.body.onWorldBounds = true;
-        golem.body.world.on('worldbounds', function(body) {
+        golem.body.world.on('worldbounds', function (body) {
             if (body.gameObject === this) {
-              golem.setVelocityY(-100);
+                golem.setVelocityY(-100);
             }
-          }, golem);
+        }, golem);
 
         //golem Animation
         //Walk
-        golemAni=this.anims.create({
-            key:"golemAni",
-            frames: this.anims.generateFrameNumbers("golem",{
-                start:0,
-                end:3
+        golemAni = this.anims.create({
+            key: "golemAni",
+            frames: this.anims.generateFrameNumbers("golem", {
+                start: 0,
+                end: 3
             }),
-            duration:750,
-            framerate:1,
-            repeat:-1,
+            duration: 750,
+            framerate: 1,
+            repeat: -1,
         });
-        golem.anims.play("golemAni",true);
+        golem.anims.play("golemAni", true);
 
         //ATK
-        golemATK=this.anims.create({
-            key:"golemATK",
-            frames: this.anims.generateFrameNumbers("golem",{
-                start:4,
+        golemATK = this.anims.create({
+            key: "golemATK",
+            frames: this.anims.generateFrameNumbers("golem", {
+                start: 4,
                 end: 8
             }),
-            duration:1000,
-            framerate:10,
-            repeat:-1
+            duration: 1000,
+            framerate: 10,
+            repeat: -1
         });
         // Golem Event
-        golemATKEvent=this.time.addEvent({
-            delay: Phaser.Math.RND.pick([1000,2000,3000,4000,5000]),
-            callback: function(){
-                countATK=golemATKEvent.delay/golemATK.duration;
-                golemATKEvent.delay=Phaser.Math.RND.pick([1000,2000,3000,4000,5000]);
-                if(golem.anims.currentAnim.key === 'golemAni'){
-                    golem.anims.play("golemATK",true);
+        golemATKEvent = this.time.addEvent({
+            delay: Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]),
+            callback: function () {
+                countATK = golemATKEvent.delay / golemATK.duration;
+                golemATKEvent.delay = Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]);
+                if (golem.anims.currentAnim.key === 'golemAni') {
+                    golem.anims.play("golemATK", true);
                     golem.setVelocityY(0);
                     //snowball
-                    switch(countATK){
+                    switch (countATK) {
                         case 1:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -218,12 +223,12 @@ class BossFight extends Phaser.Scene {
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
-                                                ermine.immortal=true;
-                                                snowballEvent.paused=true;
+                                                ermine.immortal = true;
+                                                snowballEvent.paused = true;
                                                 this.cameras.main.fadeOut(2000);
                                                 this.time.addEvent({
-                                                    delay:2000,
-                                                    callback: function(){
+                                                    delay: 2000,
+                                                    callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
                                                         // snowmanAni.destroy();
@@ -264,14 +269,14 @@ class BossFight extends Phaser.Scene {
                                         ermine.flickerTimer = this.time.addEvent({
                                             delay: 100,
                                             callback: function () {
-                                            ermine.setVisible(!ermine.visible);
-                                            if (ermine.flickerTimer.repeatCount == 0) {
-                                                ermine.immortal = false;
-                                                ermine.setVisible(true);
-                                                ermine.flickerTimer.remove();
-                                            }
-                                        },
-                                        repeat: 15,
+                                                ermine.setVisible(!ermine.visible);
+                                                if (ermine.flickerTimer.repeatCount == 0) {
+                                                    ermine.immortal = false;
+                                                    ermine.setVisible(true);
+                                                    ermine.flickerTimer.remove();
+                                                }
+                                            },
+                                            repeat: 15,
                                         });
                                     });
                                 },
@@ -279,7 +284,7 @@ class BossFight extends Phaser.Scene {
                                 loop: false,
                                 paused: false,
                                 repeat: 1
-                                });
+                            });
                         case 2:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -297,12 +302,12 @@ class BossFight extends Phaser.Scene {
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
-                                                ermine.immortal=true;
-                                                snowballEvent.paused=true;
+                                                ermine.immortal = true;
+                                                snowballEvent.paused = true;
                                                 this.cameras.main.fadeOut(2000);
                                                 this.time.addEvent({
-                                                    delay:2000,
-                                                    callback: function(){
+                                                    delay: 2000,
+                                                    callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
                                                         // snowmanAni.destroy();
@@ -343,14 +348,14 @@ class BossFight extends Phaser.Scene {
                                         ermine.flickerTimer = this.time.addEvent({
                                             delay: 100,
                                             callback: function () {
-                                            ermine.setVisible(!ermine.visible);
-                                            if (ermine.flickerTimer.repeatCount == 0) {
-                                                ermine.immortal = false;
-                                                ermine.setVisible(true);
-                                                ermine.flickerTimer.remove();
-                                            }
-                                        },
-                                        repeat: 15,
+                                                ermine.setVisible(!ermine.visible);
+                                                if (ermine.flickerTimer.repeatCount == 0) {
+                                                    ermine.immortal = false;
+                                                    ermine.setVisible(true);
+                                                    ermine.flickerTimer.remove();
+                                                }
+                                            },
+                                            repeat: 15,
                                         });
                                     });
                                 },
@@ -358,7 +363,7 @@ class BossFight extends Phaser.Scene {
                                 loop: false,
                                 paused: false,
                                 repeat: 1
-                                });
+                            });
                         case 3:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -376,12 +381,12 @@ class BossFight extends Phaser.Scene {
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
-                                                ermine.immortal=true;
-                                                snowballEvent.paused=true;
+                                                ermine.immortal = true;
+                                                snowballEvent.paused = true;
                                                 this.cameras.main.fadeOut(2000);
                                                 this.time.addEvent({
-                                                    delay:2000,
-                                                    callback: function(){
+                                                    delay: 2000,
+                                                    callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
                                                         // snowmanAni.destroy();
@@ -422,14 +427,14 @@ class BossFight extends Phaser.Scene {
                                         ermine.flickerTimer = this.time.addEvent({
                                             delay: 100,
                                             callback: function () {
-                                            ermine.setVisible(!ermine.visible);
-                                            if (ermine.flickerTimer.repeatCount == 0) {
-                                                ermine.immortal = false;
-                                                ermine.setVisible(true);
-                                                ermine.flickerTimer.remove();
-                                            }
-                                        },
-                                        repeat: 15,
+                                                ermine.setVisible(!ermine.visible);
+                                                if (ermine.flickerTimer.repeatCount == 0) {
+                                                    ermine.immortal = false;
+                                                    ermine.setVisible(true);
+                                                    ermine.flickerTimer.remove();
+                                                }
+                                            },
+                                            repeat: 15,
                                         });
                                     });
                                 },
@@ -437,7 +442,7 @@ class BossFight extends Phaser.Scene {
                                 loop: false,
                                 paused: false,
                                 repeat: 1
-                                });
+                            });
                         case 4:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -455,12 +460,12 @@ class BossFight extends Phaser.Scene {
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
-                                                ermine.immortal=true;
-                                                snowballEvent.paused=true;
+                                                ermine.immortal = true;
+                                                snowballEvent.paused = true;
                                                 this.cameras.main.fadeOut(2000);
                                                 this.time.addEvent({
-                                                    delay:2000,
-                                                    callback: function(){
+                                                    delay: 2000,
+                                                    callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
                                                         // snowmanAni.destroy();
@@ -501,14 +506,14 @@ class BossFight extends Phaser.Scene {
                                         ermine.flickerTimer = this.time.addEvent({
                                             delay: 100,
                                             callback: function () {
-                                            ermine.setVisible(!ermine.visible);
-                                            if (ermine.flickerTimer.repeatCount == 0) {
-                                                ermine.immortal = false;
-                                                ermine.setVisible(true);
-                                                ermine.flickerTimer.remove();
-                                            }
-                                        },
-                                        repeat: 15,
+                                                ermine.setVisible(!ermine.visible);
+                                                if (ermine.flickerTimer.repeatCount == 0) {
+                                                    ermine.immortal = false;
+                                                    ermine.setVisible(true);
+                                                    ermine.flickerTimer.remove();
+                                                }
+                                            },
+                                            repeat: 15,
                                         });
                                     });
                                 },
@@ -516,7 +521,7 @@ class BossFight extends Phaser.Scene {
                                 loop: false,
                                 paused: false,
                                 repeat: 1
-                                });
+                            });
                         case 5:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -534,12 +539,12 @@ class BossFight extends Phaser.Scene {
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
-                                                ermine.immortal=true;
-                                                snowballEvent.paused=true;
+                                                ermine.immortal = true;
+                                                snowballEvent.paused = true;
                                                 this.cameras.main.fadeOut(2000);
                                                 this.time.addEvent({
-                                                    delay:2000,
-                                                    callback: function(){
+                                                    delay: 2000,
+                                                    callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
                                                         // snowmanAni.destroy();
@@ -580,14 +585,14 @@ class BossFight extends Phaser.Scene {
                                         ermine.flickerTimer = this.time.addEvent({
                                             delay: 100,
                                             callback: function () {
-                                            ermine.setVisible(!ermine.visible);
-                                            if (ermine.flickerTimer.repeatCount == 0) {
-                                                ermine.immortal = false;
-                                                ermine.setVisible(true);
-                                                ermine.flickerTimer.remove();
-                                            }
-                                        },
-                                        repeat: 15,
+                                                ermine.setVisible(!ermine.visible);
+                                                if (ermine.flickerTimer.repeatCount == 0) {
+                                                    ermine.immortal = false;
+                                                    ermine.setVisible(true);
+                                                    ermine.flickerTimer.remove();
+                                                }
+                                            },
+                                            repeat: 15,
                                         });
                                     });
                                 },
@@ -595,30 +600,30 @@ class BossFight extends Phaser.Scene {
                                 loop: false,
                                 paused: false,
                                 repeat: 1
-                                });
-                        }
+                            });
                     }
-                else{
-                    golem.anims.play("golemAni",true);
-                    if(golem.setVelocityY<0){
+                }
+                else {
+                    golem.anims.play("golemAni", true);
+                    if (golem.setVelocityY < 0) {
                         golem.setVelocityY(100);
                     }
-                    else if(golem.setVelocityY>0){
+                    else if (golem.setVelocityY > 0) {
                         golem.setVelocityY(-100);
                     }
-                    else{
+                    else {
 
-                        if(golem.y<this.game.renderer.height/2){
+                        if (golem.y < this.game.renderer.height / 2) {
                             golem.setVelocityY(100);
                         }
-                        if(golem.y>this.game.renderer.height/2){
+                        if (golem.y > this.game.renderer.height / 2) {
                             golem.setVelocityY(-100);
                         }
                     }
 
                 }
             },
-            callbackScope:this,
+            callbackScope: this,
             loop: true,
             paused: false
         });
@@ -628,34 +633,38 @@ class BossFight extends Phaser.Scene {
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyAtk = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        
+
     }
 
     update(delta, time) {
+        //Show X Y
+        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.height + " | " + golem.y + " | " + golem.depth);
+
         ermine.depth = ermine.y - (ermine.height - 254);
+        golem.depth = golem.y + 75;
 
         for (let i = 0; i < snowballgroup.getChildren().length; i++) {
             if (snowballgroup.getChildren()[i].x < 0) {
                 snowballgroup.getChildren()[i].destroy();
             }
         }
-        if(playerHeart>0){
-        if (keyW.isDown) {
-            ermine.setVelocityY(-200);
-        } else if (keyS.isDown) {
-            ermine.setVelocityY(200);
-        } else {
-            ermine.setVelocityY(0);
+        if (playerHeart > 0) {
+            if (keyW.isDown) {
+                ermine.setVelocityY(-200);
+            } else if (keyS.isDown) {
+                ermine.setVelocityY(200);
+            } else {
+                ermine.setVelocityY(0);
+            }
         }
-    }
-    else if(playerHeart<=0){
+        else if (playerHeart <= 0) {
             ermine.setVelocityX(-100);
-    }
+        }
 
-        if(ermine.x<100){
+        if (ermine.x < 100) {
             ermine.setVelocityX(200);
         }
-        else if(ermine.x>=200){
+        else if (ermine.x >= 200) {
             ermine.setVelocityX(0);
             ermine.setCollideWorldBounds(true);
         }
