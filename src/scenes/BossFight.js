@@ -272,7 +272,7 @@ class BossFight extends Phaser.Scene {
         });
         // Golem Event
         golemATKEvent = this.time.addEvent({
-            delay: Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]),
+            delay: 1000,//Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]),
             callback: function () {
                 countATK = golemATKEvent.delay / golemATK.duration;
                 golemATKEvent.delay = Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]);
@@ -290,7 +290,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -306,7 +306,6 @@ class BossFight extends Phaser.Scene {
                                                     callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
-                                                        // snowmanAni.destroy();
                                                         ermineAni.destroy();
                                                         // ermineAniATK.destroy();
                                                         HeartAni.destroy();
@@ -360,8 +359,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 2
                             });
+                            break;
                         case 2:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -371,7 +371,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -387,7 +387,6 @@ class BossFight extends Phaser.Scene {
                                                     callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
-                                                        // snowmanAni.destroy();
                                                         ermineAni.destroy();
                                                         // ermineAniATK.destroy();
                                                         HeartAni.destroy();
@@ -440,8 +439,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 3
                             });
+                            break;
                         case 3:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -451,7 +451,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -467,7 +467,6 @@ class BossFight extends Phaser.Scene {
                                                     callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
-                                                        // snowmanAni.destroy();
                                                         ermineAni.destroy();
                                                         // ermineAniATK.destroy();
                                                         HeartAni.destroy();
@@ -520,8 +519,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 5
                             });
+                            break;
                         case 4:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -531,7 +531,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -547,7 +547,6 @@ class BossFight extends Phaser.Scene {
                                                     callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
-                                                        // snowmanAni.destroy();
                                                         ermineAni.destroy();
                                                         // ermineAniATK.destroy();
                                                         HeartAni.destroy();
@@ -600,8 +599,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 7
                             });
+                            break;
                         case 5:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -611,7 +611,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-200, -500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -627,7 +627,6 @@ class BossFight extends Phaser.Scene {
                                                     callback: function () {
                                                         this.scene.start("GameOver");
                                                         snowballAni.destroy();
-                                                        // snowmanAni.destroy();
                                                         ermineAni.destroy();
                                                         // ermineAniATK.destroy();
                                                         HeartAni.destroy();
@@ -680,8 +679,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 9
                             });
+                            break;
                     }
                 }
                 else {
