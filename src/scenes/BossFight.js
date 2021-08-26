@@ -5,6 +5,7 @@ let foreGround;
 let middleGround;
 let backGround;
 let skybox;
+let skybox2;
 
 //Character
 let golem;
@@ -87,6 +88,13 @@ class BossFight extends Phaser.Scene {
             .setScale(5, 0.8)
             .setVisible()
             .setImmovable();
+        skybox2 = this.physics.add.image(925, 215, "skyblock")
+            .setOrigin(0, 0)
+            .setScale(0.65, 0.93)
+            .setDepth(500000)
+            .setImmovable()
+            .setVisible(0)
+            .setOffset(290, 280);
 
 
         //Object
@@ -137,6 +145,7 @@ class BossFight extends Phaser.Scene {
             .setSize(250, 80)
             .setOffset(200, 150);
         this.physics.add.collider(ermine, skybox);
+        this.physics.add.collider(ermine, skybox2);
         this.physics.add.collider(ermine, backGround);
         //ermine Aanimation
         ermineAni = this.anims.create({
@@ -156,9 +165,10 @@ class BossFight extends Phaser.Scene {
         //Golem
         golem = this.physics.add.sprite(this.game.renderer.width / 2 + 400, this.game.renderer.height / 2 - 100, "golem")
             .setScale(0.4)
-            .setSize(600, 300)
-            .setOffset(250, 500)
-            .setVelocityY(-100);
+            .setSize(600, 415)
+            .setOffset(190, 500)
+            .setVelocityY(-100)
+            .setImmovable(1);
 
         this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
@@ -208,21 +218,23 @@ class BossFight extends Phaser.Scene {
                         heartGroup.getChildren()[i].setVisible(true);
                     }
                 }
+                ermine.immortal = true;
+                ermine.flickerTimer = this.time.addEvent({
+                    delay: 100,
+                    callback: function () {
+                        ermine.setVisible(!ermine.visible);
+                        if (ermine.flickerTimer.repeatCount == 0) {
+                            ermine.immortal = false;
+                            ermine.setVisible(true);
+                            ermine.flickerTimer.remove();
+
+                        }
+                    },
+                    repeat: 15,
+                });
             }
-            ermine.immortal = true;
-            ermine.flickerTimer = this.time.addEvent({
-                delay: 100,
-                callback: function () {
-                    ermine.setVisible(!ermine.visible);
-                    if (ermine.flickerTimer.repeatCount == 0) {
-                        ermine.immortal = false;
-                        ermine.setVisible(true);
-                        ermine.flickerTimer.remove();
-                    }
-                },
-                repeat: 15,
-            });  //--------------------------------
-        });
+
+        }); //------------------------------------------------------
 
         //Set Walk Way
         golem.setCollideWorldBounds(true);
@@ -327,20 +339,22 @@ class BossFight extends Phaser.Scene {
                                                     heartGroup.getChildren()[i].setVisible(true);
                                                 }
                                             }
+                                            ermine.immortal = true;
+                                            ermine.flickerTimer = this.time.addEvent({
+                                                delay: 100,
+                                                callback: function () {
+                                                    ermine.setVisible(!ermine.visible);
+                                                    if (ermine.flickerTimer.repeatCount == 0) {
+                                                        ermine.immortal = false;
+                                                        ermine.setVisible(true);
+                                                        ermine.flickerTimer.remove();
+
+                                                    }
+                                                },
+                                                repeat: 15,
+                                            });
                                         }
-                                        ermine.immortal = true;
-                                        ermine.flickerTimer = this.time.addEvent({
-                                            delay: 100,
-                                            callback: function () {
-                                                ermine.setVisible(!ermine.visible);
-                                                if (ermine.flickerTimer.repeatCount == 0) {
-                                                    ermine.immortal = false;
-                                                    ermine.setVisible(true);
-                                                    ermine.flickerTimer.remove();
-                                                }
-                                            },
-                                            repeat: 15,
-                                        });
+
                                     });
                                 },
                                 callbackScope: this,
@@ -406,20 +420,21 @@ class BossFight extends Phaser.Scene {
                                                     heartGroup.getChildren()[i].setVisible(true);
                                                 }
                                             }
+                                            ermine.immortal = true;
+                                            ermine.flickerTimer = this.time.addEvent({
+                                                delay: 100,
+                                                callback: function () {
+                                                    ermine.setVisible(!ermine.visible);
+                                                    if (ermine.flickerTimer.repeatCount == 0) {
+                                                        ermine.immortal = false;
+                                                        ermine.setVisible(true);
+                                                        ermine.flickerTimer.remove();
+                                                    }
+                                                },
+                                                repeat: 15,
+                                            });
                                         }
-                                        ermine.immortal = true;
-                                        ermine.flickerTimer = this.time.addEvent({
-                                            delay: 100,
-                                            callback: function () {
-                                                ermine.setVisible(!ermine.visible);
-                                                if (ermine.flickerTimer.repeatCount == 0) {
-                                                    ermine.immortal = false;
-                                                    ermine.setVisible(true);
-                                                    ermine.flickerTimer.remove();
-                                                }
-                                            },
-                                            repeat: 15,
-                                        });
+
                                     });
                                 },
                                 callbackScope: this,
@@ -485,20 +500,21 @@ class BossFight extends Phaser.Scene {
                                                     heartGroup.getChildren()[i].setVisible(true);
                                                 }
                                             }
+                                            ermine.immortal = true;
+                                            ermine.flickerTimer = this.time.addEvent({
+                                                delay: 100,
+                                                callback: function () {
+                                                    ermine.setVisible(!ermine.visible);
+                                                    if (ermine.flickerTimer.repeatCount == 0) {
+                                                        ermine.immortal = false;
+                                                        ermine.setVisible(true);
+                                                        ermine.flickerTimer.remove();
+                                                    }
+                                                },
+                                                repeat: 15,
+                                            });
                                         }
-                                        ermine.immortal = true;
-                                        ermine.flickerTimer = this.time.addEvent({
-                                            delay: 100,
-                                            callback: function () {
-                                                ermine.setVisible(!ermine.visible);
-                                                if (ermine.flickerTimer.repeatCount == 0) {
-                                                    ermine.immortal = false;
-                                                    ermine.setVisible(true);
-                                                    ermine.flickerTimer.remove();
-                                                }
-                                            },
-                                            repeat: 15,
-                                        });
+
                                     });
                                 },
                                 callbackScope: this,
@@ -564,20 +580,21 @@ class BossFight extends Phaser.Scene {
                                                     heartGroup.getChildren()[i].setVisible(true);
                                                 }
                                             }
+                                            ermine.immortal = true;
+                                            ermine.flickerTimer = this.time.addEvent({
+                                                delay: 100,
+                                                callback: function () {
+                                                    ermine.setVisible(!ermine.visible);
+                                                    if (ermine.flickerTimer.repeatCount == 0) {
+                                                        ermine.immortal = false;
+                                                        ermine.setVisible(true);
+                                                        ermine.flickerTimer.remove();
+                                                    }
+                                                },
+                                                repeat: 15,
+                                            });
                                         }
-                                        ermine.immortal = true;
-                                        ermine.flickerTimer = this.time.addEvent({
-                                            delay: 100,
-                                            callback: function () {
-                                                ermine.setVisible(!ermine.visible);
-                                                if (ermine.flickerTimer.repeatCount == 0) {
-                                                    ermine.immortal = false;
-                                                    ermine.setVisible(true);
-                                                    ermine.flickerTimer.remove();
-                                                }
-                                            },
-                                            repeat: 15,
-                                        });
+
                                     });
                                 },
                                 callbackScope: this,
@@ -643,20 +660,21 @@ class BossFight extends Phaser.Scene {
                                                     heartGroup.getChildren()[i].setVisible(true);
                                                 }
                                             }
+                                            ermine.immortal = true;
+                                            ermine.flickerTimer = this.time.addEvent({
+                                                delay: 100,
+                                                callback: function () {
+                                                    ermine.setVisible(!ermine.visible);
+                                                    if (ermine.flickerTimer.repeatCount == 0) {
+                                                        ermine.immortal = false;
+                                                        ermine.setVisible(true);
+                                                        ermine.flickerTimer.remove();
+                                                    }
+                                                },
+                                                repeat: 15,
+                                            });
                                         }
-                                        ermine.immortal = true;
-                                        ermine.flickerTimer = this.time.addEvent({
-                                            delay: 100,
-                                            callback: function () {
-                                                ermine.setVisible(!ermine.visible);
-                                                if (ermine.flickerTimer.repeatCount == 0) {
-                                                    ermine.immortal = false;
-                                                    ermine.setVisible(true);
-                                                    ermine.flickerTimer.remove();
-                                                }
-                                            },
-                                            repeat: 15,
-                                        });
+
                                     });
                                 },
                                 callbackScope: this,
@@ -703,7 +721,7 @@ class BossFight extends Phaser.Scene {
 
     update(delta, time) {
         //Show X Y
-        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.height + " | " + golem.y + " | " + golem.depth);
+        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATK + " | ");
 
         ermine.depth = ermine.y - (ermine.height - 254);
         golem.depth = golem.y + 75;

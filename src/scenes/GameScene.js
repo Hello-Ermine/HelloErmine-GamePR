@@ -171,6 +171,7 @@ class GameScene extends Phaser.Scene {
                         if (playerHeart <= 0) {
                             ermine.immortal = true;
                             //Trasition Fade
+                            snowManEvent.paused = true;
                             snowballEvent.paused = true;
                             this.cameras.main.fadeOut(2000);
                             this.time.addEvent({
