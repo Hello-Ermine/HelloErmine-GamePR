@@ -46,16 +46,19 @@ let open = 0;
 
 //bullet
 let bullet;
+let bulletEvent;
 let bulletGroup;
-let delayBullet = 500;
+let delayBullet = 350;
 let timeSinceLastAttack = 0;
 
 //Boss
-let golemHp = 100;
+let golemHp = 1;
 let maxHp = 100;
 let healthBar;
 let backgroundBar;
 let healthLabel;
+let finish = 0;
+let hpOpen = 0;
 
 
 class BossFight extends Phaser.Scene {
@@ -117,7 +120,9 @@ class BossFight extends Phaser.Scene {
             .setOffset(290, 280);
 
         //Snow Shoot
-        bulletGroup = this.physics.add.group();
+        // bulletGroup = this.physics.add.group();
+
+
 
         //Object
         //Snow-Ball
@@ -192,7 +197,7 @@ class BossFight extends Phaser.Scene {
             .setVelocityY(-100)
             .setImmovable(1);
 
-        healthLabel = this.add.text((this.game.renderer.width / 2) - 90, 60 + 50, 'Boss Health', { fontSize: '20px', fill: '#ffffff' }).setDepth(6);
+        healthLabel = this.add.text((this.game.renderer.width / 2) - 70, 60 + 50, 'Boss Health', { fontSize: '20px', fill: '#ffffff' }).setDepth(6);
         healthLabel.fixedToCamera = true;
 
         backgroundBar = this.add.image(this.game.renderer.width / 2, 70 + 50, 'redBar')
@@ -206,12 +211,12 @@ class BossFight extends Phaser.Scene {
             .setScale(2.5, 1.5);
         // healthBar.setScale(((50 * 2) / healthBar.width), 1);
 
-        this.physics.add.overlap(bulletGroup, golem, hitGolem);
+        // this.physics.add.overlap(bulletGroup, golem, hitGolem);
 
-        function hitGolem(bulletGroup, golem) {
-            bulletGroup.destroy();
-            golemHp--;
-        }
+        // function hitGolem(bulletGroup, golem) {
+        //     bullet.destroy();
+        //     golemHp--;
+        // }
 
         this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
@@ -334,7 +339,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -415,7 +420,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -495,7 +500,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -575,7 +580,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -655,7 +660,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500,-700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     console.log(snowballgroup.getChildren());
@@ -760,6 +765,9 @@ class BossFight extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyAtk = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
+        //Bullet
+        bulletGroup = this.add.group();
+
 
     }
 
@@ -800,17 +808,17 @@ class BossFight extends Phaser.Scene {
                 }
 
                 if (keyAtk.isDown && delta > (timeSinceLastAttack + delayBullet)) {
-                    // ermine.anims.play("ermineAniATK", true);
-                    bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
+                    bullet = this.physics.add.sprite(ermine.x + 65, ermine.y + 10, 'bullet')
                         .setScale(0.35)
                         .setDepth(3);
+                    bullet.setVelocityX(1000);
                     bulletGroup.add(bullet);
-                    bulletGroup.setVelocityX(800);
+                    this.physics.add.overlap(bulletGroup, golem, hitGolem);
+                    this.physics.add.overlap(bulletGroup, snowball, hitSnowball);
 
                     timeSinceLastAttack = delta;
-                } else {
-                    // ermine.anims.play("ermineAni", true);
                 }
+
             }
 
             //open ermine walk
@@ -824,11 +832,67 @@ class BossFight extends Phaser.Scene {
                 open = 1;
             }
         }
+
+        if (golemHp <= 0 && finish == 0) {
+            finish++;
+            // snowballEvent.paused = true;
+            this.cameras.main.fadeOut(2000);
+            this.time.addEvent({
+                delay: 2000,
+                callback: function () {
+                    this.scene.start("GameOver");
+                    snowballAni.destroy();
+                    // snowmanAni.destroy();
+                    ermineAni.destroy();
+                    // ermineAniATK.destroy();
+                    HeartAni.destroy();
+                    this.input.keyboard.removeKey(
+                        Phaser.Input.Keyboard.KeyCodes.W
+                    );
+                    this.input.keyboard.removeKey(
+                        Phaser.Input.Keyboard.KeyCodes.A
+                    );
+                    this.input.keyboard.removeKey(
+                        Phaser.Input.Keyboard.KeyCodes.S
+                    );
+                    this.input.keyboard.removeKey(
+                        Phaser.Input.Keyboard.KeyCodes.D
+                    );
+                    this.input.keyboard.removeKey(
+                        Phaser.Input.Keyboard.KeyCodes.SPACE
+                    );
+                    golemHp = 1;
+                },
+                callbackScope: this,
+                loop: false,
+                paused: false,
+            });
+
+        }
+
+        if (hpOpen == 0 && golemHp <= 100) {
+            golemHp++;
+            if(golemHp >= 100){
+                hpOpen = 1;
+            }
+            
+        }
+
         //Destroy snow shoot
         for (let i = 0; i < bulletGroup.getChildren().length; i++) {
-            if (bulletGroup.getChildren()[i].x > 1500) {
+            if (bulletGroup.getChildren()[i].x > 1300) {
                 bulletGroup.getChildren()[i].destroy();
             }
+        }
+        function hitGolem(bulletGroup, golem) {
+            bulletGroup.destroy();
+            if (golemHp > 0) {
+                golemHp--;
+            }
+
+        }
+        function hitSnowball(bulletGroup, golem) {
+            bulletGroup.destroy();
         }
 
 
