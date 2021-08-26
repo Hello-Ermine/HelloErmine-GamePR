@@ -169,9 +169,8 @@ class GameScene extends Phaser.Scene {
                     if (ermine.immortal == false) {
                         playerHeart--;
                         if (playerHeart <= 0) {
-                            ermine.body.enable = false;
+                            ermine.immortal=true;
                             //Trasition Fade
-                            snowManEvent.paused=true;
                             snowballEvent.paused=true;
                             this.cameras.main.fadeOut(2000);
                             this.time.addEvent({
@@ -266,7 +265,8 @@ class GameScene extends Phaser.Scene {
                         if (ermine.immortal == false) {
                             playerHeart--;
                             if (playerHeart <= 0) {
-                                ermine.body.enable = false;
+                                ermine.immortal=true;
+                                // ermine.body.enable = false;
                                 //Trasition Fade 
                                 snowManEvent.paused=true;
                                 snowballEvent.paused=true;
@@ -417,6 +417,7 @@ class GameScene extends Phaser.Scene {
             ermine.anims.play("ermineAni", true);
         }
         }
+        
 
         //destroy snowGroup when x = -150
         for (let i = 0; i < snowGroup.getChildren().length; i++) {
