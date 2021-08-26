@@ -44,6 +44,18 @@ let playerHeart = 3;
 
 let open = 0;
 
+//bullet
+let bullet;
+let bulletGroup;
+let bulletEvent;
+let delayBullet = 500;
+let timeSinceLastAttack = 0;
+
+//Boss
+let BossHp;
+let healthBar;
+
+
 class BossFight extends Phaser.Scene {
     constructor(test) {
         super({
@@ -52,6 +64,7 @@ class BossFight extends Phaser.Scene {
     }
 
     preload() {
+        //Background
         this.load.image("foreGround", "src/image/background/FG ermine.png");
         this.load.image("middleGround", "src/image/background/MG ermine.png");
         this.load.image("backGround", "src/image/background/BG ermine.png");
@@ -63,6 +76,12 @@ class BossFight extends Phaser.Scene {
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
         this.load.spritesheet("snowball", "src/image/Character/snowball.png", { frameWidth: 300, frameHeight: 300, });
 
+        //Snow shoot
+        this.load.image("bullet", "src/image/object/snowShoot.png");
+
+        //HP Bar
+        this.load.image('green-bar', 'src/images/object/health-green.png');
+        this.load.image('red-bar', 'src/images/object/health-red.png');
     }
 
     create() {
@@ -91,10 +110,27 @@ class BossFight extends Phaser.Scene {
         skybox2 = this.physics.add.image(925, 215, "skyblock")
             .setOrigin(0, 0)
             .setScale(0.65, 0.93)
-            .setDepth(500000)
             .setImmovable()
             .setVisible(0)
             .setOffset(290, 280);
+
+        //Snow Shoot
+        bulletGroup = this.physics.add.group();
+
+        // bulletEvent = this.time.addEvent({
+        //     delay: 1000,
+        //     callback: function () {
+        //         bullet = this.physics.add.image(ermine.x, ermine.y - 50, 'bullet')
+        //             .setScale(0.35)
+        //             .setSize(0.2)
+        //             .setDepth(3);
+        //         bulletGroup.add(bullet);
+        //         bulletGroup.setVelocityX(600);
+        //     },
+        //     callbackScope: this,
+        //     loop: true,
+        //     pause: false
+        // });
 
 
         //Object
@@ -169,6 +205,9 @@ class BossFight extends Phaser.Scene {
             .setOffset(190, 500)
             .setVelocityY(-100)
             .setImmovable(1);
+
+        // golem.health = 100 ;
+        // golem.maxHealth = 100 ;
 
         this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
@@ -727,7 +766,7 @@ class BossFight extends Phaser.Scene {
         golem.depth = golem.y + 75;
 
         for (let i = 0; i < snowballgroup.getChildren().length; i++) {
-            if (snowballgroup.getChildren()[i].x < 0) {
+            if (snowballgroup.getChildren()[i].x < -100) {
                 snowballgroup.getChildren()[i].destroy();
             }
         }
@@ -752,12 +791,22 @@ class BossFight extends Phaser.Scene {
                 } else {
                     ermine.setVelocityX(0);
                 }
-                if (keyAtk.isDown) {
+                if (keyAtk.isDown && delta > (timeSinceLastAttack + delayBullet)) {
                     // ermine.anims.play("ermineAniATK", true);
+                    bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
+                        .setScale(0.35)
+                        .setSize(0.2)
+                        .setDepth(3);
+                    bulletGroup.add(bullet);
+                    bulletGroup.setVelocityX(800);
+
+                    timeSinceLastAttack = delta;
                 } else {
                     // ermine.anims.play("ermineAni", true);
                 }
             }
+
+            //open ermine walk
         } else if (open == 0) {
             if (ermine.x < 100 && playerHeart > 0) {
                 ermine.setVelocityX(200);
@@ -766,6 +815,12 @@ class BossFight extends Phaser.Scene {
                 ermine.setVelocityX(0);
                 ermine.setCollideWorldBounds(true);
                 open = 1;
+            }
+        }
+        //Destroy snow shoot
+        for (let i = 0; i < bulletGroup.getChildren().length; i++) {
+            if (bulletGroup.getChildren()[i].x > 1500) {
+                bulletGroup.getChildren()[i].destroy();
             }
         }
 
