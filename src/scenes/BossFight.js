@@ -47,13 +47,15 @@ let open = 0;
 //bullet
 let bullet;
 let bulletGroup;
-let bulletEvent;
 let delayBullet = 500;
 let timeSinceLastAttack = 0;
 
 //Boss
-let BossHp;
+let golemHp = 100;
+let maxHp = 100;
 let healthBar;
+let backgroundBar;
+let healthLabel;
 
 
 class BossFight extends Phaser.Scene {
@@ -80,8 +82,8 @@ class BossFight extends Phaser.Scene {
         this.load.image("bullet", "src/image/object/snowShoot.png");
 
         //HP Bar
-        this.load.image('green-bar', 'src/images/object/health-green.png');
-        this.load.image('red-bar', 'src/images/object/health-red.png');
+        this.load.image('greenBar', 'src/image/object/health-green.png');
+        this.load.image('redBar', 'src/image/object/health-red.png');
     }
 
     create() {
@@ -116,22 +118,6 @@ class BossFight extends Phaser.Scene {
 
         //Snow Shoot
         bulletGroup = this.physics.add.group();
-
-        // bulletEvent = this.time.addEvent({
-        //     delay: 1000,
-        //     callback: function () {
-        //         bullet = this.physics.add.image(ermine.x, ermine.y - 50, 'bullet')
-        //             .setScale(0.35)
-        //             .setSize(0.2)
-        //             .setDepth(3);
-        //         bulletGroup.add(bullet);
-        //         bulletGroup.setVelocityX(600);
-        //     },
-        //     callbackScope: this,
-        //     loop: true,
-        //     pause: false
-        // });
-
 
         //Object
         //Snow-Ball
@@ -206,8 +192,26 @@ class BossFight extends Phaser.Scene {
             .setVelocityY(-100)
             .setImmovable(1);
 
-        // golem.health = 100 ;
-        // golem.maxHealth = 100 ;
+        healthLabel = this.add.text((this.game.renderer.width / 2) - 90, 60 + 50, 'Boss Health', { fontSize: '20px', fill: '#ffffff' }).setDepth(6);
+        healthLabel.fixedToCamera = true;
+
+        backgroundBar = this.add.image(this.game.renderer.width / 2, 70 + 50, 'redBar')
+            .setDepth(5)
+            .setScale(2.5, 1.5);
+        backgroundBar.fixedToCamera = true;
+
+        healthBar = this.add.image((backgroundBar.x / 2) + 70, 60 + 45, 'greenBar')
+            .setDepth(5)
+            .setOrigin(0, 0)
+            .setScale(2.5, 1.5);
+        // healthBar.setScale(((50 * 2) / healthBar.width), 1);
+
+        this.physics.add.overlap(bulletGroup, golem, hitGolem);
+
+        function hitGolem(bulletGroup, golem) {
+            bulletGroup.destroy();
+            golemHp--;
+        }
 
         this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
@@ -313,6 +317,7 @@ class BossFight extends Phaser.Scene {
         golemATKEvent = this.time.addEvent({
             delay: Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]),
             callback: function () {
+
                 countATK = golemATKEvent.delay / golemATK.duration;
                 golemATKEvent.delay = Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]);
                 if (golem.anims.currentAnim.key === 'golemAni') {
@@ -401,6 +406,7 @@ class BossFight extends Phaser.Scene {
                                 paused: false,
                                 repeat: 1
                             });
+                            break;
                         case 2:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -479,8 +485,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 2
                             });
+                            break;
                         case 3:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -559,8 +566,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 3
                             });
+                            break;
                         case 4:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -639,8 +647,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 4
                             });
+                            break;
                         case 5:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -719,8 +728,9 @@ class BossFight extends Phaser.Scene {
                                 callbackScope: this,
                                 loop: false,
                                 paused: false,
-                                repeat: 1
+                                repeat: 5
                             });
+                            break;
                     }
                 }
                 else {
@@ -760,10 +770,12 @@ class BossFight extends Phaser.Scene {
 
     update(delta, time) {
         //Show X Y
-        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATK + " | ");
+        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATK + " | " + golemHp);
 
         ermine.depth = ermine.y - (ermine.height - 254);
         golem.depth = golem.y + 75;
+
+        healthBar.setScale(golemHp / 40, 1.5);
 
         for (let i = 0; i < snowballgroup.getChildren().length; i++) {
             if (snowballgroup.getChildren()[i].x < -100) {
@@ -791,11 +803,11 @@ class BossFight extends Phaser.Scene {
                 } else {
                     ermine.setVelocityX(0);
                 }
+
                 if (keyAtk.isDown && delta > (timeSinceLastAttack + delayBullet)) {
                     // ermine.anims.play("ermineAniATK", true);
                     bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                         .setScale(0.35)
-                        .setSize(0.2)
                         .setDepth(3);
                     bulletGroup.add(bullet);
                     bulletGroup.setVelocityX(800);
