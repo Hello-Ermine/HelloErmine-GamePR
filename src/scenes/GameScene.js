@@ -519,6 +519,7 @@ class GameScene extends Phaser.Scene {
                 if (fade == 0) {
                     this.cameras.main.fadeOut(2000);
                     fade++
+                    this.scene.start("BossFight");
                 }
             }
         }
