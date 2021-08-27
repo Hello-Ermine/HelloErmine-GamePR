@@ -15,6 +15,7 @@ let ermine;
 let golemEvent;
 let golemATKEvent;
 let snowballEvent;
+let bulletEvent;
 
 //Controller
 let keyW;
@@ -28,6 +29,7 @@ let golemAni;
 let golemATK;
 let snowballAni;
 let ermineAni;
+let ermineAniATK;
 let HeartAni;
 
 //Object
@@ -47,14 +49,19 @@ let open = 0;
 //bullet
 let bullet;
 let bulletGroup;
-let bulletEvent;
-let delayBullet = 500;
-let timeSinceLastAttack = 0;
+let delayBullet = 1000;
+let timeSinceLastAttackBullet = 0;
 
 //Boss
-let BossHp;
+let golemHp = 100;
+let maxHp = 100;
 let healthBar;
+let backgroundBar;
+let healthLabel;
 
+//cooldown
+let DELAY = 1000;
+let timeSinceLastAttack= 0;
 
 class BossFight extends Phaser.Scene {
     constructor(test) {
@@ -83,8 +90,8 @@ class BossFight extends Phaser.Scene {
         this.load.image("bullet", "src/image/object/snowShoot.png");
 
         //HP Bar
-        // this.load.image('green-bar', 'src/images/object/health-green.png');
-        // this.load.image('red-bar', 'src/images/object/health-red.png');
+        this.load.image('greenBar', 'src/image/object/health-green.png');
+        this.load.image('redBar', 'src/image/object/health-red.png');
     }
 
     create() {
@@ -116,25 +123,6 @@ class BossFight extends Phaser.Scene {
             .setImmovable()
             .setVisible(0)
             .setOffset(290, 280);
-
-        //Snow Shoot
-        bulletGroup = this.physics.add.group();
-
-        // bulletEvent = this.time.addEvent({
-        //     delay: 1000,
-        //     callback: function () {
-        //         bullet = this.physics.add.image(ermine.x, ermine.y - 50, 'bullet')
-        //             .setScale(0.35)
-        //             .setSize(0.2)
-        //             .setDepth(3);
-        //         bulletGroup.add(bullet);
-        //         bulletGroup.setVelocityX(600);
-        //     },
-        //     callbackScope: this,
-        //     loop: true,
-        //     pause: false
-        // });
-
 
         //Object
         //Snow-Ball
@@ -201,6 +189,17 @@ class BossFight extends Phaser.Scene {
         ermine.setCollideWorldBounds(false);
         ermine.immortal = false;
 
+        ermineAniATK=this.anims.create({
+            key:"ermineAniATK",
+            frames: this.anims.generateFrameNumbers("ermine", {
+                start: 6,
+                end: 9,
+            }),
+            duration: 650,
+            framerate: 1,
+            repeat: 10,
+        })
+
         //Golem
         golem = this.physics.add.sprite(this.game.renderer.width / 2 + 400, this.game.renderer.height / 2 - 100, "golem")
             .setScale(0.4)
@@ -209,8 +208,22 @@ class BossFight extends Phaser.Scene {
             .setVelocityY(-100)
             .setImmovable(1);
 
-        // golem.health = 100 ;
-        // golem.maxHealth = 100 ;
+        healthLabel = this.add.text((this.game.renderer.width / 2) - 90, 60 + 50, 'Boss Health', { fontSize: '20px', fill: '#ffffff' }).setDepth(6);
+        healthLabel.fixedToCamera = true;
+
+        backgroundBar = this.add.image(this.game.renderer.width / 2, 70 + 50, 'redBar')
+            .setDepth(5)
+            .setScale(2.5, 1.5);
+        backgroundBar.fixedToCamera = true;
+
+        healthBar = this.add.image((backgroundBar.x / 2) + 70, 60 + 45, 'greenBar')
+            .setDepth(5)
+            .setOrigin(0, 0)
+            .setScale(2.5, 1.5);
+        // healthBar.setScale(((50 * 2) / healthBar.width), 1);
+
+        //Snow Shoot
+        bulletGroup = this.physics.add.group();
 
         this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
@@ -757,10 +770,12 @@ class BossFight extends Phaser.Scene {
 
     update(delta, time) {
         //Show X Y
-        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATK + " | ");
+        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATK + " | " + golemHp);
 
         ermine.depth = ermine.y - (ermine.height - 254);
         golem.depth = golem.y + 75;
+
+        healthBar.setScale(golemHp / 40, 1.5);
 
         for (let i = 0; i < snowballgroup.getChildren().length; i++) {
             if (snowballgroup.getChildren()[i].x < -100) {
@@ -790,18 +805,30 @@ class BossFight extends Phaser.Scene {
                 } else {
                     ermine.setVelocityX(0);
                 }
-                if (keyAtk.isDown && delta > (timeSinceLastAttack + delayBullet)) {
-                    // ermine.anims.play("ermineAniATK", true);
-                    bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
-                        .setScale(0.35)
-                        .setSize(0.2)
-                        .setDepth(3);
-                    bulletGroup.add(bullet);
-                    bulletGroup.setVelocityX(800);
-
+                if(keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)){
+                    ermine.anims.play("ermineAniATK", true);
+                    this.time.addEvent({
+                        delay: 650,
+                        callback: function () {
+                            ermine.anims.play("ermineAni", true);
+                        },
+                        callbackScope: this,
+                        loop: false
+                    });
+    
                     timeSinceLastAttack = delta;
-                } else {
-                    // ermine.anims.play("ermineAni", true);
+                }
+                if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
+                    bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
+                        .setScale(0.35);
+                    bullet.depth= bullet.y+100;
+                    bulletGroup.add(bullet);
+                    bullet.setVelocityX(800);
+                    this.physics.add.overlap(bullet,golem,()=>{
+                        bullet.destroy()
+                        golemHp--;
+                    });
+                    timeSinceLastAttackBullet = delta;
                 }
             }
 
