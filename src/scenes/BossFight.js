@@ -42,7 +42,7 @@ let heartGroup;
 
 //Any
 let countATK = 0;
-let playerHeart=3;
+let playerHeart;
 let open = 0;
 
 //bullet
@@ -69,9 +69,9 @@ class BossFight extends Phaser.Scene {
             key: 'BossFight'
         });
     }
-    // init(data){
-    //     playerHeart=data.playerHeart;
-    // }
+    init(data){
+        playerHeart=data.playerHeart;
+    }
 
     preload() {
         //Background
