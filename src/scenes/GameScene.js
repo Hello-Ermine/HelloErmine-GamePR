@@ -12,7 +12,7 @@ let snowball;
 let snowman;
 let ermineATK;
 let heart;
-let playerHeart = 3;
+let playerHeart = 5;
 let heartGroup;
 
 //Event
@@ -134,7 +134,7 @@ class GameScene extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = true;
+        ermine.immortal = false;
 
         //ermineATK
         let ermineAniATK = this.anims.create({
@@ -185,6 +185,9 @@ class GameScene extends Phaser.Scene {
                             snowManEvent.paused = true;
                             snowballEvent.paused = true;
                             this.cameras.main.fadeOut(2000);
+                            if('camerafadeoutprogress'){
+                                this.cameras.main.fadeOut(1000);
+                            }
                             this.time.addEvent({
                                 delay: 5000,
                                 callback: function () {
@@ -210,6 +213,8 @@ class GameScene extends Phaser.Scene {
                                         Phaser.Input.Keyboard.KeyCodes.SPACE
                                     );
                                     playerHeart = 3;
+                                    l=0;
+                                    countDestroy=0;
                                 },
                                 callbackScope: this,
                                 loop: false,
@@ -283,6 +288,9 @@ class GameScene extends Phaser.Scene {
                                     snowManEvent.paused = true;
                                     snowballEvent.paused = true;
                                     this.cameras.main.fadeOut(2000);
+                                    if('camerafadeoutprogress'){
+                                        this.cameras.main.fadeOut(1000);
+                                    }
                                     this.time.addEvent({
                                         delay: 2000,
                                         callback: function () {
@@ -308,6 +316,8 @@ class GameScene extends Phaser.Scene {
                                                 Phaser.Input.Keyboard.KeyCodes.SPACE
                                             );
                                             playerHeart = 3;
+                                            l=0;
+                                            countDestroy=0;
                                         },
                                         callbackScope: this,
                                         loop: false,
@@ -451,7 +461,6 @@ class GameScene extends Phaser.Scene {
             console.log(l);
             if(l>8600){
                 ermine.setVelocityX(500);
-
             }
         }
         else if (playerHeart == 0) {
