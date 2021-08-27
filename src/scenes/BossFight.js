@@ -29,6 +29,7 @@ let golemAni;
 let golemATK;
 let snowballAni;
 let ermineAni;
+let ermineAniATK;
 let HeartAni;
 
 //Object
@@ -48,8 +49,8 @@ let open = 0;
 //bullet
 let bullet;
 let bulletGroup;
-let delayBullet = 500;
-let timeSinceLastAttack = 0;
+let delayBullet = 1000;
+let timeSinceLastAttackBullet = 0;
 
 //Boss
 let golemHp = 100;
@@ -58,6 +59,9 @@ let healthBar;
 let backgroundBar;
 let healthLabel;
 
+//cooldown
+let DELAY = 1000;
+let timeSinceLastAttack= 0;
 
 class BossFight extends Phaser.Scene {
     constructor(test) {
@@ -181,6 +185,17 @@ class BossFight extends Phaser.Scene {
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(false);
         ermine.immortal = false;
+
+        ermineAniATK=this.anims.create({
+            key:"ermineAniATK",
+            frames: this.anims.generateFrameNumbers("ermine", {
+                start: 6,
+                end: 9,
+            }),
+            duration: 650,
+            framerate: 1,
+            repeat: 10,
+        })
 
         //Golem
         golem = this.physics.add.sprite(this.game.renderer.width / 2 + 400, this.game.renderer.height / 2 - 100, "golem")
@@ -792,19 +807,27 @@ class BossFight extends Phaser.Scene {
                 } else {
                     ermine.setVelocityX(0);
                 }
-                
-
-                if (keyAtk.isDown && delta > (timeSinceLastAttack + delayBullet)) {
-                    // ermine.anims.play("ermineAniATK", true);
+                if(keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)){
+                    ermine.anims.play("ermineAniATK", true);
+                    this.time.addEvent({
+                        delay: 650,
+                        callback: function () {
+                            ermine.anims.play("ermineAni", true);
+                        },
+                        callbackScope: this,
+                        loop: false
+                    });
+    
+                    timeSinceLastAttack = delta;
+                }
+                if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
                     bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                         .setScale(0.35);
                     bullet.depth= bullet.y+100;
                     bulletGroup.add(bullet);
                     bullet.setVelocityX(800);
                     this.physics.add.overlap(bullet,golem);
-                    timeSinceLastAttack = delta;
-                } else {
-                    // ermine.anims.play("ermineAni", true);
+                    timeSinceLastAttackBullet = delta;
                 }
             }
 
