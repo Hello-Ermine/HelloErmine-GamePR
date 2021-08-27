@@ -826,7 +826,10 @@ class BossFight extends Phaser.Scene {
                     bullet.depth= bullet.y+100;
                     bulletGroup.add(bullet);
                     bullet.setVelocityX(800);
-                    this.physics.add.overlap(bullet,golem);
+                    this.physics.add.overlap(bullet,golem,()=>{
+                        bullet.destroy()
+                        golemHp--;
+                    });
                     timeSinceLastAttackBullet = delta;
                 }
             }
@@ -848,9 +851,6 @@ class BossFight extends Phaser.Scene {
                 bulletGroup.getChildren()[i].destroy();
             }
         }
-
-
-
     }
 }
 
