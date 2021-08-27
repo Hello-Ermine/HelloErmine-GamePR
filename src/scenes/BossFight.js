@@ -15,6 +15,7 @@ let ermine;
 let golemEvent;
 let golemATKEvent;
 let snowballEvent;
+let bulletEvent;
 
 //Controller
 let keyW;
@@ -116,9 +117,6 @@ class BossFight extends Phaser.Scene {
             .setVisible(0)
             .setOffset(290, 280);
 
-        //Snow Shoot
-        bulletGroup = this.physics.add.group();
-
         //Object
         //Snow-Ball
         //SnowBall Animation
@@ -206,12 +204,8 @@ class BossFight extends Phaser.Scene {
             .setScale(2.5, 1.5);
         // healthBar.setScale(((50 * 2) / healthBar.width), 1);
 
-        this.physics.add.overlap(bulletGroup, golem, hitGolem);
-
-        function hitGolem(bulletGroup, golem) {
-            bulletGroup.destroy();
-            golemHp--;
-        }
+        //Snow Shoot
+        bulletGroup = this.physics.add.group();
 
         this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
@@ -798,15 +792,16 @@ class BossFight extends Phaser.Scene {
                 } else {
                     ermine.setVelocityX(0);
                 }
+                
 
                 if (keyAtk.isDown && delta > (timeSinceLastAttack + delayBullet)) {
                     // ermine.anims.play("ermineAniATK", true);
                     bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
-                        .setScale(0.35)
-                        .setDepth(3);
+                        .setScale(0.35);
+                    bullet.depth= bullet.y+100;
                     bulletGroup.add(bullet);
-                    bulletGroup.setVelocityX(800);
-
+                    bullet.setVelocityX(800);
+                    this.physics.add.overlap(bullet,golem);
                     timeSinceLastAttack = delta;
                 } else {
                     // ermine.anims.play("ermineAni", true);
