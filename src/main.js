@@ -26,9 +26,9 @@ const config = {
     scene: [
         // LoadingBar,
         // MainMenu,
-        GameScene,
-        GameOver,
+        // GameScene,
         BossFight,
+        GameOver,
         // Default
     ],
 

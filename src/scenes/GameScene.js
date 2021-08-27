@@ -21,6 +21,7 @@ let snowGroup;
 let snowManEvent;
 let snowManGroup;
 let changeScene;
+let test;
 
 //Controller
 let keyW;
@@ -32,6 +33,7 @@ let keyAtk;
 //Any 
 let countDestroy = 0;
 let fade = 0;
+let l=0;
 
 //cooldown
 let DELAY = 1000;
@@ -132,7 +134,7 @@ class GameScene extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = false;
+        ermine.immortal = true;
 
         //ermineATK
         let ermineAniATK = this.anims.create({
@@ -144,6 +146,7 @@ class GameScene extends Phaser.Scene {
             duration: 650,
             framerate: 120,
             repeat: 10,
+            callbackScope:this,
         });
 
         //Snow Ball Animation
@@ -372,15 +375,16 @@ class GameScene extends Phaser.Scene {
                 HeartAni.destroy();
                 countDestroy=0;
                 fade=0;
+                l=0;
             },
             callbackScope: this,
-            paused: true
+            paused: true,
+            loop:true
         });
 
-        this.time.addEvent({
+        test=this.time.addEvent({
             delay: 60000,
             callback: function () {
-                ermine.setVelocityX(500);
                 ermine.immortal = true;
                 ermine.setCollideWorldBounds(false);
                 snowManEvent.paused = true;
@@ -442,6 +446,12 @@ class GameScene extends Phaser.Scene {
                 });
 
                 timeSinceLastAttack = delta;
+            }
+            l+=1;
+            console.log(l);
+            if(l>8600){
+                ermine.setVelocityX(500);
+
             }
         }
         else if (playerHeart == 0) {
