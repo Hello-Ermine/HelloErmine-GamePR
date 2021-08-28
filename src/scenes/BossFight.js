@@ -887,6 +887,7 @@ class BossFight extends Phaser.Scene {
                     );
                     golemHp = 1;
                     hpOpen=0;
+                    finish=0;
                 },
                 callbackScope: this,
                 loop: false,
@@ -915,7 +916,9 @@ class BossFight extends Phaser.Scene {
             if (golemHp > 0) {
                 golemHp--;
             }
-
+            else{
+                golemHp=0;
+            }
         }
         function hitSnowball(bullet, golem) {
             bullet.destroy();
