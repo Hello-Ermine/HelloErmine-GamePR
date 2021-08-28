@@ -24,9 +24,16 @@ const config = {
         }
     },
     scene: [
+<<<<<<< Updated upstream
         LoadingBar,
         MainMenu,
         GameScene,
+=======
+        // LoadingBar,
+        // MainMenu,
+        // GameScene,
+        // GameOver,
+>>>>>>> Stashed changes
         BossFight,
         GameOver,
         // Default
