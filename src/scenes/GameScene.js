@@ -20,7 +20,7 @@ let snowballEvent;
 let snowGroup;
 let snowManEvent;
 let snowManGroup;
-// let golemEvent;
+let changeScene;
 
 //Controller
 let keyW;
@@ -58,11 +58,11 @@ class GameScene extends Phaser.Scene {
         this.load.spritesheet("snowball", "src/image/Character/snowball.png", { frameWidth: 300, frameHeight: 300, });
         this.load.spritesheet("snowman", "src/image/Character/Snowman.png", { frameWidth: 1000, frameHeight: 1000, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
-        // this.load.spritesheet('golem', 'src/image/Demo2/Demo2/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000});
 
     }
 
     create() {
+        //Fade IN
         this.cameras.main.fadeIn(3000);
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
@@ -176,7 +176,7 @@ class GameScene extends Phaser.Scene {
                     if (ermine.immortal == false) {
                         playerHeart--;
                         if (playerHeart <= 0) {
-                            ermine.body.enable = false;
+                            ermine.immortal = true;
                             //Trasition Fade
                             snowManEvent.paused = true;
                             snowballEvent.paused = true;
@@ -424,6 +424,20 @@ class GameScene extends Phaser.Scene {
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyAtk = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+        changeScene = this.time.addEvent({
+            delay: 2000,
+            callback: function () {
+                this.scene.start("BossFight",);
+                snowballAni.destroy();
+                snowmanAni.destroy();
+                ermineAni.destroy();
+                ermineAniATK.destroy();
+                HeartAni.destroy();
+            },
+            callbackScope: this,
+            paused: true
+        });
     }
 
     update(delta, time) {
@@ -441,6 +455,7 @@ class GameScene extends Phaser.Scene {
             middleGround.tilePositionX += 6;
             backGround.tilePositionX += 3;
         }
+
         //Input from keyboard
         if (playerHeart > 0) {
             if (keyW.isDown) {
@@ -480,13 +495,13 @@ class GameScene extends Phaser.Scene {
             ermine.setVelocityX(-100);
         }
 
+
         //destroy snowGroup when x = -150
         for (let i = 0; i < snowGroup.getChildren().length; i++) {
             if (snowGroup.getChildren()[i].x < -150) {
                 snowGroup.getChildren()[i].destroy();
             }
         }
-
         //destroy snowManGroup when x = -150
         for (let i = 0; i < snowManGroup.getChildren().length; i++) {
             if (snowManGroup.getChildren()[i].x < -10) {
@@ -494,7 +509,6 @@ class GameScene extends Phaser.Scene {
             }
         }
 
-        //Not use now
         {
             if (countDestroy == 3) {
                 ermine.immortal = true;
@@ -506,6 +520,7 @@ class GameScene extends Phaser.Scene {
                 if (fade == 0) {
                     this.cameras.main.fadeOut(2000);
                     fade++
+                    this.scene.start("BossFight");
                 }
             }
         }
