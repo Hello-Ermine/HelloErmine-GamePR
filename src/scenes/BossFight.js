@@ -39,6 +39,7 @@ let heart;
 //Group
 let snowballgroup;
 let heartGroup;
+let bulletGroup;
 
 //Any
 let countATK = 0;
@@ -47,11 +48,10 @@ let open = 0;
 
 //bullet
 let bullet;
-let bulletEvent;
-let bulletGroup;
 let delayBullet = 350;
-let timeSinceLastAttack = 0;
+let timeSinceLastAttackBullet = 0;
 let heavyATK=0;
+
 //Boss
 let golemHp = 1;
 let maxHp = 100;
@@ -313,6 +313,7 @@ class BossFight extends Phaser.Scene {
             duration: 750,
             framerate: 1,
             repeat: -1,
+            callbackScope:this
         });
         golem.anims.play("golemAni", true);
 
@@ -325,7 +326,8 @@ class BossFight extends Phaser.Scene {
             }),
             duration: 1000,
             framerate: 10,
-            repeat: -1
+            repeat: -1,
+            callbackScope:this
         });
         // Golem Event
         golemATKEvent = this.time.addEvent({
@@ -793,8 +795,6 @@ class BossFight extends Phaser.Scene {
             ermine.setVelocityX(-100);
         }
 
-        console.log(open);
-
         if (open == 1) {
             if (playerHeart > 0) {
                 if (keyW.isDown) {
@@ -830,14 +830,12 @@ class BossFight extends Phaser.Scene {
                     bullet.depth= bullet.y+100;
                     bulletGroup.add(bullet);
                     bullet.setVelocityX(800);
-                    this.physics.add.overlap(bullet,golem,()=>{
+                    this.physics.add.overlap(bullet,golem,hitGolem,()=>{
                         heavyATK++;
                         if(heavyATK<=5){
-                        bullet.destroy()
                         golemHp--;
                         }
                         else{
-                            bullet.destroy()
                             golemHp-=10;
                             heavyATK=0;
                         }
@@ -869,9 +867,8 @@ class BossFight extends Phaser.Scene {
                 callback: function () {
                     this.scene.start("GameOver");
                     snowballAni.destroy();
-                    // snowmanAni.destroy();
                     ermineAni.destroy();
-                    // ermineAniATK.destroy();
+                    ermineAniATKGame.destroy();
                     HeartAni.destroy();
                     this.input.keyboard.removeKey(
                         Phaser.Input.Keyboard.KeyCodes.W
@@ -889,6 +886,7 @@ class BossFight extends Phaser.Scene {
                         Phaser.Input.Keyboard.KeyCodes.SPACE
                     );
                     golemHp = 1;
+                    hpOpen=0;
                 },
                 callbackScope: this,
                 loop: false,
@@ -899,6 +897,7 @@ class BossFight extends Phaser.Scene {
 
         if (hpOpen == 0 && golemHp <= 100) {
             golemHp++;
+            open=0;
             if(golemHp >= 100){
                 hpOpen = 1;
             }
@@ -911,18 +910,17 @@ class BossFight extends Phaser.Scene {
                 bulletGroup.getChildren()[i].destroy();
             }
         }
-        function hitGolem(bulletGroup, golem) {
-            bulletGroup.destroy();
+        function hitGolem(bullet, golem) {
+            bullet.destroy();
             if (golemHp > 0) {
                 golemHp--;
             }
 
         }
-        function hitSnowball(bulletGroup, golem) {
-            bulletGroup.destroy();
+        function hitSnowball(bullet, golem) {
+            bullet.destroy();
         }
-
-
+        console.log(open);
 
     }
 }

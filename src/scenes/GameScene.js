@@ -494,7 +494,7 @@ class GameScene extends Phaser.Scene {
                     this.cameras.main.fadeOut(2000);
                     fade++
                 }
-                changeScene=fade;
+                changeScene=false;
             }
         }
     }
