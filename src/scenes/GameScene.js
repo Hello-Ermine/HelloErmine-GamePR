@@ -22,7 +22,7 @@ let snowGroup;
 let snowManEvent;
 let snowManGroup;
 let changeScene;
-let test;
+let fadeChange;
 
 //Controller
 let keyW;
@@ -35,6 +35,7 @@ let keyAtk;
 let countDestroy = 0;
 let fade = 0;
 let l=0;
+let cutScene=0;
 
 //cooldown
 let DELAY = 1000;
@@ -43,7 +44,7 @@ let scratch = 0;
 
 
 class GameScene extends Phaser.Scene {
-    constructor(test) {
+    constructor(fadeChange) {
         super({
             key: "GameScene",
         });
@@ -382,7 +383,13 @@ class GameScene extends Phaser.Scene {
             delay: 2000,
             callback: function () {
                 ermine.setVelocityX(0);
-                this.scene.start("BossFight",{playerHeart:playerHeart});
+                if(cutScene==0){
+                    this.scene.start("CutSceneBossFight",{playerHeart:playerHeart});
+                    cutScene++;
+                }
+                else if(cutScene==1){
+                    this.scene.start("BossFight",{playerHeart:playerHeart});
+                }
                 snowballAni.destroy();
                 snowmanAni.destroy();
                 ermineAni.destroy();
@@ -397,7 +404,7 @@ class GameScene extends Phaser.Scene {
             loop:true
         });
 
-        test=this.time.addEvent({
+        fadeChange=this.time.addEvent({
             delay: 60000,
             callback: function () {
                 ermine.immortal = true;
@@ -484,22 +491,6 @@ class GameScene extends Phaser.Scene {
         for (let i = 0; i < snowManGroup.getChildren().length; i++) {
             if (snowManGroup.getChildren()[i].x < -10) {
                 snowManGroup.getChildren()[i].destroy();
-            }
-        }
-
-        {
-            if (countDestroy == 3) {
-                ermine.immortal = true;
-                snowManEvent.paused = true;
-                snowballEvent.paused = true;
-                foreGround = 0;
-                middleGround = 0;
-                backGround = 0;
-                if (fade == 0) {
-                    this.cameras.main.fadeOut(2000);
-                    fade++
-                }
-                changeScene=false;
             }
         }
     }

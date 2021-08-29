@@ -6,6 +6,7 @@ import LoadingBar from './scenes/LoadingBar';
 import Default from './scenes/Defualt';
 import MainMenu from './scenes/MainMenu';
 import BossFight from './scenes/BossFight';
+import CutSceneBossFight from './scenes/CutSceneBossfight';
 
 
 const config = {
@@ -27,6 +28,7 @@ const config = {
         LoadingBar,
         MainMenu,
         GameScene,
+        CutSceneBossFight,
         BossFight,
         GameOver,
         // Default
