@@ -10,6 +10,7 @@ let textOver;
 let snowbig;
 let snowsmall;
 let transEvent;
+let playerHeart;
 
 class GameOver extends Phaser.Scene {
     constructor(test) {
@@ -75,7 +76,7 @@ class GameOver extends Phaser.Scene {
             transEvent = this.time.addEvent({  
                 delay: 1000,
                 callback: function(){
-                    this.scene.start('GameScene');
+                    this.scene.start('GameScene',playerHeart);
                 },
                 callbackScope: this,
                 loop: false,

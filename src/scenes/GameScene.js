@@ -48,6 +48,9 @@ class GameScene extends Phaser.Scene {
             key: "GameScene",
         });
     }
+    init(data){
+        playerHeart=5;
+    }
 
     preload() {
         //Back ground
