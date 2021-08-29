@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import data from "phaser/src/data";
 
 //BG
 let foreGround;
@@ -212,7 +213,7 @@ class GameScene extends Phaser.Scene {
                                     this.input.keyboard.removeKey(
                                         Phaser.Input.Keyboard.KeyCodes.SPACE
                                     );
-                                    playerHeart = 3;
+                                    playerHeart = 5;
                                     l=0;
                                     countDestroy=0;
                                 },
@@ -316,7 +317,7 @@ class GameScene extends Phaser.Scene {
                                             this.input.keyboard.removeKey(
                                                 Phaser.Input.Keyboard.KeyCodes.SPACE
                                             );
-                                            playerHeart = 3;
+                                            playerHeart = 5;
                                             l=0;
                                             countDestroy=0;
                                         },
