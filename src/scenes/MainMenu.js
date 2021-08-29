@@ -62,9 +62,8 @@ class MainMenu extends Phaser.Scene {
             { frameWidth: 500, frameHeight: 300 });
         this.load.spritesheet('snowmanMenu', 'src/image/Character/Snowman.png',
             { frameWidth: 1000, frameHeight: 1000 });
-        this.load.spritesheet('golemMenu', 'src/image/Character/golem/Golem2_sprite.png', {
-            frameWidth: 1000, frameHeight: 1000
-        });
+        this.load.spritesheet('golemMenu', 'src/image/Character/golem/Golem2_sprite.png',
+            { frameWidth: 1000, frameHeight: 1000 });
     }
 
     create() {
