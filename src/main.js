@@ -7,6 +7,8 @@ import Default from './scenes/Defualt';
 import MainMenu from './scenes/MainMenu';
 import BossFight from './scenes/BossFight';
 import TutorialScene from './scenes/TutorialScene';
+import CutSceneBossFight from './scenes/CutSceneBossfight';
+
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -24,12 +26,13 @@ const config = {
         }
     },
     scene: [
-        // LoadingBar,
-        // MainMenu,
+        LoadingBar,
+        MainMenu,
         TutorialScene,
-        // GameScene,
-        // GameOver,
-        // BossFight
+        GameScene,
+        CutSceneBossFight,
+        BossFight,
+        GameOver,
         // Default
     ],
 

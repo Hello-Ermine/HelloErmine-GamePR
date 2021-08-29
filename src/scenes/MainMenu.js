@@ -47,8 +47,8 @@ class MainMenu extends Phaser.Scene {
         this.load.image('midGround', 'src/image/background/MG ermine.png');
         this.load.image('foreGround', 'src/image/background/FG ermine.png');
         //Logo
-        this.load.image('logo', 'src/image/logo.png');
-        this.load.image('game', 'src/image/on top logo.png');
+        this.load.image('logo', 'src/image/logo/logo.png');
+        this.load.image('game', 'src/image/logo/on top logo.png');
         //Button
         this.load.image('arcade', 'src/image/button/Arcade.png');
         this.load.image('howtoplay', 'src/image/button/Tutorial.png');
@@ -58,11 +58,11 @@ class MainMenu extends Phaser.Scene {
         this.load.image('snowsmall', 'src/image/button/snowsmall.png');
         this.load.image('snowsmall', 'src/image/button/back.png');
         //Character
-        this.load.spritesheet('ermineMenu', 'src/image/ermineAll.png',
+        this.load.spritesheet('ermineMenu', 'src/image/Character/ermine/ermineAll.png',
             { frameWidth: 500, frameHeight: 300 });
-        this.load.spritesheet('snowmanMenu', 'src/image/Snowman.png',
+        this.load.spritesheet('snowmanMenu', 'src/image/Character/Snowman.png',
             { frameWidth: 1000, frameHeight: 1000 });
-        this.load.spritesheet('golemMenu', 'src/image/Demo2/Demo2/Golem2_sprite.png', {
+        this.load.spritesheet('golemMenu', 'src/image/Character/golem/Golem2_sprite.png', {
             frameWidth: 1000, frameHeight: 1000
         });
     }
