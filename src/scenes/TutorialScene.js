@@ -6,6 +6,7 @@ let info;
 let showInfo;
 let tutorialEvent;
 let count = 0;
+let text;
 
 class TutorialScene extends Phaser.Scene {
     constructor(test) {
@@ -18,6 +19,8 @@ class TutorialScene extends Phaser.Scene {
         this.load.image('BgToturial', 'src/image/tutorialScene/BG.png');
         this.load.image('board', 'src/image/tutorialScene/board.png');
         this.load.image('info', 'src/image/tutorialScene/infomation01.png');
+        this.load.bitmapFont('atari', 'src/fonts/gem.png', 'src/fonts/gem.xml');
+
     }
 
     create() {
@@ -25,6 +28,8 @@ class TutorialScene extends Phaser.Scene {
         this.label = this.add.text(40, 0, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
         this.pointer = this.input.activePointer;
+
+        text = this.add.bitmapText(200, 100, 'atari','Bitmap Fonts!',64).setDepth(1000000);
 
         this.cameras.main.fadeIn(500);
 
@@ -38,16 +43,16 @@ class TutorialScene extends Phaser.Scene {
 
         BgToturial.on('pointerup', () => {
             this.cameras.main.fadeOut(500);
-            tutorialEvent = this.time.addEvent({  
+            tutorialEvent = this.time.addEvent({
                 delay: 500,
-                callback: function(){
+                callback: function () {
                     this.scene.start('MainMenu');
                 },
                 callbackScope: this,
                 loop: false,
 
             })
-            
+
         })
 
     }
@@ -55,10 +60,12 @@ class TutorialScene extends Phaser.Scene {
     update(delta, time) {
         this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
 
+        text.setText('Bitmap Fonts!\nx: ' + Math.round(this.input.x) + ' y: ' + Math.round(this.input.y));
+
         if (board.y < 380) {
             board.setVelocityY(0);
-            if(count == 0)
-            count++;
+            if (count == 0)
+                count++;
             this.tweens.add({
                 targets: info,
                 duration: 500,
