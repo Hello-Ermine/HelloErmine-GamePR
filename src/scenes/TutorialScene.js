@@ -174,8 +174,9 @@ class TutorialScene extends Phaser.Scene {
                 delay: 500,
                 callback: function () {
                     this.scene.start('TutorialScene02');
-                    // ermineAni.destroy();
-                    // snowmanAni.destroy();
+                    ermineWalkAni.destroy();
+                    ermineScratchAni.destroy();
+                    ermineThrowAni.destroy();
                 },
                 callbackScope: this,
                 loop: false,
@@ -200,8 +201,9 @@ class TutorialScene extends Phaser.Scene {
                 delay: 500,
                 callback: function () {
                     this.scene.start('MainMenu');
-                    // ermineAni.destroy();
-                    // snowmanAni.destroy();
+                    ermineWalkAni.destroy();
+                    ermineScratchAni.destroy();
+                    ermineThrowAni.destroy();
                 },
                 callbackScope: this,
                 loop: false,

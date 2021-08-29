@@ -57,6 +57,7 @@ class MainMenu extends Phaser.Scene {
         this.load.image('snowbig', 'src/image/button/snowbig.png');
         this.load.image('snowsmall', 'src/image/button/snowsmall.png');
         this.load.image('snowsmall', 'src/image/button/back.png');
+        this.load.image('back', 'src/image/button/back.png');
         //Character
         this.load.spritesheet('ermineMenu', 'src/image/Character/ermine/ermineAll.png',
             { frameWidth: 500, frameHeight: 300 });
@@ -393,6 +394,29 @@ class MainMenu extends Phaser.Scene {
                     loop: false,
                 })
             })
+
+            back = this.physics.add.image(this.game.renderer.width / 2, 540, 'back')
+                .setScale(0.5)
+                .setDepth(100)
+                .setInteractive();
+            back.on('pointerover', () => {
+                back.setScale(0.55);
+            })
+            back.on('pointerout', () => {
+                back.setScale(0.5);
+            })
+
+            back.on('pointerup', () => {
+                this.cameras.main.fadeOut(500)
+                this.time.addEvent({
+                    delay: 500,
+                    callback: function () {
+                        location.reload();
+                    },
+                    callbackScope: this,
+                    loop: false,
+                });
+            });
 
         })
         //How to play Button

@@ -10,6 +10,7 @@ let skybox2;
 //Character
 let golem;
 let ermine;
+let ermineThrow;
 
 //Event
 let golemEvent;
@@ -86,6 +87,7 @@ class BossFight extends Phaser.Scene {
         //Character
         this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000 });
         this.load.spritesheet("ermine", "src/image/Character/ermine/ErmineAll.png", { frameWidth: 500, frameHeight: 300, });
+        this.load.spritesheet("ermineThrow", "src/image/Character/ermine/ermine_throw.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
         this.load.spritesheet("snowball", "src/image/Character/snowball.png", { frameWidth: 300, frameHeight: 300, });
 
@@ -194,7 +196,7 @@ class BossFight extends Phaser.Scene {
 
         ermineAniATKGame=this.anims.create({
             key:"ermineAniATKGame",
-            frames: this.anims.generateFrameNumbers("ermine", {
+            frames: this.anims.generateFrameNumbers("ermineThrow", {
                 start: 6,
                 end: 9,
             }),
