@@ -45,6 +45,7 @@ let bulletGroup;
 let countATK = 0;
 let playerHeart;
 let open = 0;
+let rand=5;
 
 //bullet
 let bullet;
@@ -262,6 +263,7 @@ class BossFight extends Phaser.Scene {
                             this.input.keyboard.removeKey(
                                 Phaser.Input.Keyboard.KeyCodes.SPACE
                             );
+                            hpOpen=0;
                         },
                         callbackScope: this,
                         loop: false,
@@ -384,6 +386,7 @@ class BossFight extends Phaser.Scene {
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
                                                         playerHeart=5;
+                                                        hpOpen=0;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -406,7 +409,6 @@ class BossFight extends Phaser.Scene {
                                                         ermine.immortal = false;
                                                         ermine.setVisible(true);
                                                         ermine.flickerTimer.remove();
-
                                                     }
                                                 },
                                                 repeat: 15,
@@ -465,6 +467,7 @@ class BossFight extends Phaser.Scene {
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
                                                         playerHeart=5;
+                                                        hpOpen=0;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -545,6 +548,7 @@ class BossFight extends Phaser.Scene {
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
                                                         playerHeart=5;
+                                                        hpOpen=0;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -625,6 +629,7 @@ class BossFight extends Phaser.Scene {
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
                                                         playerHeart=5;
+                                                        hpOpen=0;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -705,6 +710,7 @@ class BossFight extends Phaser.Scene {
                                                             Phaser.Input.Keyboard.KeyCodes.SPACE
                                                         );
                                                         playerHeart=5;
+                                                        hpOpen=0;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -837,12 +843,10 @@ class BossFight extends Phaser.Scene {
                     bullet.setVelocityX(800);
                     this.physics.add.overlap(bullet,golem,hitGolem,()=>{
                         heavyATK++;
-                        if(heavyATK<=5){
-                        golemHp--;
-                        }
-                        else{
-                            golemHp-=10;
+                        if(heavyATK>=rand){
+                            golemHp-=Phaser.Math.Between(1,3);
                             heavyATK=0;
+                            rand=Phaser.Math.Between(3,6);
                         }
                     });
                     this.physics.add.overlap(bullet, snowball, hitSnowball);
@@ -893,6 +897,7 @@ class BossFight extends Phaser.Scene {
                     golemHp = 1;
                     hpOpen=0;
                     finish=0;
+                    
                 },
                 callbackScope: this,
                 loop: false,
@@ -901,10 +906,10 @@ class BossFight extends Phaser.Scene {
 
         }
 
-        if (hpOpen == 0 && golemHp <= 100) {
+        if (hpOpen == 0 && golemHp <=maxHp) {
             golemHp++;
             open=0;
-            if(golemHp >= 100){
+            if(golemHp >= maxHp){
                 hpOpen = 1;
             }
             
@@ -919,7 +924,7 @@ class BossFight extends Phaser.Scene {
         function hitGolem(bullet, golem) {
             bullet.destroy();
             if (golemHp > 0) {
-                golemHp--;
+                golemHp-=0.5;
             }
             else{
                 golemHp=0;
@@ -928,8 +933,6 @@ class BossFight extends Phaser.Scene {
         function hitSnowball(bullet, golem) {
             bullet.destroy();
         }
-        console.log(open);
-
     }
 }
 
