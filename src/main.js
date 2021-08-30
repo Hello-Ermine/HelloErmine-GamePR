@@ -7,6 +7,9 @@ import LoadingBar from './scenes/LoadingBar';
 import Default from './scenes/Defualt';
 import MainMenu from './scenes/MainMenu';
 import BossFight from './scenes/BossFight';
+import TutorialScene from './scenes/TutorialScene';
+import TutorialScene02 from './scenes/TutorialScene02';
+import CutSceneBossFight from './scenes/CutSceneBossfight';
 
 
 const config = {
@@ -27,9 +30,12 @@ const config = {
     scene: [
         // LoadingBar,
         // MainMenu,
+        // TutorialScene,
+        // TutorialScene02,
         // GameScene,
         // GameOverStory,
         GameOverArcade,
+        // CutSceneBossFight,
         // BossFight,
         // Default
     ],

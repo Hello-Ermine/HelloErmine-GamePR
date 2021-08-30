@@ -50,21 +50,21 @@ class MainMenu extends Phaser.Scene {
         this.load.image('logo', 'src/image/logo/logo.png');
         this.load.image('game', 'src/image/logo/on top logo.png');
         //Button
-        this.load.image('arcade', 'src/image/button/arcade.png');
-        this.load.image('howtoplay', 'src/image/button/tutorial.png');
-        this.load.image('story', 'src/image/button/story.png');
-        this.load.image('play', 'src/image/button/play.png');
+        this.load.image('arcade', 'src/image/button/Arcade.png');
+        this.load.image('howtoplay', 'src/image/button/Tutorial.png');
+        this.load.image('story', 'src/image/button/Story.png');
+        this.load.image('play', 'src/image/button/Play.png');
         this.load.image('snowbig', 'src/image/button/snowbig.png');
         this.load.image('snowsmall', 'src/image/button/snowsmall.png');
         this.load.image('snowsmall', 'src/image/button/back.png');
+        this.load.image('back', 'src/image/button/back.png');
         //Character
         this.load.spritesheet('ermineMenu', 'src/image/Character/ermine/ermineAll.png',
             { frameWidth: 500, frameHeight: 300 });
         this.load.spritesheet('snowmanMenu', 'src/image/Character/Snowman.png',
             { frameWidth: 1000, frameHeight: 1000 });
-        this.load.spritesheet('golemMenu', 'src/image/Character/golem/Golem2_sprite.png', {
-            frameWidth: 1000, frameHeight: 1000
-        });
+        this.load.spritesheet('golemMenu', 'src/image/Character/golem/Golem2_sprite.png',
+            { frameWidth: 1000, frameHeight: 1000 });
     }
 
     create() {
@@ -354,9 +354,9 @@ class MainMenu extends Phaser.Scene {
                 snowsmall1.setScale(1);
             })
             story.on('pointerup', () => {
-                this.cameras.main.fadeOut(1000);
+                this.cameras.main.fadeOut(500);
                 transEvent = this.time.addEvent({
-                    delay: 1000,
+                    delay: 500,
                     callback: function () {
                         this.scene.start('GameScene');
                         this.scene.destroy();
@@ -381,9 +381,9 @@ class MainMenu extends Phaser.Scene {
                 snowsmall2.setScale(1);
             })
             arcade.on('pointerdown', () => {
-                this.cameras.main.fadeOut(1000);
+                this.cameras.main.fadeOut(500);
                 transEvent = this.time.addEvent({
-                    delay: 1000,
+                    delay: 500,
                     callback: function () {
                         this.scene.start('GameScene');
                         this.scene.destroy();
@@ -394,6 +394,29 @@ class MainMenu extends Phaser.Scene {
                     loop: false,
                 })
             })
+
+            back = this.physics.add.image(this.game.renderer.width / 2, 540, 'back')
+                .setScale(0.5)
+                .setDepth(100)
+                .setInteractive();
+            back.on('pointerover', () => {
+                back.setScale(0.55);
+            })
+            back.on('pointerout', () => {
+                back.setScale(0.5);
+            })
+
+            back.on('pointerup', () => {
+                this.cameras.main.fadeOut(500)
+                this.time.addEvent({
+                    delay: 500,
+                    callback: function () {
+                        location.reload();
+                    },
+                    callbackScope: this,
+                    loop: false,
+                });
+            });
 
         })
         //How to play Button
@@ -410,8 +433,19 @@ class MainMenu extends Phaser.Scene {
         tutorial.on('pointerout', () => {
             snowbig.setScale(0.8);
         })
-        tutorial.on('pointerdown', () => {
-            // this.scene.start('GameScene') //รอหน้า Tutorial
+
+        tutorial.on('pointerup', () => {
+            this.cameras.main.fadeOut(500)
+            transEvent = this.time.addEvent({
+                delay: 500,
+                callback: function () {
+                    this.scene.start('TutorialScene');
+                    ermineAni.destroy();
+                    snowmanAni.destroy();
+                },
+                callbackScope: this,
+                loop: false,
+            });
         });
     }
 
