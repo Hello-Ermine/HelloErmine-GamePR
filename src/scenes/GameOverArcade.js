@@ -126,10 +126,10 @@ class GameOverArcade extends Phaser.Scene {
         })
 
         //Score
-        scoreText = this.add.text(720, 250, 'score : 0', { fontFamily: 'slkscr',Silkscreen, fill: '#fff' })
-            .setDepth(10)
-            .setScale(4)
-            .setResolution(1);
+        // scoreText = this.add.text(720, 250, 'score : 0', { fontFamily: 'slkscr',Silkscreen, fill: '#fff' })
+        //     .setDepth(10)
+        //     .setScale(4)
+        //     .setResolution(1);
         
 
 
@@ -141,7 +141,7 @@ class GameOverArcade extends Phaser.Scene {
         //Show X Y
         this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
 
-        scoreText.setText('Score : ' + finalScore);
+        // scoreText.setText('Score : ' + finalScore);
 
         if (treePoster.x < 350) {
             backOver.setVelocityX(0);
