@@ -43,10 +43,11 @@ let heartGroup;
 let bulletGroup;
 
 //Any
-let countATK = 0;
+let countATKGolem = 0;
 let playerHeart;
 let open = 0;
 let rand=5;
+let countATKermine=0;
 
 //bullet
 let bullet;
@@ -337,13 +338,13 @@ class BossFight extends Phaser.Scene {
         golemATKEvent = this.time.addEvent({
             delay: Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]),
             callback: function () {
-                countATK = golemATKEvent.delay / 1000;
+                countATKGolem = golemATKEvent.delay / 1000;
                 golemATKEvent.delay = Phaser.Math.RND.pick([1000, 2000, 3000, 4000, 5000]);
                 if (golem.anims.currentAnim.key === 'golemAni') {
                     golem.anims.play("golemATK", true);
                     golem.setVelocityY(0);
                     //snowball
-                    switch (countATK) {
+                    switch (countATKGolem) {
                         case 1:
                             snowballEvent = this.time.addEvent({
                                 delay: 1000,
@@ -791,7 +792,7 @@ class BossFight extends Phaser.Scene {
 
     update(delta, time) {
         //Show X Y
-        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATK + " | " + golemHp);
+        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATKGolem + " | " + golemHp);
 
         ermine.depth = ermine.y - (ermine.height - 254);
         golem.depth = golem.y + 75;
@@ -838,12 +839,14 @@ class BossFight extends Phaser.Scene {
                     timeSinceLastAttack = delta;
                 }
                 if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
-                    bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
-                        .setScale(0.35);
-                    bullet.depth= bullet.y+100;
-                    bulletGroup.add(bullet);
-                    bullet.setVelocityX(800);
-                    this.physics.add.overlap(bullet,golem,hitGolem,()=>{
+                    countATKermine++;
+                    if(countATKermine<10){
+                        bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
+                            .setScale(0.35);
+                        bullet.depth= bullet.y+100;
+                        bulletGroup.add(bullet);
+                        bullet.setVelocityX(800);
+                        this.physics.add.overlap(bullet,golem,hitGolem,()=>{
                         heavyATK++;
                         if(heavyATK>=rand){
                             golemHp-=Phaser.Math.Between(1,3);
@@ -853,6 +856,18 @@ class BossFight extends Phaser.Scene {
                     });
                     this.physics.add.overlap(bullet, snowball, hitSnowball);
                     timeSinceLastAttackBullet = delta;
+                    }
+                    else if(countATKermine>=10){
+                        this.time.addEvent({
+                            delay: 5000,
+                            callback: function(){
+                                countATKermine=0;
+                            },
+                            callbackScope:this,
+                            loop:false,
+                            paused:false
+                        });
+                    }
                 }
 
             }
