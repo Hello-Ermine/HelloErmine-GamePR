@@ -47,7 +47,7 @@ let countATKGolem = 0;
 let playerHeart;
 let open = 0;
 let rand=5;
-let countATKermine=0;
+let countATKermine=10;
 
 //bullet
 let bullet;
@@ -839,8 +839,8 @@ class BossFight extends Phaser.Scene {
                     timeSinceLastAttack = delta;
                 }
                 if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
-                    countATKermine++;
-                    if(countATKermine<10){
+                    if(countATKermine<=10 && countATKermine>0){
+                        countATKermine--;
                         bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                             .setScale(0.35);
                         bullet.depth= bullet.y+100;
@@ -857,11 +857,11 @@ class BossFight extends Phaser.Scene {
                     this.physics.add.overlap(bullet, snowball, hitSnowball);
                     timeSinceLastAttackBullet = delta;
                     }
-                    else if(countATKermine>=10){
+                    else if(countATKermine==0){
                         this.time.addEvent({
                             delay: 5000,
                             callback: function(){
-                                countATKermine=0;
+                                countATKermine=10;
                             },
                             callbackScope:this,
                             loop:false,
