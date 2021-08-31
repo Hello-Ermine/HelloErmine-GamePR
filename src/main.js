@@ -6,6 +6,9 @@ import LoadingBar from './scenes/LoadingBar';
 import Default from './scenes/Defualt';
 import MainMenu from './scenes/MainMenu';
 import BossFight from './scenes/BossFight';
+import TutorialScene from './scenes/TutorialScene';
+import TutorialScene02 from './scenes/TutorialScene02';
+import CutSceneBossFight from './scenes/CutSceneBossfight';
 
 
 const config = {
@@ -19,16 +22,21 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: 
+                // true,
+                false,
             // gravity: {y:300}
         }
     },
     scene: [
-        // LoadingBar,
-        // MainMenu,
-        // GameScene,
-        // GameOver,
-        BossFight
+        LoadingBar,
+        MainMenu,
+        TutorialScene,
+        TutorialScene02,
+        GameScene,
+        CutSceneBossFight,
+        BossFight,
+        GameOver,
         // Default
     ],
 

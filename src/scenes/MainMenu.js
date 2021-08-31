@@ -32,6 +32,7 @@ let firstEvent;
 let secoundEvent;
 let thirdEvent;
 let fourthEvent;
+let transEvent;
 
 class MainMenu extends Phaser.Scene {
     constructor(test) {
@@ -46,8 +47,8 @@ class MainMenu extends Phaser.Scene {
         this.load.image('midGround', 'src/image/background/MG ermine.png');
         this.load.image('foreGround', 'src/image/background/FG ermine.png');
         //Logo
-        this.load.image('logo', 'src/image/logo.png');
-        this.load.image('game', 'src/image/on top logo.png');
+        this.load.image('logo', 'src/image/logo/logo.png');
+        this.load.image('game', 'src/image/logo/on top logo.png');
         //Button
         this.load.image('arcade', 'src/image/button/Arcade.png');
         this.load.image('howtoplay', 'src/image/button/Tutorial.png');
@@ -56,14 +57,14 @@ class MainMenu extends Phaser.Scene {
         this.load.image('snowbig', 'src/image/button/snowbig.png');
         this.load.image('snowsmall', 'src/image/button/snowsmall.png');
         this.load.image('snowsmall', 'src/image/button/back.png');
+        this.load.image('back', 'src/image/button/back.png');
         //Character
-        this.load.spritesheet('ermineMenu', 'src/image/ermineAll.png',
+        this.load.spritesheet('ermineMenu', 'src/image/Character/ermine/ermineAll.png',
             { frameWidth: 500, frameHeight: 300 });
-        this.load.spritesheet('snowmanMenu', 'src/image/Snowman.png',
+        this.load.spritesheet('snowmanMenu', 'src/image/Character/Snowman.png',
             { frameWidth: 1000, frameHeight: 1000 });
-        this.load.spritesheet('golemMenu', 'src/image/Demo2/Demo2/Golem2_sprite.png', {
-            frameWidth: 1000, frameHeight: 1000
-        });
+        this.load.spritesheet('golemMenu', 'src/image/Character/golem/Golem2_sprite.png',
+            { frameWidth: 1000, frameHeight: 1000 });
     }
 
     create() {
@@ -79,6 +80,9 @@ class MainMenu extends Phaser.Scene {
         this.progress4 = this.add.text(110, 70, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
         this.pointer = this.input.activePointer;
+
+        //fade
+        this.cameras.main.fadeIn(2000);
 
         //create BG
         middleGround = this.add.tileSprite(0, -300, 1280, 720, 'midGround')
@@ -350,10 +354,19 @@ class MainMenu extends Phaser.Scene {
                 snowsmall1.setScale(1);
             })
             story.on('pointerup', () => {
-                this.scene.start('GameScene');
-                this.scene.destroy();
-                ermineAni.destroy();
-                snowmanAni.destroy();
+                this.cameras.main.fadeOut(500);
+                transEvent = this.time.addEvent({
+                    delay: 500,
+                    callback: function () {
+                        this.scene.start('GameScene');
+                        this.scene.destroy();
+                        ermineAni.destroy();
+                        snowmanAni.destroy();
+                    },
+                    callbackScope: this,
+                    loop: false,
+                })
+
             })
             //Arcade Buttlon
             arcade = this.physics.add.image(this.game.renderer.width / 2 + 200, 400, 'arcade')
@@ -368,8 +381,42 @@ class MainMenu extends Phaser.Scene {
                 snowsmall2.setScale(1);
             })
             arcade.on('pointerdown', () => {
-                this.scene.start('GameScene');
+                this.cameras.main.fadeOut(500);
+                transEvent = this.time.addEvent({
+                    delay: 500,
+                    callback: function () {
+                        this.scene.start('GameScene');
+                        this.scene.destroy();
+                        ermineAni.destroy();
+                        snowmanAni.destroy();
+                    },
+                    callbackScope: this,
+                    loop: false,
+                })
             })
+
+            back = this.physics.add.image(this.game.renderer.width / 2, 540, 'back')
+                .setScale(0.5)
+                .setDepth(100)
+                .setInteractive();
+            back.on('pointerover', () => {
+                back.setScale(0.55);
+            })
+            back.on('pointerout', () => {
+                back.setScale(0.5);
+            })
+
+            back.on('pointerup', () => {
+                this.cameras.main.fadeOut(500)
+                this.time.addEvent({
+                    delay: 500,
+                    callback: function () {
+                        location.reload();
+                    },
+                    callbackScope: this,
+                    loop: false,
+                });
+            });
 
         })
         //How to play Button
@@ -386,8 +433,19 @@ class MainMenu extends Phaser.Scene {
         tutorial.on('pointerout', () => {
             snowbig.setScale(0.8);
         })
-        tutorial.on('pointerdown', () => {
-            // this.scene.start('GameScene') //รอหน้า Tutorial
+
+        tutorial.on('pointerup', () => {
+            this.cameras.main.fadeOut(500)
+            transEvent = this.time.addEvent({
+                delay: 500,
+                callback: function () {
+                    this.scene.start('TutorialScene');
+                    ermineAni.destroy();
+                    snowmanAni.destroy();
+                },
+                callbackScope: this,
+                loop: false,
+            });
         });
     }
 

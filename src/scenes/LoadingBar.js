@@ -19,7 +19,7 @@ class LoadingBar extends Phaser.Scene {
         //240,270
         // this.load.image('game','src/image/pause.png');
         for (let i=0;i<500;i++){
-            this.load.image('loader'+i,'src/image/pause.png');
+            this.load.image('loader'+i,'src/image/object/pause.png');
         }
 
         this.load.on('progress',(percent)=>{
@@ -34,7 +34,7 @@ class LoadingBar extends Phaser.Scene {
             // console.log('complete');
             progressBar.destroy();
             progressBox.destroy();
-            this.scene.start('GameScene');
+            this.scene.start('MainMenu');
         });
     }
 }
