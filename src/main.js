@@ -1,7 +1,8 @@
 import 'phaser';
 import Phaser from 'phaser';
 import GameScene from './scenes/GameScene';
-import GameOver from './scenes/GameOver';
+import GameOverStory from './scenes/GameOverStory';
+import GameOverArcade from './scenes/GameOverArcade';
 import LoadingBar from './scenes/LoadingBar';
 import Default from './scenes/Defualt';
 import MainMenu from './scenes/MainMenu';
@@ -22,9 +23,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: 
-                // true,
-                false,
+            debug: false,
             // gravity: {y:300}
         }
     },
@@ -37,6 +36,7 @@ const config = {
         CutSceneBossFight,
         BossFight,
         GameOver,
+        GameOverArcade,
         // Default
     ],
 
