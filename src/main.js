@@ -35,7 +35,7 @@ const config = {
         GameScene,
         CutSceneBossFight,
         BossFight,
-        GameOver,
+        GameOverStory,
         GameOverArcade,
         // Default
     ],
