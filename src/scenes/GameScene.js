@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 import data from "phaser/src/data";
+import { Tween } from "phaser/src/tweens";
 
 //BG
 let foreGround;
@@ -63,7 +64,7 @@ class GameScene extends Phaser.Scene {
 
         //Animation
         this.load.spritesheet("ermine", "src/image/Character/ermine/ermineAll.png", { frameWidth: 500, frameHeight: 300, });
-        this.load.spritesheet("snowball", "src/image/Character/snowball.png", { frameWidth: 300, frameHeight: 300, });
+        this.load.spritesheet("snowball", "src/image/Character/Snowball w_destroyed Sheet.png", { frameWidth: 300, frameHeight: 300, });
         this.load.spritesheet("snowman", "src/image/Character/Snowman.png", { frameWidth: 1000, frameHeight: 1000, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
 
@@ -115,6 +116,7 @@ class GameScene extends Phaser.Scene {
             duration: 450,
             framerate: 60,
             repeat: -1,
+            callbackScope:this,
         });
 
         //Heart
@@ -136,6 +138,7 @@ class GameScene extends Phaser.Scene {
             duration: 450,
             framerate: 10,
             repeat: -1,
+            callbackScope:this,
         });
 
         ermine.anims.play("ermineAni", true);
@@ -165,6 +168,18 @@ class GameScene extends Phaser.Scene {
             duration: 750,
             framerate: 1,
             repeat: -1,
+            callbackScope:this,
+        });
+
+        let snowballAniDestroy=this.anims.create({
+            key: "snowballAniDestroy",
+            frames:this.anims.generateFrameNumbers("snowball",{
+                start: 3,
+                end: 7,
+            }),
+            duration:750,
+            framerate:1,
+            callbackScope:this,
         });
 
         //create snow group for destroy
@@ -181,7 +196,14 @@ class GameScene extends Phaser.Scene {
                 snowGroup.add(snowball);
                 snowball.setVelocityX(Phaser.Math.Between(-800, -1000));
                 snowball.anims.play("snowballAni", true);
-                this.physics.add.overlap(ermine, snowball, () => {
+                this.physics.add.overlap(ermine, snowball,snowballPlay,() => {
+                    if(snowball.anims.currentAnim.key == 'snowballAniDestroy'){
+                        this.tweens.add({
+                            targets: snowball,
+                            alpha:0.1,
+                            duration: 1000
+                        });
+                    }
                     if (ermine.immortal == false) {
                         playerHeart--;
                         if (playerHeart <= 0) {
@@ -197,12 +219,13 @@ class GameScene extends Phaser.Scene {
                             this.time.addEvent({
                                 delay: 5000,
                                 callback: function () {
-                                    this.scene.start("GameOver");
+                                    this.scene.start("GameOverStory");
                                     snowballAni.destroy();
                                     snowmanAni.destroy();
                                     ermineAni.destroy();
                                     ermineAniATK.destroy();
                                     HeartAni.destroy();
+                                    snowballAniDestroy.destroy();
                                     this.input.keyboard.removeKey(
                                         Phaser.Input.Keyboard.KeyCodes.W
                                     );
@@ -266,6 +289,7 @@ class GameScene extends Phaser.Scene {
             duration: 750,
             framerate: 1,
             repeat: -1,
+            callbackScope:this,
         });
 
         //create snowman group for destroy
@@ -301,12 +325,13 @@ class GameScene extends Phaser.Scene {
                                     this.time.addEvent({
                                         delay: 2000,
                                         callback: function () {
-                                            this.scene.start("GameOver");
+                                            this.scene.start("GameOverStory");
                                             snowballAni.destroy();
                                             snowmanAni.destroy();
                                             ermineAni.destroy();
                                             ermineAniATK.destroy();
                                             HeartAni.destroy();
+                                            snowballAniDestroy.destroy();
                                             this.input.keyboard.removeKey(
                                                 Phaser.Input.Keyboard.KeyCodes.W
                                             );
@@ -368,6 +393,10 @@ class GameScene extends Phaser.Scene {
 
         function snowmanDestroy(ermine, snowman) {
             snowman.destroy();
+        }
+
+        function snowballPlay(ermine,snowball){
+            snowball.anims.play("snowballAniDestroy",true);
         }
 
 

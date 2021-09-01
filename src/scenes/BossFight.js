@@ -32,6 +32,7 @@ let snowballAni;
 let ermineAni;
 let ermineAniATKGame;
 let HeartAni;
+let snowballAniDestroy;
 
 //Object
 let snowball;
@@ -90,7 +91,7 @@ class BossFight extends Phaser.Scene {
         this.load.spritesheet("ermine", "src/image/Character/ermine/ErmineAll.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("ermineThrow", "src/image/Character/ermine/ermine_throw.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
-        this.load.spritesheet("snowball", "src/image/Character/snowball.png", { frameWidth: 300, frameHeight: 300, });
+        this.load.spritesheet("snowball", "src/image/Character/Snowball w_destroyed Sheet.png", { frameWidth: 300, frameHeight: 300, });
 
         //Snow shoot
         this.load.image("bullet", "src/image/object/snowShoot.png");
@@ -142,6 +143,17 @@ class BossFight extends Phaser.Scene {
             duration: 750,
             framerate: 1,
             repeat: -1,
+        });
+
+        snowballAniDestroy=this.anims.create({
+            key: "snowballAniDestroy",
+            frames:this.anims.generateFrameNumbers("snowball",{
+                start: 3,
+                end: 7,
+            }),
+            duration:750,
+            framerate:1,
+            callbackScope:this
         });
 
         //Group
@@ -357,7 +369,14 @@ class BossFight extends Phaser.Scene {
                                     snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
-                                    this.physics.add.overlap(ermine, snowball, () => {
+                                    this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
+                                        if(snowball.anims.currentAnim.key == 'snowballAniDestroy'){
+                                            this.tweens.add({
+                                                targets: snowball,
+                                                alpha:0.1,
+                                                duration: 1000
+                                            });
+                                        }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
@@ -368,7 +387,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOver");
+                                                        this.scene.start("GameOverStory");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -438,7 +457,14 @@ class BossFight extends Phaser.Scene {
                                     snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
-                                    this.physics.add.overlap(ermine, snowball, () => {
+                                    this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
+                                        if(snowball.anims.currentAnim.key == 'snowballAniDestroy'){
+                                            this.tweens.add({
+                                                targets: snowball,
+                                                alpha:0.1,
+                                                duration: 1000
+                                            });
+                                        }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
@@ -449,7 +475,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOver");
+                                                        this.scene.start("GameOverStory");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -519,7 +545,14 @@ class BossFight extends Phaser.Scene {
                                     snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
-                                    this.physics.add.overlap(ermine, snowball, () => {
+                                    this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
+                                        if(snowball.anims.currentAnim.key == 'snowballAniDestroy'){
+                                            this.tweens.add({
+                                                targets: snowball,
+                                                alpha:0.1,
+                                                duration: 1000
+                                            });
+                                        }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
@@ -530,7 +563,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOver");
+                                                        this.scene.start("GameOverStory");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -600,7 +633,14 @@ class BossFight extends Phaser.Scene {
                                     snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
-                                    this.physics.add.overlap(ermine, snowball, () => {
+                                    this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
+                                        if(snowball.anims.currentAnim.key == 'snowballAniDestroy'){
+                                            this.tweens.add({
+                                                targets: snowball,
+                                                alpha:0.1,
+                                                duration: 1000
+                                            });
+                                        }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
@@ -611,7 +651,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOver");
+                                                        this.scene.start("GameOverStory");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -681,7 +721,14 @@ class BossFight extends Phaser.Scene {
                                     snowball.setVelocityX(Phaser.Math.Between(-500, -700));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
-                                    this.physics.add.overlap(ermine, snowball, () => {
+                                    this.physics.add.overlap(ermine, snowball,snowballDestroy, () => {
+                                        if(snowball.anims.currentAnim.key == 'snowballAniDestroy'){
+                                            this.tweens.add({
+                                                targets: snowball,
+                                                alpha:0.1,
+                                                duration: 1000
+                                            });
+                                        }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
                                             if (playerHeart <= 0) {
@@ -692,7 +739,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOver");
+                                                        this.scene.start("GameOverStory");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -787,6 +834,9 @@ class BossFight extends Phaser.Scene {
         //Bullet
         bulletGroup = this.add.group();
 
+        function snowballDestroy(ermine,snowball){
+            snowball.anims.play("snowballAniDestroy",true);
+        }
 
     }
 
