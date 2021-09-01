@@ -9,7 +9,7 @@ let skybox2;
 
 //Character
 let golem;
-let ermine;
+let ermineCutScene;
 
 //Event
 let golemEvent;
@@ -46,7 +46,7 @@ class CutSceneBossFight extends Phaser.Scene {
         //Character
         this.load.spritesheet("golem", "src/image/Character/golem/Golem2_sprite.png",
             { frameWidth: 1000, frameHeight: 1000 });
-        this.load.spritesheet("ermine", "src/image/Character/ermine/ermineWithStand.png",
+        this.load.spritesheet("ermineCutScene", "src/image/Character/ermine/ermineWithStand.png",
             { frameWidth: 500, frameHeight: 300 });
         this.load.spritesheet("heart", "src/image/object/heart.png",
             { frameWidth: 64, frameHeight: 66 });
@@ -56,34 +56,28 @@ class CutSceneBossFight extends Phaser.Scene {
 
     create() {
         //Show X Y
-        this.label = this.add
-            .text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
+        this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
         this.pointer = this.input.activePointer;
 
         this.cameras.main.fadeIn(3000);
         //Create Background
-        foreGround = this.add
-            .tileSprite(0, 0, 1600, 720, "foreGround")
+        foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
             .setOrigin(0, 0)
             .setDepth(3000);
-        middleGround = this.add
-            .tileSprite(0, -300, 1280, 720, "middleGround")
+        middleGround = this.add.tileSprite(0, -300, 1280, 720, "middleGround")
             .setOrigin(0, 0)
             .setDepth(1)
             .setScale(1, 1.5);
-        backGround = this.add
-            .tileSprite(0, -150, 1280, 720, "backGround")
+        backGround = this.add.tileSprite(0, -150, 1280, 720, "backGround")
             .setOrigin(0, 0)
             .setDepth(3);
 
-        skybox = this.physics.add
-            .image(0, 0, "skyblock")
+        skybox = this.physics.add.image(0, 0, "skyblock")
             .setScale(5, 0.8)
             .setVisible()
             .setImmovable();
-        skybox2 = this.physics.add
-            .image(925, 215, "skyblock")
+        skybox2 = this.physics.add.image(925, 215, "skyblock")
             .setOrigin(0, 0)
             .setScale(0.65, 0.93)
             .setImmovable()
@@ -91,18 +85,17 @@ class CutSceneBossFight extends Phaser.Scene {
             .setOffset(290, 280);
         //Character
         //ermine
-        ermine = this.physics.add
-            .sprite(-100, 360, "ermine")
+        ermineCutScene = this.physics.add.sprite(-100, 360, "ermineCutScene")
             .setScale(0.5)
             .setSize(250, 80)
             .setOffset(200, 150);
-        this.physics.add.collider(ermine, skybox);
-        this.physics.add.collider(ermine, skybox2);
-        this.physics.add.collider(ermine, backGround);
+        this.physics.add.collider(ermineCutScene, skybox);
+        this.physics.add.collider(ermineCutScene, skybox2);
+        this.physics.add.collider(ermineCutScene, backGround);
         //ermine Aanimation
         ermineAni = this.anims.create({
             key: "ermineAni",
-            frames: this.anims.generateFrameNumbers("ermine", {
+            frames: this.anims.generateFrameNumbers("ermineCutScene", {
                 start: 0,
                 end: 3,
             }),
@@ -110,11 +103,11 @@ class CutSceneBossFight extends Phaser.Scene {
             framerate: 1,
             repeat: -1,
         });
-        ermine.anims.play("ermineAni", true);
+        ermineCutScene.anims.play("ermineAni", true);
 
         ermineAniStand = this.anims.create({
             key: "ermineAniStand",
-            frames: this.anims.generateFrameNumbers("ermine", {
+            frames: this.anims.generateFrameNumbers("ermineCutScene", {
                 start: 10,
                 end: 10,
             }),
@@ -124,12 +117,7 @@ class CutSceneBossFight extends Phaser.Scene {
         });
 
         //Golem
-        golem = this.physics.add
-            .sprite(
-                this.game.renderer.width + 500,
-                this.game.renderer.height / 2 - 100,
-                "golem"
-            )
+        golem = this.physics.add.sprite(this.game.renderer.width + 500, this.game.renderer.height / 2 - 100, "golem")
             .setScale(0.4)
             .setSize(600, 415)
             .setOffset(190, 500)
@@ -182,15 +170,15 @@ class CutSceneBossFight extends Phaser.Scene {
         //Show X Y
         this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")");
 
-        ermine.depth = ermine.y - (ermine.height - 254);
+        ermineCutScene.depth = ermineCutScene.y - (ermineCutScene.height - 254);
         golem.depth = golem.y + 75;
 
-        if (ermine.x < 100) {
-            ermine.setVelocityX(200);
-        } else if (ermine.x >= 200) {
-            ermine.setVelocityX(0);
-            ermine.setCollideWorldBounds(true);
-            ermine.anims.play("ermineAniStand", true);
+        if (ermineCutScene.x < 100) {
+            ermineCutScene.setVelocityX(200);
+        } else if (ermineCutScene.x >= 200) {
+            ermineCutScene.setVelocityX(0);
+            ermineCutScene.setCollideWorldBounds(true);
+            ermineCutScene.anims.play("ermineAniStand", true);
         }
         if (golem.x > 1000) {
             golem.setVelocityX(-100);
