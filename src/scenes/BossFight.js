@@ -826,6 +826,7 @@ class BossFight extends Phaser.Scene {
                     ermine.setVelocityX(0);
                 }
                 if(keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)){
+                    if(countATKermine<=10 && countATKermine>0){
                     ermine.anims.play("ermineAniATKGame", true);
                     this.time.addEvent({
                         delay: 650,
@@ -837,6 +838,10 @@ class BossFight extends Phaser.Scene {
                     });
     
                     timeSinceLastAttack = delta;
+                }
+                    else if(countATKermine==0){
+                        ermine.anims.play("ermineAni", true);
+                    }
                 }
                 if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
                     if(countATKermine<=10 && countATKermine>0){
@@ -891,7 +896,7 @@ class BossFight extends Phaser.Scene {
             this.time.addEvent({
                 delay: 2000,
                 callback: function () {
-                    this.scene.start("GameOver");
+                    this.scene.start("GameOverStory");
                     snowballAni.destroy();
                     ermineAni.destroy();
                     ermineAniATKGame.destroy();
