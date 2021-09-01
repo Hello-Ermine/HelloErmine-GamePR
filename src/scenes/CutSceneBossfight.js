@@ -32,8 +32,8 @@ class CutSceneBossFight extends Phaser.Scene {
             key: "CutSceneBossFight",
         });
     }
-    init(data){
-              playerHeart=data.playerHeart;
+    init(data) {
+        playerHeart = data.playerHeart;
     }
 
     preload() {
@@ -44,24 +44,14 @@ class CutSceneBossFight extends Phaser.Scene {
         this.load.image("skyblock", "src/image/background/SkyBlock.png");
 
         //Character
-        this.load.spritesheet(
-            "golem",
-            "src/image/Character/golem/Golem2_sprite.png",
-            { frameWidth: 1000, frameHeight: 1000 }
-        );
-        this.load.spritesheet(
-            "ermine",
-            "src/image/Character/ermine/ErmineAll.png",
-            { frameWidth: 500, frameHeight: 300 }
-        );
-        this.load.spritesheet("heart", "src/image/object/heart.png", {
-            frameWidth: 64,
-            frameHeight: 66,
-        });
-        this.load.spritesheet("snowball", "src/image/Character/snowball.png", {
-            frameWidth: 300,
-            frameHeight: 300,
-        });
+        this.load.spritesheet("golem", "src/image/Character/golem/Golem2_sprite.png",
+            { frameWidth: 1000, frameHeight: 1000 });
+        this.load.spritesheet("ermine", "src/image/Character/ermine/ermineWithStand.png",
+            { frameWidth: 500, frameHeight: 300 });
+        this.load.spritesheet("heart", "src/image/object/heart.png",
+            { frameWidth: 64, frameHeight: 66 });
+        this.load.spritesheet("snowball", "src/image/Character/snowball.png",
+            { frameWidth: 300, frameHeight: 300 });
     }
 
     create() {
@@ -125,8 +115,8 @@ class CutSceneBossFight extends Phaser.Scene {
         ermineAniStand = this.anims.create({
             key: "ermineAniStand",
             frames: this.anims.generateFrameNumbers("ermine", {
-                start: 0,
-                end: 0,
+                start: 10,
+                end: 10,
             }),
             duration: 750,
             framerate: 1,
@@ -163,7 +153,7 @@ class CutSceneBossFight extends Phaser.Scene {
         changeScene = this.time.addEvent({
             delay: 1000,
             callback: function () {
-                this.scene.start("BossFight",{playerHeart:playerHeart});
+                this.scene.start("BossFight", { playerHeart: playerHeart });
                 ermineAni.destroy();
                 ermineAniStand.destroy();
                 golemAni.destroy();
