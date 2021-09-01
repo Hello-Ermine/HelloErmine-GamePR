@@ -35,7 +35,7 @@ let keyAtk;
 //Any 
 let countDestroy = 0;
 let fade = 0;
-let l=0;
+let speedforchange=0;
 let cutScene=0;
 
 //cooldown
@@ -219,7 +219,7 @@ class GameScene extends Phaser.Scene {
                                         Phaser.Input.Keyboard.KeyCodes.SPACE
                                     );
                                     playerHeart = 5;
-                                    l=0;
+                                    speedforchange=0;
                                     countDestroy=0;
                                 },
                                 callbackScope: this,
@@ -323,7 +323,7 @@ class GameScene extends Phaser.Scene {
                                                 Phaser.Input.Keyboard.KeyCodes.SPACE
                                             );
                                             playerHeart = 5;
-                                            l=0;
+                                            speedforchange=0;
                                             countDestroy=0;
                                         },
                                         callbackScope: this,
@@ -398,7 +398,7 @@ class GameScene extends Phaser.Scene {
                 HeartAni.destroy();
                 countDestroy=0;
                 fade=0;
-                l=0;
+                speedforchange=0;
             },
             callbackScope: this,
             paused: true,
@@ -406,7 +406,7 @@ class GameScene extends Phaser.Scene {
         });
 
         fadeChange=this.time.addEvent({
-            delay: 10000,
+            delay: 60000,
             callback: function () {
                 ermine.immortal = true;
                 ermine.setCollideWorldBounds(false);
@@ -470,9 +470,9 @@ class GameScene extends Phaser.Scene {
 
                 timeSinceLastAttack = delta;
             }
-            l+=1;
-            console.log(l);
-            if(l>8600){
+            speedforchange+=1;
+            console.log(speedforchange);
+            if(speedforchange>8600){
                 ermine.setVelocityX(500);
             }
         }
