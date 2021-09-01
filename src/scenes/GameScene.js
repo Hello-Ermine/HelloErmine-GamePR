@@ -452,7 +452,7 @@ class GameScene extends Phaser.Scene {
                 ermine.setVelocityX(300);
             } else {
                 ermine.setVelocityX(0);
-            }                     //10           10        +        5   =    15
+            }                     
             if (keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)) {
 
                 ermine.anims.play("ermineAniATK", true);
@@ -471,7 +471,6 @@ class GameScene extends Phaser.Scene {
                 timeSinceLastAttack = delta;
             }
             speedforchange+=1;
-            console.log(speedforchange);
             if(speedforchange>8600){
                 ermine.setVelocityX(500);
             }
