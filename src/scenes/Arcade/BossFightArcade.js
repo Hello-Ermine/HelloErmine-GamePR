@@ -69,10 +69,10 @@ let hpOpen = 0;
 let DELAY = 1000;
 let timeSinceLastAttack= 0;
 
-class BossFight extends Phaser.Scene {
+class BossFightArcade extends Phaser.Scene {
     constructor(test) {
         super({
-            key: 'BossFight'
+            key: 'BossFightArcade'
         });
     }
     init(data){
@@ -387,7 +387,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOverStory");
+                                                        this.scene.start("GameOverArcade");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -475,7 +475,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOverStory");
+                                                        this.scene.start("GameOverArcade");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -563,7 +563,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOverStory");
+                                                        this.scene.start("GameOverArcade");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -651,7 +651,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOverStory");
+                                                        this.scene.start("GameOverArcade");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -739,7 +739,7 @@ class BossFight extends Phaser.Scene {
                                                 this.time.addEvent({
                                                     delay: 2000,
                                                     callback: function () {
-                                                        this.scene.start("GameOverStory");
+                                                        this.scene.start("GameOverArcade");
                                                         snowballAni.destroy();
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
@@ -946,7 +946,7 @@ class BossFight extends Phaser.Scene {
             this.time.addEvent({
                 delay: 2000,
                 callback: function () {
-                    this.scene.start("GameOverStory");
+                    this.scene.start("Arcade");
                     snowballAni.destroy();
                     ermineAni.destroy();
                     ermineAniATKGame.destroy();
@@ -996,7 +996,7 @@ class BossFight extends Phaser.Scene {
         function hitGolem(bullet, golem) {
             bullet.destroy();
             if (golemHp > 0) {
-                golemHp-=0.5;
+                golemHp-=10;
             }
             else{
                 golemHp=0;
@@ -1008,4 +1008,4 @@ class BossFight extends Phaser.Scene {
     }
 }
 
-export default BossFight;
+export default BossFightArcade;

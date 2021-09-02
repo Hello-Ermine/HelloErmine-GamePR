@@ -10,6 +10,8 @@ import BossFight from './scenes/Story/BossFight';
 import TutorialScene from './scenes/MainMenu/TutorialScene';
 import TutorialScene02 from './scenes/MainMenu/TutorialScene02';
 import CutSceneBossFight from './scenes/Story/CutSceneBossfight';
+import Arcade from './scenes/Arcade/Arcade';
+import BossFightArcade from './scenes/Arcade/BossFightArcade';
 
 
 const config = {
@@ -28,14 +30,18 @@ const config = {
         }
     },
     scene: [
-        LoadingBar,
-        MainMenu,
-        TutorialScene,
-        TutorialScene02,
-        GameScene,
-        CutSceneBossFight,
-        BossFight,
-        GameOverStory,
+        Arcade,
+        // LoadingBar,
+        // MainMenu,
+        // TutorialScene,
+        // TutorialScene02,
+        //Story
+        // GameScene,
+        // CutSceneBossFight,
+        // BossFight,
+        // GameOverStory,
+        //Arcade
+        BossFightArcade,
         GameOverArcade,
         // Default
     ],

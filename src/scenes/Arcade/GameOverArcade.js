@@ -65,7 +65,7 @@ class GameOverArcade extends Phaser.Scene {
 
         console.log(scoreFinal);
 
-        this.cameras.main.fadeIn(2000);
+        this.cameras.main.fadeIn(1000);
 
         backOver = this.physics.add.image(0, 0, 'backOver')
             .setOrigin(0, 0)
