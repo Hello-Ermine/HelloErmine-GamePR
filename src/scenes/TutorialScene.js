@@ -144,17 +144,17 @@ class TutorialScene extends Phaser.Scene {
             startAt: -500
         });
 
-        BgToturial.on('pointerup', () => {
-            this.cameras.main.fadeOut(500);
-            tutorialEvent = this.time.addEvent({
-                delay: 500,
-                callback: function () {
-                    this.scene.start('MainMenu');
-                },
-                callbackScope: this,
-                loop: false,
-            })
-        });
+//         BgToturial.on('pointerup', () => {
+//             this.cameras.main.fadeOut(500);
+//             tutorialEvent = this.time.addEvent({
+//                 delay: 500,
+//                 callback: function () {
+//                     this.scene.start('MainMenu');
+//                 },
+//                 callbackScope: this,
+//                 loop: false,
+//             })
+//         });
 
         nextTutorial = this.physics.add.image(1180, 670, 'nextTutorial')
             .setScale(0.5)
