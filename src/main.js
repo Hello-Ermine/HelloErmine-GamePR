@@ -37,7 +37,7 @@ const config = {
         BossFight,
         GameOverStory,
         GameOverArcade,
-        // Default
+        Default
     ],
 
 };

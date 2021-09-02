@@ -5,7 +5,7 @@ name: Development CI
 
 on:
   push:
-    branches: [ Develop ]
+    branches: [ testinfra ]
     
 jobs:
   build:
