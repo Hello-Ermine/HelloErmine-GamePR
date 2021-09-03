@@ -31,7 +31,7 @@ class TutorialScene extends Phaser.Scene {
         this.load.image('board', 'src/image/tutorialScene/board.png');
 
         //font
-        this.load.bitmapFont('ZFT', 'src/fonts/ZFT_3/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
+        this.load.bitmapFont('ZFT', 'src/image/object/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
 
         //object
         this.load.image('info', 'src/image/tutorialScene/Info01.png');
