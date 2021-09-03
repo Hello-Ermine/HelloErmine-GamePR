@@ -30,17 +30,15 @@ const config = {
         }
     },
     scene: [
+        LoadingBar,
+        MainMenu,
+        TutorialScene,
+        TutorialScene02,
+        GameScene,
+        CutSceneBossFight,
+        BossFight,
+        GameOverStory,
         Arcade,
-        // LoadingBar,
-        // MainMenu,
-        // TutorialScene,
-        // TutorialScene02,
-        //Story
-        // GameScene,
-        // CutSceneBossFight,
-        // BossFight,
-        // GameOverStory,
-        //Arcade
         BossFightArcade,
         GameOverArcade,
         // Default
