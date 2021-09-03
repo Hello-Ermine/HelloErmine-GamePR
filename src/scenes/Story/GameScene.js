@@ -436,7 +436,7 @@ class GameScene extends Phaser.Scene {
         });
 
         fadeChange = this.time.addEvent({
-            delay: 1000,
+            delay: 60000,
             callback: function () {
                 ermine.immortal = true;
                 ermine.setCollideWorldBounds(false);
