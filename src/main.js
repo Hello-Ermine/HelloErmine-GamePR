@@ -26,22 +26,22 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
             // gravity: {y:300}
         }
     },
     scene: [
-        LoadingBar,
-        MainMenu,
-        TutorialScene,
-        TutorialScene02,
+        // LoadingBar,
+        // MainMenu,
+        // TutorialScene,
+        // TutorialScene02,
         GameScene,
         CutSceneBossFight,
         BossFight,
-        GameOverStory,
-        Arcade,
-        BossFightArcade,
-        GameOverArcade,
+        // GameOverStory,
+        // Arcade,
+        // BossFightArcade,
+        // GameOverArcade,
         WinScene,
         // Default
     ],
