@@ -10,21 +10,31 @@ let skybox2;
 //Character
 let golem;
 let ermineCutScene;
+let snowRoll;
 
 //Event
 let golemEvent;
 let changeScene;
 let fadeChange;
+let snowRollEvent;
 
 //Animation
 let golemAni;
 let ermineAni;
 let ermineAniStand;
+let golemStandAni;
+let golemAtkAni;
+let snowRollAni;
 
 //Heart
 let playerHeart;
 //Any
 let fade = 0;
+let question1;
+let question2;
+let question3;
+let stand = 0;
+let snowRollGroup;
 
 class CutSceneBossFight extends Phaser.Scene {
     constructor(test) {
@@ -52,6 +62,11 @@ class CutSceneBossFight extends Phaser.Scene {
             { frameWidth: 64, frameHeight: 66 });
         this.load.spritesheet("snowball", "src/image/Character/snowball.png",
             { frameWidth: 300, frameHeight: 300 });
+        this.load.spritesheet("snowRoll", "src/image/Character/Snowball w_destroyed Sheet.png",
+            { frameWidth: 300, frameHeight: 300, });
+
+        //Obj
+        this.load.image("question", "src/image/object/question.png");
     }
 
     create() {
@@ -60,7 +75,8 @@ class CutSceneBossFight extends Phaser.Scene {
             .setDepth(100);
         this.pointer = this.input.activePointer;
 
-        this.cameras.main.fadeIn(3000);
+        this.cameras.main.fadeIn(1500);
+
         //Create Background
         foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
             .setOrigin(0, 0)
@@ -73,25 +89,18 @@ class CutSceneBossFight extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(3);
 
-        skybox = this.physics.add.image(0, 0, "skyblock")
-            .setScale(5, 0.8)
-            .setVisible()
-            .setImmovable();
-        skybox2 = this.physics.add.image(925, 215, "skyblock")
-            .setOrigin(0, 0)
-            .setScale(0.65, 0.93)
-            .setImmovable()
-            .setVisible(0)
-            .setOffset(290, 280);
+
+
         //Character
         //ermine
-        ermineCutScene = this.physics.add.sprite(-100, 360, "ermineCutScene")
-            .setScale(0.5)
-            .setSize(250, 80)
-            .setOffset(200, 150);
+        ermineCutScene = this.physics.add.sprite(-100, this.game.renderer.height / 2 + 50, "ermineCutScene")
+            .setScale(0.4)
+            .setDepth(5)
+            .setVelocityX(250);
         this.physics.add.collider(ermineCutScene, skybox);
         this.physics.add.collider(ermineCutScene, skybox2);
         this.physics.add.collider(ermineCutScene, backGround);
+
         //ermine Aanimation
         ermineAni = this.anims.create({
             key: "ermineAni",
@@ -116,12 +125,27 @@ class CutSceneBossFight extends Phaser.Scene {
             repeat: -1,
         });
 
+        //ermine walk
+        this.time.addEvent({
+            delay: 1000,
+            callback: function () {
+                this.tweens.add({
+                    targets: ermineCutScene,
+                    duration: 1400,
+                    x: 350,
+                    y: (this.game.renderer.height / 2) + 50,
+                });
+            },
+            callbackScope: this,
+            loop: false,
+        });
+
         //Golem
-        golem = this.physics.add.sprite(this.game.renderer.width + 500, this.game.renderer.height / 2 - 100, "golem")
+        golem = this.physics.add.sprite(this.game.renderer.width + 500, this.game.renderer.height / 2 - 50, "golem")
             .setScale(0.4)
-            .setSize(600, 415)
-            .setOffset(190, 500)
-            .setImmovable(1);
+            .setSize(750, 750)
+            .setOffset(200, 150)
+            .setDepth(5);
 
         //golem Animation
         //Walk
@@ -138,6 +162,18 @@ class CutSceneBossFight extends Phaser.Scene {
         });
         golem.anims.play("golemAni", true);
 
+        golemAtkAni = this.anims.create({
+            key: "golemAtkAni",
+            frames: this.anims.generateFrameNumbers("golem", {
+                start: 4,
+                end: 8,
+            }),
+            duration: 500,
+            framerate: 1,
+            repeat: -1,
+            callbackScope: this,
+        });
+
         changeScene = this.time.addEvent({
             delay: 1000,
             callback: function () {
@@ -145,6 +181,8 @@ class CutSceneBossFight extends Phaser.Scene {
                 ermineAni.destroy();
                 ermineAniStand.destroy();
                 golemAni.destroy();
+                golemAtkAni.destroy();
+                snowRollEvent.destroy();
                 fade = 0;
             },
             callbackScope: this,
@@ -153,10 +191,10 @@ class CutSceneBossFight extends Phaser.Scene {
         });
 
         fadeChange = this.time.addEvent({
-            delay: 1000,
+            delay: 3000,
             callback: function () {
                 if (fade == 0) {
-                    this.cameras.main.fadeOut(2000);
+                    this.cameras.main.fadeOut(1000);
                     fade++;
                 }
                 changeScene.paused = false;
@@ -164,27 +202,133 @@ class CutSceneBossFight extends Phaser.Scene {
             callbackScope: this,
             paused: true,
         });
+
+        snowRollAni = this.anims.create({
+            key: "snowRollAni",
+            frames: this.anims.generateFrameNumbers("snowRoll", {
+                start: 0,
+                end: 2,
+            }),
+            duration: 750,
+            framerate: 1,
+            repeat: -1,
+            callbackScope: this,
+        });
+
+        snowRollGroup = this.physics.add.group();
+
+        this.time.addEvent({
+            delay: 8000,
+            callback: function () {
+                snowRollEvent = this.time.addEvent({
+                    delay: Phaser.Math.Between(300, 700),
+                    callback: function () {
+                        snowRoll = this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowRoll")
+                            .setScale(0.65);
+                        snowRollGroup.add(snowRoll);
+                        snowRoll.setVelocityX(Phaser.Math.Between(-100, -300));
+                        snowRoll.anims.play("snowRollAni", true);
+                        snowRoll.depth = snowRoll.y;
+                    },
+                    callbackScope: this,
+                    loop: true,
+                    paused: false,
+                });
+            },
+            callbackScope: this,
+            loop: false,
+        });
+
+
     }
 
     update(delta, time) {
         //Show X Y
         this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")");
 
-        ermineCutScene.depth = ermineCutScene.y - (ermineCutScene.height - 254);
+        // ermineCutScene.depth = ermineCutScene.y - (ermineCutScene.height - 254);
         golem.depth = golem.y + 75;
 
-        if (ermineCutScene.x < 100) {
-            ermineCutScene.setVelocityX(200);
-        } else if (ermineCutScene.x >= 200) {
-            ermineCutScene.setVelocityX(0);
-            ermineCutScene.setCollideWorldBounds(true);
+        if (ermineCutScene.x > 350) {
             ermineCutScene.anims.play("ermineAniStand", true);
+            ermineCutScene.setVelocityX(0);
+            this.time.addEvent({
+                delay: 500,
+                callback: function () {
+                    question1 = this.physics.add.sprite(375, this.game.renderer.height / 2, "question")
+                        .setScale(0.06)
+                        .setDepth(3);
+                    question1.alpha = 1;
+                    question1.rotation = -0.5;
+                },
+                callbackScope: this,
+                loop: false,
+            });
+            this.time.addEvent({
+                delay: 850,
+                callback: function () {
+                    question2 = this.physics.add.sprite(400, this.game.renderer.height / 2 - 5, "question")
+                        .setScale(0.09)
+                        .setDepth(3);
+                    question2.alpha = 1;
+                },
+                callbackScope: this,
+                loop: false,
+            });
+            this.time.addEvent({
+                delay: 1150,
+                callback: function () {
+                    question3 = this.physics.add.sprite(425, this.game.renderer.height / 2, "question")
+                        .setScale(0.06)
+                        .setDepth(3);
+                    question3.alpha = 1;
+                    question3.rotation = 0.5;
+                },
+                callbackScope: this,
+                loop: false,
+            });
+            this.time.addEvent({
+                delay: 1500,
+                callback: function () {
+                    this.tweens.add({
+                        targets: question1,
+                        duration: 500,
+                        alpha: 0,
+                    });
+                    this.tweens.add({
+                        targets: question2,
+                        duration: 500,
+                        alpha: 0,
+                    });
+                    this.tweens.add({
+                        targets: question3,
+                        duration: 500,
+                        alpha: 0,
+                    });
+                },
+                callbackScope: this,
+                loop: false,
+            });
         }
+
+        // this.tweens.add({
+        //     targets: ermineCutScene,
+        //     duration: 1000,
+        // });
+
         if (golem.x > 1000) {
             golem.setVelocityX(-100);
         } else if (golem.x <= 1000) {
             golem.setVelocityX(0);
-            golem.anims.stop();
+            this.time.addEvent({
+                delay: 500,
+                callback: function () {
+                    golem.anims.play("golemAtkAni", true);
+                },
+                callbackScope: this,
+                loop: true,
+            });
+
             fadeChange.paused = false;
         }
     }
