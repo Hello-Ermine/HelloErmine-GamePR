@@ -10,7 +10,7 @@ import BossFight from './scenes/BossFight';
 import TutorialScene from './scenes/TutorialScene';
 import TutorialScene02 from './scenes/TutorialScene02';
 import CutSceneBossFight from './scenes/CutSceneBossfight';
-
+import WinScene from './scenes/WinScene';
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -37,7 +37,8 @@ const config = {
         BossFight,
         GameOverStory,
         GameOverArcade,
-        Default
+        WinScene,
+        // Default
     ],
 
 };

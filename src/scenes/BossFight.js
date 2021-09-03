@@ -946,7 +946,7 @@ class BossFight extends Phaser.Scene {
             this.time.addEvent({
                 delay: 2000,
                 callback: function () {
-                    this.scene.start("GameOverStory");
+                    this.scene.start("WinScene");
                     snowballAni.destroy();
                     ermineAni.destroy();
                     ermineAniATKGame.destroy();
