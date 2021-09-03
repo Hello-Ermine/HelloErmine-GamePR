@@ -13,15 +13,18 @@ let transEvent;
 let paper;
 
 //score
-let scoreFinal;
+let score;
 let scorePlay;
 //time
 let timeFinal;
 let timePlay;
 //rank
-let rank;
+let rank=[5];
 let rankCrate = 0;
 let rankVelo = 100;
+
+//Any
+let i=0;
 
 class GameOverArcade extends Phaser.Scene {
     constructor(test) {
@@ -30,7 +33,7 @@ class GameOverArcade extends Phaser.Scene {
         });
     }
     init(data) {
-        scoreFinal = data.score;
+        score = data.score;
     }
 
     preload() {
@@ -62,8 +65,6 @@ class GameOverArcade extends Phaser.Scene {
         this.label = this.add.text(0, 0, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
         this.pointer = this.input.activePointer;
-
-        console.log(scoreFinal);
 
         this.cameras.main.fadeIn(1000);
 
@@ -104,7 +105,7 @@ class GameOverArcade extends Phaser.Scene {
             transEvent = this.time.addEvent({
                 delay: 1000,
                 callback: function () {
-                    this.scene.start('GameScene');
+                    this.scene.start('Arcade',{score:0});
                 },
                 callbackScope: this,
                 loop: false,
@@ -138,7 +139,11 @@ class GameOverArcade extends Phaser.Scene {
                 loop: false,
             })
 
-        })
+        });
+
+        if(rankCrate==1){
+            rankCrate=0;
+        }
 
         scorePlay = this.add.dynamicBitmapText(760, 455, 'ZFT', 'Score : 0', 50)
             .setDepth(1000)
@@ -166,46 +171,51 @@ class GameOverArcade extends Phaser.Scene {
         //Show X Y
         this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
 
-        scorePlay.setText('Score : ' + scoreFinal);
+        scorePlay.setText('Score : ' + score);
         timePlay.setText('Time : ' + timeFinal);
 
 
-        scoreFinal = 500;
+        // score = 500;
         if (rankCrate == 0) {
-            if (scoreFinal >= 1000) {
-                rank = this.physics.add.image(940, 340, 'rankS')
+            if (score >= 1000) {
+                i=0;
+                rank[0] = this.physics.add.image(940, 340, 'rankS')
                     .setScale(1.2)
                     .setDepth(1);
-                rank.alpha = 0;
-            } else if (scoreFinal >= 750) {
-                rank = this.physics.add.image(940, 340, 'rankA')
+                rank[0].alpha = 0;
+            } else if (score >= 750) {
+                i=1;
+                rank[1] = this.physics.add.image(940, 340, 'rankA')
                     .setScale(1.2)
                     .setDepth(1);
-                rank.alpha = 0;
-            } else if (scoreFinal >= 500) {
-                rank = this.physics.add.image(940, 340, 'rankB')
+                rank[1].alpha = 0;
+            } else if (score >= 500) {
+                i=2;
+                rank[2] = this.physics.add.image(940, 340, 'rankB')
                     .setScale(1.2)
                     .setDepth(1);
-                rank.alpha = 0;
-            } else if (scoreFinal >= 250) {
-                rank = this.physics.add.image(940, 340, 'rankC')
+                rank[2].alpha = 0;
+            } else if (score >= 250) {
+                i=3;
+                rank[3] = this.physics.add.image(940, 340, 'rankC')
                     .setScale(1.2)
                     .setDepth(1);
-                rank.alpha = 0;
-            } else if (scoreFinal >= 0) {
-                rank = this.physics.add.image(940, 340, 'rankD')
+                rank[3].alpha = 0;
+            } else if (score >= 0) {
+                i=4;
+                rank[4] = this.physics.add.image(940, 340, 'rankD')
                     .setScale(1.2)
                     .setDepth(1);
-                rank.alpha = 0;
+                rank[4].alpha = 0;
             }
             rankCrate = 1;
-            rank.setVelocityY(rankVelo);
+            rank[i].setVelocityY(rankVelo);
         }
 
-        if( rank.y > 350){
-            rank.setVelocityY(rankVelo-=5);
-        }else if( rank.y < 330){
-            rank.setVelocityY(rankVelo+=5);
+        if( rank[i].y > 350){
+            rank[i].setVelocityY(rankVelo-=5);
+        }else if( rank[i].y < 330){
+            rank[i].setVelocityY(rankVelo+=5);
         }
 
 

@@ -36,8 +36,9 @@ let keyAtk;
 let countDestroy = 0;
 let fade = 0;
 let speedforchange = 0;
+let speedscore=0;
 let score = 0;
-
+let snowballspeed = -1500
 //cooldown
 let DELAY = 1000;
 let timeSinceLastAttack = 0;
@@ -51,6 +52,12 @@ class Arcade extends Phaser.Scene {
     }
     init(data) {
         playerHeart = 5;
+        if(data.score>0){
+            score+=data.score;
+        }
+        else{
+            score=0;
+        }
     }
 
     preload() {
@@ -161,7 +168,7 @@ class Arcade extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = true;
+        ermine.immortal = false;
 
         //ermineATK
         let ermineAniATK = this.anims.create({
@@ -217,7 +224,7 @@ class Arcade extends Phaser.Scene {
                     .setSize(230, 60)
                     .setOffset(30, 220);
                 snowGroup.add(snowball);
-                snowball.setVelocityX(-700);
+                snowball.setVelocityX(snowballspeed);
                 snowball.anims.play("snowballAni", true);
                 this.physics.add.overlap(ermine, snowball, snowballPlay, () => {
                     if (
@@ -244,7 +251,7 @@ class Arcade extends Phaser.Scene {
                             this.time.addEvent({
                                 delay: 5000,
                                 callback: function () {
-                                    this.scene.start("GameOverArcade");
+                                    this.scene.start("GameOverArcade",{score:score});
                                     snowballAni.destroy();
                                     snowmanAni.destroy();
                                     ermineAni.destroy();
@@ -359,7 +366,7 @@ class Arcade extends Phaser.Scene {
                                     this.time.addEvent({
                                         delay: 2000,
                                         callback: function () {
-                                            this.scene.start("GameOverArcade");
+                                            this.scene.start("GameOverArcade",{score:score});
                                             snowballAni.destroy();
                                             snowmanAni.destroy();
                                             ermineAni.destroy();
@@ -425,7 +432,7 @@ class Arcade extends Phaser.Scene {
                         } else if (scratch == 1) {
                             if (ermine.anims.currentAnim.key == "ermineAniATK") {
                                 countDestroy++;
-                                score += 100;
+                                score += 10;
                             }
                         }
                     }
@@ -457,12 +464,14 @@ class Arcade extends Phaser.Scene {
         changeScene = this.time.addEvent({
             delay: 2000,
             callback: function () {
-                this.scene.start("BossFightArcade", { playerHeart: playerHeart });
+                ermine.setVelocity(0);
+                this.scene.start("BossFightArcade", { playerHeart: playerHeart,score:score});
                 snowballAni.destroy();
                 snowmanAni.destroy();
                 ermineAni.destroy();
                 ermineAniATK.destroy();
                 HeartAni.destroy();
+                snowballAniDestroy.destroy();
                 countDestroy = 0;
                 fade = 0;
                 speedforchange = 0;
@@ -547,9 +556,14 @@ class Arcade extends Phaser.Scene {
                 timeSinceLastAttack = delta;
             }
             speedforchange += 1;
-            // if (speedforchange > 8600) {
-            //     ermine.setVelocityX(500);
-            // }
+            if (speedforchange > 8600) {
+                ermine.setVelocityX(500);
+            }
+            speedscore+=1;
+            if(speedscore>=500){
+                score+=10;
+                speedscore=0;
+            }
         } else if (playerHeart == 0) {
             ermine.setVelocityY(0);
             ermine.setVelocityX(-100);
