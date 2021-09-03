@@ -33,6 +33,7 @@ let ermineAni;
 let ermineAniATKGame;
 let HeartAni;
 let snowballAniDestroy;
+let ermineAniStandTest;
 
 //Object
 let snowball;
@@ -88,7 +89,7 @@ class BossFight extends Phaser.Scene {
 
         //Character
         this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000 });
-        this.load.spritesheet("ermine", "src/image/Character/ermine/ErmineAll.png", { frameWidth: 500, frameHeight: 300, });
+        this.load.spritesheet("ermine", "src/image/Character/ermine/ermineWithStand.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("ermineThrow", "src/image/Character/ermine/ermine_throw.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
         this.load.spritesheet("snowball", "src/image/Character/Snowball w_destroyed Sheet.png", { frameWidth: 300, frameHeight: 300, });
@@ -202,6 +203,11 @@ class BossFight extends Phaser.Scene {
             duration: 750,
             framerate: 1,
             repeat: -1,
+        });
+        ermineAniStandTest = this.anims.create({
+            key: "ermineAniStandTest",
+            frames: [{key: "ermine",frame:10}],
+            callbackScope:this
         });
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(false);
@@ -873,6 +879,7 @@ class BossFight extends Phaser.Scene {
                 } else if (keyD.isDown) {
                     ermine.setVelocityX(300);
                 } else {
+                    // ermine.anims.play("ermineAniStandTest");
                     ermine.setVelocityX(0);
                 }
                 if(keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)){
@@ -935,6 +942,7 @@ class BossFight extends Phaser.Scene {
             else if (ermine.x >= 200 && playerHeart > 0) {
                 ermine.setVelocityX(0);
                 ermine.setCollideWorldBounds(true);
+                // ermine.anims.play("ermineAniStandTest");
                 open = 1;
             }
         }
