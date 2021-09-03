@@ -1,16 +1,19 @@
 import 'phaser';
 import Phaser from 'phaser';
-import GameScene from './scenes/GameScene';
-import GameOverStory from './scenes/GameOverStory';
-import GameOverArcade from './scenes/GameOverArcade';
-import LoadingBar from './scenes/LoadingBar';
+import GameScene from './scenes/Story/GameScene';
+import GameOverStory from './scenes/Story/GameOverStory';
+import GameOverArcade from './scenes/Arcade/GameOverArcade';
+import LoadingBar from './scenes/MainMenu/LoadingBar';
 import Default from './scenes/Defualt';
-import MainMenu from './scenes/MainMenu';
-import BossFight from './scenes/BossFight';
-import TutorialScene from './scenes/TutorialScene';
-import TutorialScene02 from './scenes/TutorialScene02';
-import CutSceneBossFight from './scenes/CutSceneBossfight';
+import MainMenu from './scenes/MainMenu/MainMenu';
+import BossFight from './scenes/Story/BossFight';
+import TutorialScene from './scenes/MainMenu/TutorialScene';
+import TutorialScene02 from './scenes/MainMenu/TutorialScene02';
+import CutSceneBossFight from './scenes/Story/CutSceneBossfight';
+import Arcade from './scenes/Arcade/Arcade';
+import BossFightArcade from './scenes/Arcade/BossFightArcade';
 import WinScene from './scenes/WinScene';
+
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -23,7 +26,7 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false,
+            debug: true,
             // gravity: {y:300}
         }
     },
@@ -36,6 +39,8 @@ const config = {
         CutSceneBossFight,
         BossFight,
         GameOverStory,
+        Arcade,
+        BossFightArcade,
         GameOverArcade,
         WinScene,
         // Default
