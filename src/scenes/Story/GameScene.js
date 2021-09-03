@@ -425,6 +425,7 @@ class GameScene extends Phaser.Scene {
                 ermineAni.destroy();
                 ermineAniATK.destroy();
                 HeartAni.destroy();
+                snowballAniDestroy.destroy();
                 countDestroy = 0;
                 fade = 0;
                 speedforchange = 0;

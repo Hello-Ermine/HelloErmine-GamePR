@@ -11,6 +11,7 @@ let skybox2;
 let golem;
 let ermine;
 let ermineThrow;
+let ermineStand;
 
 //Event
 let golemEvent;
@@ -205,8 +206,8 @@ class BossFight extends Phaser.Scene {
             repeat: -1,
         });
         ermineAniStandTest = this.anims.create({
-            key: "ermineAniStandTest",
-            frames: [{key: "ermine",frame:10}],
+            key: "ermineAniStand",
+            frames: [{key: "ermine",frame:0}],
             callbackScope:this
         });
         ermine.anims.play("ermineAni", true);
@@ -879,7 +880,6 @@ class BossFight extends Phaser.Scene {
                 } else if (keyD.isDown) {
                     ermine.setVelocityX(300);
                 } else {
-                    // ermine.anims.play("ermineAniStandTest");
                     ermine.setVelocityX(0);
                 }
                 if(keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)){
@@ -942,7 +942,6 @@ class BossFight extends Phaser.Scene {
             else if (ermine.x >= 200 && playerHeart > 0) {
                 ermine.setVelocityX(0);
                 ermine.setCollideWorldBounds(true);
-                // ermine.anims.play("ermineAniStandTest");
                 open = 1;
             }
         }
