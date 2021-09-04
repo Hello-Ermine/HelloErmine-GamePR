@@ -257,7 +257,7 @@ class Arcade extends Phaser.Scene {
                                     ermineAni.destroy();
                                     ermineAniATK.destroy();
                                     HeartAni.destroy();
-                                    snowballAniDestroy.destroy();
+                                    // snowballAniDestroy.destroy();
                                     this.input.keyboard.removeKey(
                                         Phaser.Input.Keyboard.KeyCodes.W
                                     );
@@ -372,7 +372,7 @@ class Arcade extends Phaser.Scene {
                                             ermineAni.destroy();
                                             ermineAniATK.destroy();
                                             HeartAni.destroy();
-                                            snowballAniDestroy.destroy();
+                                            // snowballAniDestroy.destroy();
                                             this.input.keyboard.removeKey(
                                                 Phaser.Input.Keyboard.KeyCodes.W
                                             );
@@ -471,7 +471,6 @@ class Arcade extends Phaser.Scene {
                 ermineAni.destroy();
                 ermineAniATK.destroy();
                 HeartAni.destroy();
-                snowballAniDestroy.destroy();
                 countDestroy = 0;
                 fade = 0;
                 speedforchange = 0;

@@ -266,7 +266,7 @@ class BossFightArcade extends Phaser.Scene {
                             snowballAni.destroy();
                             ermineAni.destroy();
                             ermineAniATKGame.destroy();
-                            snowballAniDestroyBoss.destroy();
+                            // snowballAniDestroyBoss.destroy();
                             HeartAni.destroy();
                             golemAni.destroy();
                             golemATK.destroy();
@@ -400,7 +400,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -492,7 +492,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -584,7 +584,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -676,7 +676,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -768,7 +768,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -987,7 +987,6 @@ class BossFightArcade extends Phaser.Scene {
                     HeartAni.destroy();
                     golemAni.destroy();
                     golemATK.destroy();
-                    snowballAniDestroyBoss.destroy();
                     this.input.keyboard.removeKey(
                         Phaser.Input.Keyboard.KeyCodes.W
                     );
