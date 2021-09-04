@@ -56,7 +56,7 @@ let bullet;
 let delayBullet = 350;
 let timeSinceLastAttackBullet = 0;
 let heavyATK=0;
-let atk=1;
+let atk=5;
 
 //Boss
 let golemHp = 1;
@@ -287,6 +287,7 @@ class BossFightArcade extends Phaser.Scene {
                             );
                             hpOpen=0;
                             heavyATK=10;
+                            atk=5;
                         },
                         callbackScope: this,
                         loop: false,
@@ -374,7 +375,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -421,6 +422,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         playerHeart=5;
                                                         hpOpen=0;
                                                         heavyATK=10;
+                                                        atk=5
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -466,7 +468,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -513,6 +515,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         playerHeart=5;
                                                         hpOpen=0;
                                                         heavyATK=10;
+                                                        atk=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -558,7 +561,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -605,6 +608,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         playerHeart=5;
                                                         hpOpen=0;
                                                         heavyATK=10;
+                                                        atk=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -650,7 +654,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -697,6 +701,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         playerHeart=5;
                                                         hpOpen=0;
                                                         heavyATK=10;
+                                                        atk=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -742,7 +747,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy, () => {
@@ -789,6 +794,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         playerHeart=5;
                                                         hpOpen=0;
                                                         heavyATK=10;
+                                                        atk=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -971,10 +977,8 @@ class BossFightArcade extends Phaser.Scene {
             finish++;
             score+=50;
             snowballEvent.paused = true;
-            if(golem.anims.currentAnim.key == "golemAni" || golem.anims.currentAnim.key == "golemATK"||golem.anims.currentAnim.key == "snowballAniDestroyBoss"){
-                golem.anims.play("snowballAniDestroyBoss",true);
-                golem.setVelocityY(0);
-            }
+            golem.anims.play("snowballAniDestroyBoss",true);
+            golem.setVelocityY(0);
             heavyATK=10;
             this.cameras.main.fadeOut(2000);
             this.time.addEvent({
@@ -1006,6 +1010,10 @@ class BossFightArcade extends Phaser.Scene {
                     hpOpen=0;
                     finish=0;
                     atk-=0.5;
+                    heavyATK=10;
+                    if(atk==0){
+                        atk=1;
+                    }
                 },
                 callbackScope: this,
                 loop: false,
@@ -1031,11 +1039,12 @@ class BossFightArcade extends Phaser.Scene {
         }
         function hitGolem(bullet, golem) {
             bullet.destroy();
-            if (golemHp > 0) {
-                golemHp-=5;
+            if (golemHp >= 0) {
+                golemHp-=atk;
             }
             else{
                 golemHp=0;
+                healthBar.setScale(0,1.5);
             }
         }
         function hitSnowball(bullet, golem) {
