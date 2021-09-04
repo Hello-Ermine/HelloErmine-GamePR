@@ -918,7 +918,7 @@ class BossFight extends Phaser.Scene {
                         countATKermine--;
                         bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                             .setScale(0.35);
-                        bullet.depth= bullet.y+100;
+                        bullet.depth= bullet.y - 100;
                         bulletGroup.add(bullet);
                         bullet.setVelocityX(800);
                         this.physics.add.overlap(bullet,golem,hitGolem,()=>{
