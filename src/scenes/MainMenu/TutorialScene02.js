@@ -20,6 +20,8 @@ let playTutorial;
 let switchScene;
 let backScene;
 
+let ermineAni;
+
 class TutorialScene02 extends Phaser.Scene {
     constructor(test) {
         super({
@@ -44,7 +46,7 @@ class TutorialScene02 extends Phaser.Scene {
         //character
         this.load.spritesheet('snowmanWalk', 'src/image/Character/Snowman.png',
             { frameWidth: 1000, frameHeight: 1000 });
-        this.load.spritesheet("snowballWalk", "src/image/Character/snowball.png",
+        this.load.spritesheet("snowballWalk", "src/image/Character/Snowball w_destroyed Sheet.png",
             { frameWidth: 300, frameHeight: 300, });
         this.load.spritesheet('golemWalk', 'src/image/Character/golem/Golem2_sprite.png',
             { frameWidth: 1000, frameHeight: 1000 });
@@ -107,7 +109,7 @@ class TutorialScene02 extends Phaser.Scene {
                 start: 0,
                 end: 2
             }),
-            duration: 500,
+            duration: 1000,
             framerate: 1,
             repeat: -1
         });
@@ -162,8 +164,9 @@ class TutorialScene02 extends Phaser.Scene {
                 delay: 500,
                 callback: function () {
                     this.scene.start('MainMenu');
-                    // ermineAni.destroy();
-                    // snowmanAni.destroy();
+                    snowballWalkAni.destroy();
+                    golemWalkAni.destroy();
+                    snowmanWalkAni.destroy();
                 },
                 callbackScope: this,
                 loop: false,
@@ -188,8 +191,9 @@ class TutorialScene02 extends Phaser.Scene {
                 delay: 500,
                 callback: function () {
                     this.scene.start('TutorialScene');
-                    // ermineAni.destroy();
-                    // snowmanAni.destroy();
+                    snowballWalkAni.destroy();
+                    golemWalkAni.destroy();
+                    snowmanWalkAni.destroy();
                 },
                 callbackScope: this,
                 loop: false,

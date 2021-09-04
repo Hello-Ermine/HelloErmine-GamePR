@@ -359,6 +359,8 @@ class MainMenu extends Phaser.Scene {
                     delay: 500,
                     callback: function () {
                         this.scene.start('GameScene');
+                        ermineAtkAni.destroy();
+                        golemAni.destroy();
                         this.scene.destroy();
                         ermineAni.destroy();
                         snowmanAni.destroy();
@@ -387,6 +389,8 @@ class MainMenu extends Phaser.Scene {
                     callback: function () {
                         this.scene.start('Arcade');
                         this.scene.destroy();
+                        ermineAtkAni.destroy();
+                        golemAni.destroy();
                         ermineAni.destroy();
                         snowmanAni.destroy();
                     },
@@ -440,6 +444,8 @@ class MainMenu extends Phaser.Scene {
                 delay: 500,
                 callback: function () {
                     this.scene.start('TutorialScene');
+                    ermineAtkAni.destroy();
+                    golemAni.destroy();
                     ermineAni.destroy();
                     snowmanAni.destroy();
                 },
