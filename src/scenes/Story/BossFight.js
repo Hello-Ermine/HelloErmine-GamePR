@@ -44,6 +44,7 @@ let heart;
 let snowballgroup;
 let heartGroup;
 let bulletGroup;
+let bulletShowGroup;
 
 //Any
 let countATKGolem = 0;
@@ -54,9 +55,11 @@ let countATKermine=10;
 
 //bullet
 let bullet;
+let bulletShow;
 let delayBullet = 350;
 let timeSinceLastAttackBullet = 0;
 let heavyATK=0;
+
 
 //Boss
 let golemHp = 1;
@@ -853,6 +856,13 @@ class BossFight extends Phaser.Scene {
 
         //Bullet
         bulletGroup = this.add.group();
+        bulletShowGroup=this.add.group();
+        for(let i=0;i<countATKermine;i++){
+            bulletShow=this.add.image(30+i * 45,200,"bullet")
+            .setDepth(100000)
+            .setScale(0.35);
+            bulletShowGroup.add(bulletShow);
+        }
 
         function snowballDestroy(ermine,snowball){
             snowball.anims.play("snowballAniDestroy",true);
@@ -945,6 +955,13 @@ class BossFight extends Phaser.Scene {
                     }
                 }
 
+            }
+            for (let i = bulletShowGroup.getChildren().length - 1; i >= 0; i--) {
+                if (countATKermine < i + 1) {
+                    bulletShowGroup.getChildren()[i].setVisible(false);
+                } else {
+                    bulletShowGroup.getChildren()[i].setVisible(true);
+                }
             }
 
             //open ermine walk
