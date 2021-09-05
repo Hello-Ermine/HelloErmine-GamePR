@@ -42,6 +42,7 @@ let heart;
 let snowballgroup;
 let heartGroup;
 let bulletGroup;
+let bulletShowGroup;
 
 //Any
 let countATKGolem = 0;
@@ -53,6 +54,7 @@ let score;
 
 //bullet
 let bullet;
+let bulletShow;
 let delayBullet = 350;
 let timeSinceLastAttackBullet = 0;
 let heavyATK=0;
@@ -187,6 +189,14 @@ class BossFightArcade extends Phaser.Scene {
             heart.anims.play("heartAni", true);
         }
 
+        bulletShowGroup=this.add.group();
+        for(let i=0;i<countATKermine;i++){
+            bulletShow=this.add.image(30+i * 45,200,"bullet")
+            .setDepth(100000)
+            .setScale(0.35);
+            bulletShowGroup.add(bulletShow);
+        }
+
         //Character
         //ermine
         ermine = this.physics.add.sprite(-100, 360, "ermine")
@@ -244,9 +254,8 @@ class BossFightArcade extends Phaser.Scene {
             .setOrigin(0, 0)
             .setScale(2.5, 1.5);
         // healthBar.setScale(((50 * 2) / healthBar.width), 1);
-
-        //Snow Shoot
-        bulletGroup = this.physics.add.group();
+        //Bullet
+        bulletGroup = this.add.group();
 
         this.physics.add.collider(golem, skybox, () => {
             golem.setVelocityY(100);
@@ -864,9 +873,6 @@ class BossFightArcade extends Phaser.Scene {
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyAtk = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-        //Bullet
-        bulletGroup = this.add.group();
-
         function snowballDestroy(ermine,snowball){
             snowball.anims.play("snowballAniDestroyBoss",true);
         }
@@ -958,6 +964,13 @@ class BossFightArcade extends Phaser.Scene {
                     }
                 }
 
+            }
+            for (let i = bulletShowGroup.getChildren().length - 1; i >= 0; i--) {
+                if (countATKermine < i + 1) {
+                    bulletShowGroup.getChildren()[i].setVisible(false);
+                } else {
+                    bulletShowGroup.getChildren()[i].setVisible(true);
+                }
             }
 
             //open ermine walk
