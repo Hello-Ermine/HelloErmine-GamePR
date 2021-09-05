@@ -286,8 +286,7 @@ class BossFightArcade extends Phaser.Scene {
                                 Phaser.Input.Keyboard.KeyCodes.SPACE
                             );
                             hpOpen=0;
-                            heavyATK=10;
-                            atk=5;
+                            countATKermine=10;
                         },
                         callbackScope: this,
                         loop: false,
@@ -421,8 +420,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
-                                                        atk=5
+                                                        countATKermine=10;
+                                                        atk-=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -514,8 +513,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
-                                                        atk=5;
+                                                        countATKermine=10;
+                                                        atk-=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -607,8 +606,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
-                                                        atk=5;
+                                                        countATKermine=10;
+                                                        atk-=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -700,8 +699,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
-                                                        atk=5;
+                                                        countATKermine=10;
+                                                        atk-=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -793,8 +792,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
-                                                        atk=5;
+                                                        countATKermine=10;
+                                                        atk-=1;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -977,9 +976,7 @@ class BossFightArcade extends Phaser.Scene {
             finish++;
             score+=50;
             snowballEvent.paused = true;
-            golem.anims.play("snowballAniDestroyBoss",true);
             golem.setVelocityY(0);
-            heavyATK=10;
             this.cameras.main.fadeOut(2000);
             this.time.addEvent({
                 delay: 2000,
@@ -1009,9 +1006,9 @@ class BossFightArcade extends Phaser.Scene {
                     golemHp = 1;
                     hpOpen=0;
                     finish=0;
-                    atk-=0.5;
-                    heavyATK=10;
-                    if(atk==0){
+                    atk-=1;
+                    countATKermine=10;
+                    if(atk<=0){
                         atk=1;
                     }
                 },
@@ -1039,12 +1036,12 @@ class BossFightArcade extends Phaser.Scene {
         }
         function hitGolem(bullet, golem) {
             bullet.destroy();
-            if (golemHp >= 0) {
+            if (golemHp > 0) {
                 golemHp-=atk;
             }
-            else{
+            if(golemHp<=0){
                 golemHp=0;
-                healthBar.setScale(0,1.5);
+                healthBar.setScale(-1,1.5);
             }
         }
         function hitSnowball(bullet, golem) {

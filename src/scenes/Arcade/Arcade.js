@@ -480,7 +480,7 @@ class Arcade extends Phaser.Scene {
         });
 
         fadeChange = this.time.addEvent({
-            delay: 60000,
+            delay: 1000,
             callback: function () {
                 ermine.immortal = true;
                 ermine.setCollideWorldBounds(false);
