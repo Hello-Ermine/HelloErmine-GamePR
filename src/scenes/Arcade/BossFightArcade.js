@@ -56,7 +56,7 @@ let bullet;
 let delayBullet = 350;
 let timeSinceLastAttackBullet = 0;
 let heavyATK=0;
-let atk=1;
+let atk=5;
 
 //Boss
 let golemHp = 1;
@@ -266,7 +266,7 @@ class BossFightArcade extends Phaser.Scene {
                             snowballAni.destroy();
                             ermineAni.destroy();
                             ermineAniATKGame.destroy();
-                            snowballAniDestroyBoss.destroy();
+                            // snowballAniDestroyBoss.destroy();
                             HeartAni.destroy();
                             golemAni.destroy();
                             golemATK.destroy();
@@ -286,7 +286,7 @@ class BossFightArcade extends Phaser.Scene {
                                 Phaser.Input.Keyboard.KeyCodes.SPACE
                             );
                             hpOpen=0;
-                            heavyATK=10;
+                            countATKermine=10;
                         },
                         callbackScope: this,
                         loop: false,
@@ -374,7 +374,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -400,7 +400,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -420,7 +420,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
+                                                        countATKermine=10;
+                                                        atk-=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -466,7 +467,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -492,7 +493,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -512,7 +513,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
+                                                        countATKermine=10;
+                                                        atk-=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -558,7 +560,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -584,7 +586,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -604,7 +606,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
+                                                        countATKermine=10;
+                                                        atk-=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -650,7 +653,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -676,7 +679,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -696,7 +699,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
+                                                        countATKermine=10;
+                                                        atk-=5;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -742,7 +746,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1500));
+                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy, () => {
@@ -768,7 +772,7 @@ class BossFightArcade extends Phaser.Scene {
                                                         ermineAni.destroy();
                                                         ermineAniATKGame.destroy();
                                                         HeartAni.destroy();
-                                                        snowballAniDestroyBoss.destroy();
+                                                        // snowballAniDestroyBoss.destroy();
                                                         golemAni.destroy();
                                                         golemATK.destroy();
                                                         this.input.keyboard.removeKey(
@@ -788,7 +792,8 @@ class BossFightArcade extends Phaser.Scene {
                                                         );
                                                         playerHeart=5;
                                                         hpOpen=0;
-                                                        heavyATK=10;
+                                                        countATKermine=10;
+                                                        atk-=1;
                                                     },
                                                     callbackScope: this,
                                                     loop: false,
@@ -971,11 +976,7 @@ class BossFightArcade extends Phaser.Scene {
             finish++;
             score+=50;
             snowballEvent.paused = true;
-            if(golem.anims.currentAnim.key == "golemAni" || golem.anims.currentAnim.key == "golemATK"||golem.anims.currentAnim.key == "snowballAniDestroyBoss"){
-                golem.anims.play("snowballAniDestroyBoss",true);
-                golem.setVelocityY(0);
-            }
-            heavyATK=10;
+            golem.setVelocityY(0);
             this.cameras.main.fadeOut(2000);
             this.time.addEvent({
                 delay: 2000,
@@ -987,7 +988,6 @@ class BossFightArcade extends Phaser.Scene {
                     HeartAni.destroy();
                     golemAni.destroy();
                     golemATK.destroy();
-                    snowballAniDestroyBoss.destroy();
                     this.input.keyboard.removeKey(
                         Phaser.Input.Keyboard.KeyCodes.W
                     );
@@ -1006,7 +1006,11 @@ class BossFightArcade extends Phaser.Scene {
                     golemHp = 1;
                     hpOpen=0;
                     finish=0;
-                    atk-=0.5;
+                    atk-=1;
+                    countATKermine=10;
+                    if(atk<=0){
+                        atk=1;
+                    }
                 },
                 callbackScope: this,
                 loop: false,
@@ -1033,10 +1037,11 @@ class BossFightArcade extends Phaser.Scene {
         function hitGolem(bullet, golem) {
             bullet.destroy();
             if (golemHp > 0) {
-                golemHp-=5;
+                golemHp-=atk;
             }
-            else{
+            if(golemHp<=0){
                 golemHp=0;
+                healthBar.setScale(-1,1.5);
             }
         }
         function hitSnowball(bullet, golem) {

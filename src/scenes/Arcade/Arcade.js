@@ -38,7 +38,7 @@ let fade = 0;
 let speedforchange = 0;
 let speedscore=0;
 let score = 0;
-let snowballspeed = -1500
+let snowballspeed = -1200
 //cooldown
 let DELAY = 1000;
 let timeSinceLastAttack = 0;
@@ -257,7 +257,6 @@ class Arcade extends Phaser.Scene {
                                     ermineAni.destroy();
                                     ermineAniATK.destroy();
                                     HeartAni.destroy();
-                                    snowballAniDestroy.destroy();
                                     this.input.keyboard.removeKey(
                                         Phaser.Input.Keyboard.KeyCodes.W
                                     );
@@ -372,7 +371,6 @@ class Arcade extends Phaser.Scene {
                                             ermineAni.destroy();
                                             ermineAniATK.destroy();
                                             HeartAni.destroy();
-                                            snowballAniDestroy.destroy();
                                             this.input.keyboard.removeKey(
                                                 Phaser.Input.Keyboard.KeyCodes.W
                                             );
@@ -471,10 +469,10 @@ class Arcade extends Phaser.Scene {
                 ermineAni.destroy();
                 ermineAniATK.destroy();
                 HeartAni.destroy();
-                snowballAniDestroy.destroy();
                 countDestroy = 0;
                 fade = 0;
                 speedforchange = 0;
+                snowballspeed-=100;
             },
             callbackScope: this,
             paused: true,
@@ -482,7 +480,7 @@ class Arcade extends Phaser.Scene {
         });
 
         fadeChange = this.time.addEvent({
-            delay: 60000,
+            delay: 1000,
             callback: function () {
                 ermine.immortal = true;
                 ermine.setCollideWorldBounds(false);

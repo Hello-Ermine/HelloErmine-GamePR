@@ -168,7 +168,7 @@ class CutSceneBossFight extends Phaser.Scene {
                 start: 4,
                 end: 8,
             }),
-            duration: 500,
+            duration: 1000,
             framerate: 1,
             repeat: -1,
             callbackScope: this,
@@ -217,7 +217,7 @@ class CutSceneBossFight extends Phaser.Scene {
 
         snowRollGroup = this.physics.add.group();
 
-        this.time.addEvent({
+        let golemATK=this.time.addEvent({
             delay: 8000,
             callback: function () {
                 snowRollEvent = this.time.addEvent({
@@ -320,15 +320,7 @@ class CutSceneBossFight extends Phaser.Scene {
             golem.setVelocityX(-100);
         } else if (golem.x <= 1000) {
             golem.setVelocityX(0);
-            this.time.addEvent({
-                delay: 500,
-                callback: function () {
-                    golem.anims.play("golemAtkAni", true);
-                },
-                callbackScope: this,
-                loop: true,
-            });
-
+            golem.anims.play("golemAtkAni", true);
             fadeChange.paused = false;
         }
     }
