@@ -1019,10 +1019,11 @@ class BossFight extends Phaser.Scene {
         function hitGolem(bullet, golem) {
             bullet.destroy();
             if (golemHp > 0) {
-                golemHp-=0.5;
+                golemHp-=1;
             }
-            else{
+            if(golemHp<=0){
                 golemHp=0;
+                healthBar.setScale(-1,1.5);
             }
         }
         function hitSnowball(bullet, golem) {
