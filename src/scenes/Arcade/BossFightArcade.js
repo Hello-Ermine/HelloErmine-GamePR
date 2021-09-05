@@ -73,6 +73,9 @@ let hpOpen = 0;
 let DELAY = 1000;
 let timeSinceLastAttack= 0;
 
+//score
+let scoreOverLabel;
+
 class BossFightArcade extends Phaser.Scene {
     constructor(test) {
         super({
@@ -104,6 +107,9 @@ class BossFightArcade extends Phaser.Scene {
         //HP Bar
         this.load.image('greenBar', 'src/image/object/health-green.png');
         this.load.image('redBar', 'src/image/object/health-red.png');
+
+        //font
+        this.load.bitmapFont('ZFT', 'src/image/object/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
     }
 
     create() {
@@ -200,7 +206,7 @@ class BossFightArcade extends Phaser.Scene {
         //Character
         //ermine
         ermine = this.physics.add.sprite(-100, 360, "ermine")
-            .setScale(0.5)
+            .setScale(0.4)
             .setSize(250, 80)
             .setOffset(200, 150);
         this.physics.add.collider(ermine, skybox);
@@ -383,7 +389,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -476,7 +482,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -569,7 +575,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -662,7 +668,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -755,7 +761,7 @@ class BossFightArcade extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -1000));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy, () => {
@@ -877,11 +883,17 @@ class BossFightArcade extends Phaser.Scene {
             snowball.anims.play("snowballAniDestroyBoss",true);
         }
 
+        scoreOverLabel = this.add.dynamicBitmapText(this.game.renderer.width - 250, 50, 'ZFT', 'Score : 0', 25)
+            .setDepth(1000)
+            .setTint(0x61390A);
+
     }
 
     update(delta, time) {
         //Show X Y
         this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATKGolem + " | " + golemHp);
+
+        scoreOverLabel.setText('Score : ' + score );
 
         ermine.depth = ermine.y - (ermine.height - 254);
         golem.depth = golem.y + 75;
@@ -937,7 +949,7 @@ class BossFightArcade extends Phaser.Scene {
                         countATKermine--;
                         bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                             .setScale(0.35);
-                        bullet.depth= bullet.y+100;
+                        bullet.depth= bullet.y-100;
                         bulletGroup.add(bullet);
                         bullet.setVelocityX(800);
                         this.physics.add.overlap(bullet,golem,hitGolem,()=>{
@@ -965,7 +977,7 @@ class BossFightArcade extends Phaser.Scene {
                 }
 
             }
-            for (let i = bulletShowGroup.getChildren().length - 1; i >= 0; i--) {
+            for (let i = bulletShowGroup.getChildren().length ; i >= 0; i--) {
                 if (countATKermine < i + 1) {
                     bulletShowGroup.getChildren()[i].setVisible(false);
                 } else {
@@ -1047,6 +1059,7 @@ class BossFightArcade extends Phaser.Scene {
                 bulletGroup.getChildren()[i].destroy();
             }
         }
+        
         function hitGolem(bullet, golem) {
             bullet.destroy();
             if (golemHp > 0) {

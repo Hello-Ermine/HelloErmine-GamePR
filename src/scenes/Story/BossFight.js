@@ -191,7 +191,7 @@ class BossFight extends Phaser.Scene {
         //Character
         //ermine
         ermine = this.physics.add.sprite(-100, 360, "ermine")
-            .setScale(0.5)
+            .setScale(0.4)
             .setSize(250, 80)
             .setOffset(200, 150);
         this.physics.add.collider(ermine, skybox);
@@ -374,7 +374,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -465,7 +465,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -556,7 +556,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -647,7 +647,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy,() => {
@@ -738,7 +738,7 @@ class BossFight extends Phaser.Scene {
                                         .setSize(230, 60)
                                         .setOffset(30, 220);
                                     snowballgroup.add(snowball);
-                                    snowball.setVelocityX(Phaser.Math.Between(-500, -700));
+                                    snowball.setVelocityX(Phaser.Math.Between(-700, -1000));
                                     snowball.anims.play("snowballAni", true);
                                     snowball.depth = snowball.y;
                                     this.physics.add.overlap(ermine, snowball,snowballDestroy, () => {
@@ -944,7 +944,7 @@ class BossFight extends Phaser.Scene {
                     }
                     else if(countATKermine==0){
                         this.time.addEvent({
-                            delay: 5000,
+                            delay: 3500,
                             callback: function(){
                                 countATKermine=10;
                             },
@@ -956,8 +956,8 @@ class BossFight extends Phaser.Scene {
                 }
 
             }
-            for (let i = bulletShowGroup.getChildren().length - 1; i >= 0; i--) {
-                if (countATKermine < i + 1) {
+            for (let i = bulletShowGroup.getChildren().length-1 ; i >= 0; i--) {
+                if (countATKermine < i+1 ) {
                     bulletShowGroup.getChildren()[i].setVisible(false);
                 } else {
                     bulletShowGroup.getChildren()[i].setVisible(true);

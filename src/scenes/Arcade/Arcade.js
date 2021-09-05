@@ -43,6 +43,7 @@ let snowballspeed = -1200
 let DELAY = 1000;
 let timeSinceLastAttack = 0;
 let scratch = 0;
+let scoreLabel;
 
 class Arcade extends Phaser.Scene {
     constructor() {
@@ -86,14 +87,15 @@ class Arcade extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 66,
         });
+        //font
+        this.load.bitmapFont('ZFT', 'src/image/object/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
     }
 
     create() {
         //Fade IN
         this.cameras.main.fadeIn(3000);
         //Show X Y
-        this.label = this.add
-            .text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
+        this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
         this.pointer = this.input.activePointer;
 
@@ -473,6 +475,7 @@ class Arcade extends Phaser.Scene {
                 fade = 0;
                 speedforchange = 0;
                 snowballspeed-=100;
+                speedscore=0;
             },
             callbackScope: this,
             paused: true,
@@ -495,6 +498,10 @@ class Arcade extends Phaser.Scene {
             callbackScope: this,
             paused: false
         });
+
+        scoreLabel = this.add.dynamicBitmapText(this.game.renderer.width - 250, 50, 'ZFT', 'Score : 0', 25)
+            .setDepth(1000)
+            .setTint(0x61390A);
     }
 
     update(delta, time) {
@@ -512,6 +519,8 @@ class Arcade extends Phaser.Scene {
             timeSinceLastAttack +
             "]"
         );
+
+        scoreLabel.setText('Score : ' + score + " : " + speedscore);
 
         //set Depth ermine
         ermine.depth = ermine.y - (ermine.height - 254);
