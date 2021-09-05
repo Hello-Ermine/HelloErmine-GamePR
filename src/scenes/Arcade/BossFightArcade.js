@@ -189,6 +189,7 @@ class BossFightArcade extends Phaser.Scene {
             heart.anims.play("heartAni", true);
         }
 
+        bulletShowGroup=this.add.group();
         for(let i=0;i<countATKermine;i++){
             bulletShow=this.add.image(30+i * 45,200,"bullet")
             .setDepth(100000)
@@ -934,13 +935,6 @@ class BossFightArcade extends Phaser.Scene {
                 if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
                     if(countATKermine<=10 && countATKermine>0){
                         countATKermine--;
-                        for (let i = bulletShowGroup.getChildren().length - 1; i >= 0; i--) {
-                            if (bulletShowGroup < i + 1) {
-                                bulletShowGroup.getChildren()[i].setVisible(false);
-                            } else {
-                                bulletShowGroup.getChildren()[i].setVisible(true);
-                            }
-                        }
                         bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                             .setScale(0.35);
                         bullet.depth= bullet.y+100;
@@ -970,6 +964,13 @@ class BossFightArcade extends Phaser.Scene {
                     }
                 }
 
+            }
+            for (let i = bulletShowGroup.getChildren().length - 1; i >= 0; i--) {
+                if (countATKermine < i + 1) {
+                    bulletShowGroup.getChildren()[i].setVisible(false);
+                } else {
+                    bulletShowGroup.getChildren()[i].setVisible(true);
+                }
             }
 
             //open ermine walk
