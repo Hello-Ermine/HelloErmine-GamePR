@@ -46,12 +46,11 @@ class GameOverArcade extends Phaser.Scene {
         this.load.image("backOver", "src/image/background/fullBG.png");
         this.load.image("paper", "src/image/gameOver/paper01.png");
         //poster
-        this.load.image("treePoster", "src/image/gameOver/treeposter.png");
+        this.load.image("treePoster", "src/image/gameOvern/treeposter.pg");
         //text
         this.load.image("TextOver", "src/image/gameOver/TextOver.png");
         //font
         this.load.bitmapFont('ZFT', 'src/image/object/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
-        // this.load.bitmapFont('ZFT', 'src/fonts/ZFT_3/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
         //Rank
         this.load.image("rankS", "src/image/gameOver/Rank/rank_S_pixel.png");
         this.load.image("rankA", "src/image/gameOver/Rank/rank_A_pixel.png");
