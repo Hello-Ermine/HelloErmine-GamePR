@@ -46,7 +46,7 @@ class GameOverArcade extends Phaser.Scene {
         this.load.image("backOver", "src/image/background/fullBG.png");
         this.load.image("paper", "src/image/gameOver/paper01.png");
         //poster
-        this.load.image("treePoster", "src/image/gameOvern/treeposter.pg");
+        this.load.image("treePoster", "src/image/gameOver/treeposter.png");
         //text
         this.load.image("TextOver", "src/image/gameOver/TextOver.png");
         //font
@@ -212,9 +212,9 @@ class GameOverArcade extends Phaser.Scene {
         }
 
         if( rank.y > 350){
-            rank.setVelocityY(rankVelo-=5);
+            rank.setVelocityY(rankVelo-=10);
         }else if( rank.y < 330){
-            rank.setVelocityY(rankVelo+=5);
+            rank.setVelocityY(rankVelo+=10);
         }
 
 

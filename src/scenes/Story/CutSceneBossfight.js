@@ -143,8 +143,8 @@ class CutSceneBossFight extends Phaser.Scene {
         //Golem
         golem = this.physics.add.sprite(this.game.renderer.width + 500, this.game.renderer.height / 2 - 50, "golem")
             .setScale(0.4)
-            .setSize(750, 750)
-            .setOffset(200, 150)
+            .setSize(650, 415)
+            .setOffset(125, 350)
             .setDepth(5);
 
         //golem Animation

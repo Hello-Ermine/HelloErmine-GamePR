@@ -88,7 +88,7 @@ class TutorialScene02 extends Phaser.Scene {
         snowballWalk.alpha = 0;
 
         golemWalk = this.physics.add.sprite(1010, 340, 'golemWalk')
-            .setScale(0.35);
+            .setScale(0.4);
         golemWalk.alpha = 0;
 
         let snowmanWalkAni = this.anims.create({

@@ -200,7 +200,7 @@ class BossFightArcade extends Phaser.Scene {
         //Character
         //ermine
         ermine = this.physics.add.sprite(-100, 360, "ermine")
-            .setScale(0.5)
+            .setScale(0.4)
             .setSize(250, 80)
             .setOffset(200, 150);
         this.physics.add.collider(ermine, skybox);
@@ -236,8 +236,8 @@ class BossFightArcade extends Phaser.Scene {
         //Golem
         golem = this.physics.add.sprite(this.game.renderer.width / 2 + 400, this.game.renderer.height / 2 - 100, "golem")
             .setScale(0.4)
-            .setSize(600, 415)
-            .setOffset(190, 500)
+            .setSize(650, 415)
+            .setOffset(125, 350)
             .setVelocityY(-100)
             .setImmovable(1);
 

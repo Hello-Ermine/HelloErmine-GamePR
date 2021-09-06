@@ -96,7 +96,7 @@ class GameScene extends Phaser.Scene {
             .setImmovable();
         ermine = this.physics.add.sprite(190, 360, "ermine")
             .setScale(0.45)
-            .setSize(250, 80)
+            .setSize(200, 80)
             .setOffset(200, 150);
 
         //collider
@@ -320,9 +320,9 @@ class GameScene extends Phaser.Scene {
             delay: Phaser.Math.Between(500, 700),
             callback: function () {
                 snowman = this.physics.add.sprite(1380, Phaser.Math.Between(150, 550), "snowman")
-                    .setScale(0.3)
-                    .setSize(340, 145)
-                    .setOffset(350, 765);
+                    .setScale(0.45)
+                    .setSize(235, 145)
+                    .setOffset(235, 440);
                 snowman.flipX = !snowman.flipX;
                 snowManGroup.add(snowman);
                 snowman.setVelocityX(Phaser.Math.Between(-700, -1000));
