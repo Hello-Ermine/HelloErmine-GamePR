@@ -327,13 +327,9 @@ class MainMenu extends Phaser.Scene {
         snowsmall = this.physics.add.image((this.game.renderer.width / 2) - 3, 400, 'snowsmall')
             .setDepth(101);
         play.on('pointerover', () => {
-            // snowsmall.setVisible(false);
-            // snowsmall.alpha = 0.5;
             snowsmall.setScale(1.1);
         })
         play.on('pointerout', () => {
-            // snowsmall.setVisible(true);
-            // snowsmall.alpha = 1;
             snowsmall.setScale(1);
         })
         play.on('pointerup', () => {

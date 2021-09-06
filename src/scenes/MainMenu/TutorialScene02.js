@@ -75,9 +75,6 @@ class TutorialScene02 extends Phaser.Scene {
         info02 = this.physics.add.image(0, 0 + 12, 'info02').setOrigin(0, 0);
         info02.alpha = 0;
 
-        // let walk = this.add.bitmapText(160,210, 'ZFT', 'กด W A S D \nเพื่อเคลื่อนที่', 50).setDepth(1000);
-        // text.setText('Bitmap Fonts! ขอแสดงความยินดี \n HI');
-
         snowmanWalk = this.physics.add.sprite(265, 350, 'snowmanWalk')
             .setScale(0.3);
         snowmanWalk.alpha = 0;
@@ -126,25 +123,6 @@ class TutorialScene02 extends Phaser.Scene {
             repeat: -1
         });
         golemWalk.anims.play('golemWalkAni', true);
-
-        // Snow man
-        // ermineWalk = this.physics.add.sprite(260, 410, 'ermineWalk')
-        //     .setScale(0.4);
-        // ermineWalk.alpha = 0;
-
-
-        // ermine Throw
-        // let ermineThrowAni = this.anims.create({
-        //     key: 'ermineThrowAni',
-        //     frames: this.anims.generateFrameNumbers('ermineWalk', {
-        //         start: 4,
-        //         end: 9
-        //     }),
-        //     duration: 650,
-        //     framerate: 10,
-        //     repeat: -1
-        // })
-        // ermineThrow.anims.play('ermineThrowAni', true);
 
         playTutorial = this.physics.add.image(1180, 670, 'playTutorial')
             .setScale(0.45)

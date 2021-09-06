@@ -14,7 +14,7 @@ let snowball;
 let snowman;
 let ermineATK;
 let heart;
-let playerHeart = 5;
+let playerHeart = 2;
 let heartGroup;
 
 //Event
@@ -52,7 +52,7 @@ class GameScene extends Phaser.Scene {
         });
     }
     init(data) {
-        playerHeart = 5;
+        playerHeart = 1;
     }
 
     preload() {
@@ -152,9 +152,9 @@ class GameScene extends Phaser.Scene {
                 start: 6,
                 end: 9,
             }),
-            duration: 650,
-            framerate: 120,
-            repeat: 10,
+            duration: 500,
+            framerate: 1,
+            repeat: -1,
             callbackScope: this,
         });
 
@@ -187,14 +187,14 @@ class GameScene extends Phaser.Scene {
 
         //Snow ball Event
         snowballEvent = this.time.addEvent({
-            delay: Phaser.Math.Between(300, 700),
+            delay: Phaser.Math.Between(700, 1500),
             callback: function () {
                 snowball = this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
                     .setScale(0.65)
                     .setSize(230, 60)
                     .setOffset(30, 220);
                 snowGroup.add(snowball);
-                snowball.setVelocityX(Phaser.Math.Between(-800, -1000));
+                snowball.setVelocityX(Phaser.Math.Between(-700,-900));
                 snowball.anims.play("snowballAni", true);
                 this.physics.add.overlap(ermine, snowball,snowballPlay,() => {
                     if(snowball.anims.currentAnim.key == 'snowballAniDestroy'){
@@ -250,6 +250,7 @@ class GameScene extends Phaser.Scene {
                                 paused: false,
                             });
                         }
+
                         for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                             if (playerHeart < i + 1) {
                                 heartGroup.getChildren()[i].setVisible(false);
@@ -308,7 +309,6 @@ class GameScene extends Phaser.Scene {
                 snowman.setVelocityX(Phaser.Math.Between(-700, -1000));
                 snowman.anims.play("snowmanAni", true);
                 this.physics.add.overlap(ermine, snowman, snowmanDestroy, () => {
-                    //keyAtk.isUp
                     if (scratch == 0) {
                         if (ermine.immortal == false) {
                             playerHeart--;
@@ -436,9 +436,9 @@ class GameScene extends Phaser.Scene {
         });
 
         fadeChange = this.time.addEvent({
-            delay: 60000,
+            delay: 2000,
             callback: function () {
-                ermine.immortal = true;
+                ermine.immortal=true;
                 ermine.setCollideWorldBounds(false);
                 snowManEvent.paused = true;
                 snowballEvent.paused = true;
@@ -489,7 +489,7 @@ class GameScene extends Phaser.Scene {
                 scratch = 1;
 
                 this.time.addEvent({
-                    delay: 650,
+                    delay: 500,
                     callback: function () {
                         ermine.anims.play("ermineAni", true);
                         scratch = 0;
@@ -501,7 +501,9 @@ class GameScene extends Phaser.Scene {
                 timeSinceLastAttack = delta;
             }
             speedforchange += 1;
-            if (speedforchange > 8600) {
+            //8600
+            if (speedforchange > 100) {
+                ermine.immortal=true;
                 ermine.setVelocityX(500);
             }
         }

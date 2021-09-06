@@ -36,7 +36,7 @@ class TutorialScene extends Phaser.Scene {
         //object
         this.load.image('info', 'src/image/tutorialScene/Info01.png');
         this.load.image('spb', 'src/image/tutorialScene/SPACE_BAR.png');
-        this.load.image("bulletTutorial", "src/image/object/snowShoot.png");
+        this.load.image('bulletTutorial', 'src/image/object/snowShoot.png');
 
         //character
         this.load.spritesheet('ermineWalk', 'src/image/Character/ermine/ermine_throw.png',
@@ -53,7 +53,7 @@ class TutorialScene extends Phaser.Scene {
 
     create() {
         //Show X Y
-        this.label = this.add.text(40, 0, '(x, y)', { fontFamily: '"Monospace"' })
+        this.label = this.add.text(40, 0, '(x, y)', { fontFamily: 'Monospace' })
             .setDepth(100);
         this.pointer = this.input.activePointer;
 
@@ -68,10 +68,6 @@ class TutorialScene extends Phaser.Scene {
 
         info = this.physics.add.image(0, 0 + 12, 'info').setOrigin(0, 0);
         info.alpha = 0;
-
-
-        // let walk = this.add.bitmapText(160,210, 'ZFT', 'กด W A S D \nเพื่อเคลื่อนที่', 50).setDepth(1000);
-        // text.setText('Bitmap Fonts! ขอแสดงความยินดี \n HI');
 
         // ermine Walk
         ermineWalk = this.physics.add.sprite(260, 410, 'ermineWalk')
@@ -143,18 +139,6 @@ class TutorialScene extends Phaser.Scene {
             loop: true,
             startAt: -500
         });
-
-//         BgToturial.on('pointerup', () => {
-//             this.cameras.main.fadeOut(500);
-//             tutorialEvent = this.time.addEvent({
-//                 delay: 500,
-//                 callback: function () {
-//                     this.scene.start('MainMenu');
-//                 },
-//                 callbackScope: this,
-//                 loop: false,
-//             })
-//         });
 
         nextTutorial = this.physics.add.image(1180, 670, 'nextTutorial')
             .setScale(0.5)
