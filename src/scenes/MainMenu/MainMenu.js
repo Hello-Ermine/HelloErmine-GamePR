@@ -280,7 +280,7 @@ class MainMenu extends Phaser.Scene {
                     .setOffset(200, 150)
                     .setFlipX(true);
                 golemMenu = this.physics.add.sprite(1280 + 350, 350, 'golemMenu')
-                    .setScale(0.4)
+                    .setScale(0.2)
                     .setSize(340, 145)
                     .setOffset(350, 765)
                 snowmanMenu1 = this.physics.add.sprite(1280 + 680, 400, 'snowmanMenu')

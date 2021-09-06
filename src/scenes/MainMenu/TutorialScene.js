@@ -69,10 +69,6 @@ class TutorialScene extends Phaser.Scene {
         info = this.physics.add.image(0, 0 + 12, 'info').setOrigin(0, 0);
         info.alpha = 0;
 
-
-        // let walk = this.add.bitmapText(160,210, 'ZFT', 'กด W A S D \nเพื่อเคลื่อนที่', 50).setDepth(1000);
-        // text.setText('Bitmap Fonts! ขอแสดงความยินดี \n HI');
-
         // ermine Walk
         ermineWalk = this.physics.add.sprite(260, 410, 'ermineWalk')
             .setScale(0.4);
@@ -143,18 +139,6 @@ class TutorialScene extends Phaser.Scene {
             loop: true,
             startAt: -500
         });
-
-//         BgToturial.on('pointerup', () => {
-//             this.cameras.main.fadeOut(500);
-//             tutorialEvent = this.time.addEvent({
-//                 delay: 500,
-//                 callback: function () {
-//                     this.scene.start('MainMenu');
-//                 },
-//                 callbackScope: this,
-//                 loop: false,
-//             })
-//         });
 
         nextTutorial = this.physics.add.image(1180, 670, 'nextTutorial')
             .setScale(0.5)
