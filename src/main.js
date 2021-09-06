@@ -31,7 +31,7 @@ const config = {
         }
     },
     scene: [
-        LoadingBar,
+        // LoadingBar,
         MainMenu,
         TutorialScene,
         TutorialScene02,

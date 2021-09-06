@@ -46,7 +46,7 @@ class TutorialScene02 extends Phaser.Scene {
         //character
         this.load.spritesheet('snowmanWalk', 'src/image/Character/Snowman.png',
             { frameWidth: 1000, frameHeight: 1000 });
-        this.load.spritesheet("snowballWalk", "src/image/Character/Snowball w_destroyed Sheet.png",
+        this.load.spritesheet('snowballWalk', 'src/image/Character/Snowball w_destroyed Sheet.png',
             { frameWidth: 300, frameHeight: 300, });
         this.load.spritesheet('golemWalk', 'src/image/Character/golem/Golem2_sprite.png',
             { frameWidth: 1000, frameHeight: 1000 });
