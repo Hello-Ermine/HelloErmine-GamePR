@@ -55,7 +55,7 @@ class CutSceneBossFight extends Phaser.Scene {
 
         //Character
         this.load.spritesheet("golem", "src/image/Character/golem/Golem2_sprite.png",
-            { frameWidth: 1000, frameHeight: 1000 });
+            { frameWidth: 890, frameHeight: 890 });
         this.load.spritesheet("ermineCutScene", "src/image/Character/ermine/ermineWithStand.png",
             { frameWidth: 500, frameHeight: 300 });
         this.load.spritesheet("heart", "src/image/object/heart.png",

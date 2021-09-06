@@ -65,7 +65,7 @@ class GameScene extends Phaser.Scene {
         //Animation
         this.load.spritesheet("ermine", "src/image/Character/ermine/ermineAll.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("snowball", "src/image/Character/Snowball w_destroyed Sheet.png", { frameWidth: 300, frameHeight: 300, });
-        this.load.spritesheet("snowman", "src/image/Character/SnowmanFall64.png", { frameWidth: 1000, frameHeight: 1000, });
+        this.load.spritesheet("snowman", "src/image/Character/SnowmanFall64.png", { frameWidth: 670, frameHeight: 670, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
 
     }

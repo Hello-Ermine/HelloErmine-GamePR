@@ -92,7 +92,7 @@ class BossFight extends Phaser.Scene {
         this.load.image("skyblock", "src/image/background/SkyBlock.png");
 
         //Character
-        this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000 });
+        this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 890, frameHeight: 890 });
         this.load.spritesheet("ermine", "src/image/Character/ermine/ermineWithStand.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("ermineThrow", "src/image/Character/ermine/ermine_throw.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
