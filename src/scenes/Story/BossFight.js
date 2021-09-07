@@ -51,7 +51,7 @@ let countATKGolem = 0;
 let playerHeart;
 let open = 0;
 let rand=5;
-let countATKermine=10;
+let countBullet=10;
 
 //bullet
 let bullet;
@@ -59,6 +59,7 @@ let bulletShow;
 let delayBullet = 350;
 let timeSinceLastAttackBullet = 0;
 let heavyATK=0;
+let ReloadBullet;
 
 
 //Boss
@@ -210,7 +211,7 @@ class BossFight extends Phaser.Scene {
         });
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(false);
-        ermine.immortal = false;
+        ermine.immortal = true;
 
         ermineAniATKGame=this.anims.create({
             key:"ermineAniATKGame",
@@ -857,7 +858,7 @@ class BossFight extends Phaser.Scene {
         //Bullet
         bulletGroup = this.add.group();
         bulletShowGroup=this.add.group();
-        for(let i=0;i<countATKermine;i++){
+        for(let i=0;i<countBullet;i++){
             bulletShow=this.add.image(30+i * 45,200,"bullet")
             .setDepth(100000)
             .setScale(0.35);
@@ -867,6 +868,16 @@ class BossFight extends Phaser.Scene {
         function snowballDestroy(ermine,snowball){
             snowball.anims.play("snowballAniDestroy",true);
         }
+        
+        ReloadBullet=this.time.addEvent({
+            delay:3500,
+            callback: function(){
+                countBullet=10;
+            },
+            callbackScope:this,
+            loop:true,
+            paused:true,
+        })
 
     }
 
@@ -906,7 +917,7 @@ class BossFight extends Phaser.Scene {
                     ermine.setVelocityX(0);
                 }
                 if(keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)){
-                    if(countATKermine<=10 && countATKermine>0){
+                    if(countBullet<=10 && countBullet>0){
                     ermine.anims.play("ermineAniATKGame", true);
                     this.time.addEvent({
                         delay: 650,
@@ -919,13 +930,17 @@ class BossFight extends Phaser.Scene {
     
                     timeSinceLastAttack = delta;
                 }
-                    else if(countATKermine==0){
+                    else if(countBullet==0){
                         ermine.anims.play("ermineAni", true);
                     }
                 }
                 if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
-                    if(countATKermine<=10 && countATKermine>0){
-                        countATKermine--;
+                    console.log(countBullet);
+                    if(countBullet>0){
+                        if(ReloadBullet.paused==false){
+                            ReloadBullet.paused=true;
+                        }
+                        countBullet--;
                         bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                             .setScale(0.35);
                         bullet.depth= bullet.y - 100;
@@ -942,22 +957,14 @@ class BossFight extends Phaser.Scene {
                     this.physics.add.overlap(bullet, snowball, hitSnowball);
                     timeSinceLastAttackBullet = delta;
                     }
-                    else if(countATKermine==0){
-                        this.time.addEvent({
-                            delay: 3500,
-                            callback: function(){
-                                countATKermine=10;
-                            },
-                            callbackScope:this,
-                            loop:false,
-                            paused:false
-                        });
-                    }
+                }  
+                if(countBullet==0){
+                    ReloadBullet.paused=false;
                 }
 
             }
             for (let i = bulletShowGroup.getChildren().length-1 ; i >= 0; i--) {
-                if (countATKermine < i+1 ) {
+                if (countBullet < i+1 ) {
                     bulletShowGroup.getChildren()[i].setVisible(false);
                 } else {
                     bulletShowGroup.getChildren()[i].setVisible(true);
