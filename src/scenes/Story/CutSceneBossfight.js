@@ -55,7 +55,7 @@ class CutSceneBossFight extends Phaser.Scene {
 
         //Character
         this.load.spritesheet("golem", "src/image/Character/golem/Golem2_sprite.png",
-            { frameWidth: 1000, frameHeight: 1000 });
+            { frameWidth: 890, frameHeight: 890 });
         this.load.spritesheet("ermineCutScene", "src/image/Character/ermine/ermineWithStand.png",
             { frameWidth: 500, frameHeight: 300 });
         this.load.spritesheet("heart", "src/image/object/heart.png",
@@ -143,8 +143,8 @@ class CutSceneBossFight extends Phaser.Scene {
         //Golem
         golem = this.physics.add.sprite(this.game.renderer.width + 500, this.game.renderer.height / 2 - 50, "golem")
             .setScale(0.4)
-            .setSize(750, 750)
-            .setOffset(200, 150)
+            .setSize(650, 415)
+            .setOffset(125, 350)
             .setDepth(5);
 
         //golem Animation

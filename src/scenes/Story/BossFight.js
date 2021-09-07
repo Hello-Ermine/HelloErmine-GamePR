@@ -92,7 +92,7 @@ class BossFight extends Phaser.Scene {
         this.load.image("skyblock", "src/image/background/SkyBlock.png");
 
         //Character
-        this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 1000, frameHeight: 1000 });
+        this.load.spritesheet('golem', 'src/image/Character/golem/Golem2_sprite.png', { frameWidth: 890, frameHeight: 890 });
         this.load.spritesheet("ermine", "src/image/Character/ermine/ermineWithStand.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("ermineThrow", "src/image/Character/ermine/ermine_throw.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
@@ -192,7 +192,7 @@ class BossFight extends Phaser.Scene {
         //ermine
         ermine = this.physics.add.sprite(-100, 360, "ermine")
             .setScale(0.4)
-            .setSize(250, 80)
+            .setSize(220, 80)
             .setOffset(200, 150);
         this.physics.add.collider(ermine, skybox);
         this.physics.add.collider(ermine, skybox2);
@@ -227,8 +227,8 @@ class BossFight extends Phaser.Scene {
         //Golem
         golem = this.physics.add.sprite(this.game.renderer.width / 2 + 400, this.game.renderer.height / 2 - 100, "golem")
             .setScale(0.4)
-            .setSize(600, 415)
-            .setOffset(190, 500)
+            .setSize(650, 415)
+            .setOffset(125, 350)
             .setVelocityY(-100)
             .setImmovable(1);
 

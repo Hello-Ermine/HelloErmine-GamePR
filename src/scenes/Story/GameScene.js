@@ -65,7 +65,7 @@ class GameScene extends Phaser.Scene {
         //Animation
         this.load.spritesheet("ermine", "src/image/Character/ermine/ermineAll.png", { frameWidth: 500, frameHeight: 300, });
         this.load.spritesheet("snowball", "src/image/Character/Snowball w_destroyed Sheet.png", { frameWidth: 300, frameHeight: 300, });
-        this.load.spritesheet("snowman", "src/image/Character/Snowman.png", { frameWidth: 1000, frameHeight: 1000, });
+        this.load.spritesheet("snowman", "src/image/Character/SnowmanFall64.png", { frameWidth: 670, frameHeight: 670, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
 
     }
@@ -96,7 +96,7 @@ class GameScene extends Phaser.Scene {
             .setImmovable();
         ermine = this.physics.add.sprite(190, 360, "ermine")
             .setScale(0.45)
-            .setSize(250, 80)
+            .setSize(200, 80)
             .setOffset(200, 150);
 
         //collider
@@ -143,7 +143,7 @@ class GameScene extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = false;
+        ermine.immortal = true;
 
         //ermineATK
         let ermineAniATK = this.anims.create({
@@ -293,6 +293,26 @@ class GameScene extends Phaser.Scene {
             callbackScope:this,
         });
 
+        let snowmanAniDestroy=this.anims.create({
+            key: "snowmanAniDestroy",
+            frames: this.anims.generateFrameNumbers("snowman",{
+                start: 8,
+                end: 9,
+            }),
+            duration:350,
+            framerate:1,
+            callbackScope:this
+        });
+        // let snowballAniDestroy=this.anims.create({
+        //     key: "snowballAniDestroy",
+        //     frames:this.anims.generateFrameNumbers("snowball",{
+        //         start: 3,
+        //         end: 7,
+        //     }),
+        //     duration:750,
+        //     framerate:1,
+        //     callbackScope:this,
+        // });
         //create snowman group for destroy
         snowManGroup = this.physics.add.group();
 
@@ -301,9 +321,9 @@ class GameScene extends Phaser.Scene {
             delay: Phaser.Math.Between(500, 700),
             callback: function () {
                 snowman = this.physics.add.sprite(1380, Phaser.Math.Between(150, 550), "snowman")
-                    .setScale(0.3)
-                    .setSize(340, 145)
-                    .setOffset(350, 765);
+                    .setScale(0.45)
+                    .setSize(235, 145)
+                    .setOffset(235, 440);
                 snowman.flipX = !snowman.flipX;
                 snowManGroup.add(snowman);
                 snowman.setVelocityX(Phaser.Math.Between(-700, -1000));
@@ -315,7 +335,6 @@ class GameScene extends Phaser.Scene {
                             if (playerHeart <= 0) {
                                     ermine.setVelocityX(-200);
                                     ermine.immortal=true;
-                                    //Trasition Fade 
                                     snowManEvent.paused = true;
                                     snowballEvent.paused = true;
                                     this.cameras.main.fadeOut(2000);
@@ -392,7 +411,8 @@ class GameScene extends Phaser.Scene {
         });
 
         function snowmanDestroy(ermine, snowman) {
-            snowman.destroy();
+            snowman.flipX=false;
+            snowman.anims.play('snowmanAniDestroy');
         }
 
         function snowballPlay(ermine,snowball){

@@ -51,7 +51,6 @@ class GameOverArcade extends Phaser.Scene {
         this.load.image("TextOver", "src/image/gameOver/TextOver.png");
         //font
         this.load.bitmapFont('ZFT', 'src/image/object/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
-        // this.load.bitmapFont('ZFT', 'src/fonts/ZFT_3/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
         //Rank
         this.load.image("rankS", "src/image/gameOver/Rank/rank_S_pixel.png");
         this.load.image("rankA", "src/image/gameOver/Rank/rank_A_pixel.png");
@@ -213,9 +212,9 @@ class GameOverArcade extends Phaser.Scene {
         }
 
         if( rank.y > 350){
-            rank.setVelocityY(rankVelo-=5);
+            rank.setVelocityY(rankVelo-=10);
         }else if( rank.y < 330){
-            rank.setVelocityY(rankVelo+=5);
+            rank.setVelocityY(rankVelo+=10);
         }
 
 

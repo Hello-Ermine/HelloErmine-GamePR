@@ -3,7 +3,6 @@ import Phaser from 'phaser';
 import GameScene from './scenes/Story/GameScene';
 import GameOverStory from './scenes/Story/GameOverStory';
 import GameOverArcade from './scenes/Arcade/GameOverArcade';
-import Default from './scenes/Defualt';
 import MainMenu from './scenes/MainMenu/MainMenu';
 import BossFight from './scenes/Story/BossFight';
 import TutorialScene from './scenes/MainMenu/TutorialScene';

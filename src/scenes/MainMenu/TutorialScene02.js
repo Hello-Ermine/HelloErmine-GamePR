@@ -49,7 +49,7 @@ class TutorialScene02 extends Phaser.Scene {
         this.load.spritesheet('snowballWalk', 'src/image/Character/Snowball w_destroyed Sheet.png',
             { frameWidth: 300, frameHeight: 300, });
         this.load.spritesheet('golemWalk', 'src/image/Character/golem/Golem2_sprite.png',
-            { frameWidth: 1000, frameHeight: 1000 });
+            { frameWidth: 890, frameHeight: 890 });
 
         //button
         this.load.image('playTutorial', 'src/image/button/Play.png');
@@ -85,7 +85,7 @@ class TutorialScene02 extends Phaser.Scene {
         snowballWalk.alpha = 0;
 
         golemWalk = this.physics.add.sprite(1010, 340, 'golemWalk')
-            .setScale(0.35);
+            .setScale(0.4);
         golemWalk.alpha = 0;
 
         let snowmanWalkAni = this.anims.create({

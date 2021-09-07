@@ -64,7 +64,7 @@ class MainMenu extends Phaser.Scene {
         this.load.spritesheet('snowmanMenu', 'src/image/Character/Snowman.png',
             { frameWidth: 1000, frameHeight: 1000 });
         this.load.spritesheet('golemMenu', 'src/image/Character/golem/Golem2_sprite.png',
-            { frameWidth: 1000, frameHeight: 1000 });
+            { frameWidth: 890, frameHeight: 890 });
     }
 
     create() {
@@ -280,7 +280,7 @@ class MainMenu extends Phaser.Scene {
                     .setOffset(200, 150)
                     .setFlipX(true);
                 golemMenu = this.physics.add.sprite(1280 + 350, 350, 'golemMenu')
-                    .setScale(0.4)
+                    .setScale(0.45)
                     .setSize(340, 145)
                     .setOffset(350, 765)
                 snowmanMenu1 = this.physics.add.sprite(1280 + 680, 400, 'snowmanMenu')
