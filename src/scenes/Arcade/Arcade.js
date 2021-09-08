@@ -74,7 +74,8 @@ class Arcade extends Phaser.Scene {
             snowballspeed+=100;
         }
         else{
-            score=0;
+            score=0
+            snowballspeed=700;
         }
     }
 
