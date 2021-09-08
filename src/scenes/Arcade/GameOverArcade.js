@@ -155,16 +155,6 @@ class GameOverArcade extends Phaser.Scene {
 
         scorePlay.alpha = 0;
         timePlay.alpha = 0;
-
-
-        // let textTest = this.add.text(100, 100, '', { font: '64px ZFT', fill: '#00ff00' });
-        // textTest.setText([
-        //     'Level: ' + this.data.get('level'),
-        //     'Lives: ' + this.data.get('lives'),
-        //     'Score: ' + this.data.get('score')
-        // ]);
-
-
     }
 
     update(delta, time) {

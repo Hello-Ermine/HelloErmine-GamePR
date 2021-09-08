@@ -52,6 +52,8 @@ let playerHeart;
 let open = 0;
 let rand=5;
 let countBullet=10;
+let fade=0;
+let Reload=0;
 
 //bullet
 let bullet;
@@ -59,8 +61,6 @@ let bulletShow;
 let delayBullet = 350;
 let timeSinceLastAttackBullet = 0;
 let heavyATK=0;
-let ReloadBullet;
-
 
 //Boss
 let golemHp = 1;
@@ -83,6 +83,19 @@ class BossFight extends Phaser.Scene {
     }
     init(data){
         playerHeart=data.playerHeart;
+        golemHp=1;
+        finish=0;
+        hpOpen=0;
+        timeSinceLastAttackBullet = 0;
+        heavyATK=0;
+        timeSinceLastAttack= 0;
+        countATKGolem = 0;
+        playerHeart;
+        open = 0;
+        rand=5;
+        countBullet=10;
+        fade=0;
+        Reload=0;
     }
 
     preload() {
@@ -211,7 +224,7 @@ class BossFight extends Phaser.Scene {
         });
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(false);
-        ermine.immortal = true;
+        ermine.immortal = false;
 
         ermineAniATKGame=this.anims.create({
             key:"ermineAniATKGame",
@@ -245,7 +258,6 @@ class BossFight extends Phaser.Scene {
             .setDepth(5)
             .setOrigin(0, 0)
             .setScale(2.5, 1.5);
-        // healthBar.setScale(((50 * 2) / healthBar.width), 1);
 
         //Snow Shoot
         bulletGroup = this.physics.add.group();
@@ -256,44 +268,6 @@ class BossFight extends Phaser.Scene {
         this.physics.add.overlap(ermine, golem, () => {
             if (ermine.immortal == false) {
                 playerHeart--;
-                if (playerHeart <= 0) {
-                    open=0;
-                    ermine.immortal = true;
-                    snowballEvent.paused = true;
-                    this.cameras.main.fadeOut(2000);
-                    this.time.addEvent({
-                        delay: 2000,
-                        callback: function () {
-                            this.scene.start("GameOverStory");
-                            snowballAni.destroy();
-                            ermineAni.destroy();
-                            ermineAniATKGame.destroy();
-                            HeartAni.destroy();
-                            snowballAniDestroy.destroy();
-                            golemAni.destroy();
-                            golemATK.destroy();
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.W
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.A
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.S
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.D
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.SPACE
-                            );
-                            hpOpen=0;
-                        },
-                        callbackScope: this,
-                        loop: false,
-                        paused: false,
-                    });
-                }
                 for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                     if (playerHeart < i + 1) {
                         heartGroup.getChildren()[i].setVisible(false);
@@ -388,45 +362,6 @@ class BossFight extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverStory");
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        snowballAniDestroy.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -479,45 +414,6 @@ class BossFight extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverStory");
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        snowballAniDestroy.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -570,45 +466,7 @@ class BossFight extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverStory");
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        snowballAniDestroy.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
+                                            
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -661,45 +519,7 @@ class BossFight extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverStory");
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        snowballAniDestroy.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
+                                            
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -752,45 +572,7 @@ class BossFight extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverStory");
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        snowballAniDestroy.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
+                                            
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -869,16 +651,6 @@ class BossFight extends Phaser.Scene {
             snowball.anims.play("snowballAniDestroy",true);
         }
         
-        ReloadBullet=this.time.addEvent({
-            delay:3500,
-            callback: function(){
-                countBullet=10;
-            },
-            callbackScope:this,
-            loop:true,
-            paused:true,
-        })
-
     }
 
     update(delta, time) {
@@ -895,11 +667,6 @@ class BossFight extends Phaser.Scene {
                 snowballgroup.getChildren()[i].destroy();
             }
         }
-
-        if (playerHeart <= 0) {
-            ermine.setVelocityX(-100);
-        }
-
         if (open == 1) {
             if (playerHeart > 0) {
                 if (keyW.isDown) {
@@ -959,9 +726,27 @@ class BossFight extends Phaser.Scene {
                     }
                 }  
                 if(countBullet==0){
-                    ReloadBullet.paused=false;
+                    Reload++;
+                    if(Reload>=500){
+                        countBullet=10;
+                        Reload=0;
+                    }
                 }
 
+            }
+            if (playerHeart <= 0) {
+                ermine.setVelocityX(-100);
+                ermine.immortal = true;
+                snowballEvent.paused = true;
+                if(fade==0){
+                    this.cameras.main.fadeOut(2000);
+                    fade++;
+                }
+                this.time.addEvent({
+                    delay: 2000,
+                    callback: GameOverScene ,
+                    callbackScope: this,
+                });
             }
             for (let i = bulletShowGroup.getChildren().length-1 ; i >= 0; i--) {
                 if (countBullet < i+1 ) {
@@ -989,38 +774,8 @@ class BossFight extends Phaser.Scene {
             this.cameras.main.fadeOut(2000);
             this.time.addEvent({
                 delay: 2000,
-                callback: function () {
-                    this.scene.start("WinScene");
-                    snowballAni.destroy();
-                    ermineAni.destroy();
-                    ermineAniATKGame.destroy();
-                    HeartAni.destroy();
-                    snowballAniDestroy.destroy();
-                    golemAni.destroy();
-                    golemATK.destroy();
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.W
-                    );
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.A
-                    );
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.S
-                    );
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.D
-                    );
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.SPACE
-                    );
-                    golemHp = 1;
-                    hpOpen=0;
-                    finish=0;
-                    
-                },
+                callback: Win ,
                 callbackScope: this,
-                loop: false,
-                paused: false,
             });
 
         }
@@ -1052,6 +807,38 @@ class BossFight extends Phaser.Scene {
         }
         function hitSnowball(bullet, golem) {
             bullet.destroy();
+        }
+
+        function GameOverScene(){
+            this.scene.start("GameOverStory");
+            snowballAni.destroy();
+            golemAni.destroy();
+            ermineAni.destroy();
+            ermineAniATKGame.destroy();
+            HeartAni.destroy();
+            snowballAniDestroy.destroy();
+            golemATK.destroy();
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.W);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.D);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.SPACE);        
+        }
+
+        function Win(){
+            this.scene.start("WinScene");
+            snowballAni.destroy();
+            golemAni.destroy();
+            ermineAni.destroy();
+            ermineAniATKGame.destroy();
+            HeartAni.destroy();
+            snowballAniDestroy.destroy();
+            golemATK.destroy();
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.W);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.D);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.SPACE);   
         }
     }
 }

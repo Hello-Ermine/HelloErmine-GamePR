@@ -111,6 +111,7 @@ class CutSceneBossFight extends Phaser.Scene {
             duration: 750,
             framerate: 1,
             repeat: -1,
+            callbackScope:this
         });
         ermineCutScene.anims.play("ermineAni", true);
 
@@ -123,6 +124,7 @@ class CutSceneBossFight extends Phaser.Scene {
             duration: 750,
             framerate: 1,
             repeat: -1,
+            callbackScope:this
         });
 
         //ermine walk
@@ -183,11 +185,10 @@ class CutSceneBossFight extends Phaser.Scene {
                 golemAni.destroy();
                 golemAtkAni.destroy();
                 snowRollEvent.destroy();
-                fade = 0;
+                snowRollAni.destroy();
             },
             callbackScope: this,
             paused: true,
-            loop: true,
         });
 
         fadeChange = this.time.addEvent({
@@ -310,11 +311,6 @@ class CutSceneBossFight extends Phaser.Scene {
                 loop: false,
             });
         }
-
-        // this.tweens.add({
-        //     targets: ermineCutScene,
-        //     duration: 1000,
-        // });
 
         if (golem.x > 1000) {
             golem.setVelocityX(-100);

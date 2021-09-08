@@ -49,8 +49,10 @@ let countATKGolem = 0;
 let playerHeart;
 let open = 0;
 let rand=5;
-let countATKermine=10;
+let countBullet;
 let score;
+let fade=0;
+let Reload=0;
 
 //bullet
 let bullet;
@@ -58,7 +60,7 @@ let bulletShow;
 let delayBullet = 350;
 let timeSinceLastAttackBullet = 0;
 let heavyATK=0;
-let atk=5;
+let atk = 10;
 
 //Boss
 let golemHp = 1;
@@ -85,6 +87,24 @@ class BossFightArcade extends Phaser.Scene {
     init(data){
         playerHeart=data.playerHeart;
         score=data.score;
+        golemHp=1;
+        finish=0;
+        hpOpen=0;
+        timeSinceLastAttackBullet = 0;
+        heavyATK=0;
+        timeSinceLastAttack= 0;
+        countATKGolem = 0;
+        open = 0;
+        rand=5;
+        countBullet=10;
+        fade=0;
+        Reload=0;
+        if(atk>0 && atk==10){
+            atk=10;
+        }
+        else if(atk==0){
+            atk=1;
+        }
     }
 
     preload() {
@@ -155,6 +175,7 @@ class BossFightArcade extends Phaser.Scene {
             duration: 750,
             framerate: 1,
             repeat: -1,
+            callbackScope:this
         });
 
         snowballAniDestroyBoss=this.anims.create({
@@ -196,7 +217,7 @@ class BossFightArcade extends Phaser.Scene {
         }
 
         bulletShowGroup=this.add.group();
-        for(let i=0;i<countATKermine;i++){
+        for(let i=0;i<countBullet;i++){
             bulletShow=this.add.image(30+i * 45,200,"bullet")
             .setDepth(100000)
             .setScale(0.35);
@@ -225,7 +246,7 @@ class BossFightArcade extends Phaser.Scene {
         });
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(false);
-        ermine.immortal = false;
+        ermine.immortal = true;
 
         ermineAniATKGame=this.anims.create({
             key:"ermineAniATKGame",
@@ -259,7 +280,7 @@ class BossFightArcade extends Phaser.Scene {
             .setDepth(5)
             .setOrigin(0, 0)
             .setScale(2.5, 1.5);
-        // healthBar.setScale(((50 * 2) / healthBar.width), 1);
+
         //Bullet
         bulletGroup = this.add.group();
 
@@ -269,45 +290,6 @@ class BossFightArcade extends Phaser.Scene {
         this.physics.add.overlap(ermine, golem, () => {
             if (ermine.immortal == false) {
                 playerHeart--;
-                if (playerHeart <= 0) {
-                    open=0;
-                    ermine.immortal = true;
-                    snowballEvent.paused = true;
-                    this.cameras.main.fadeOut(2000);
-                    this.time.addEvent({
-                        delay: 2000,
-                        callback: function () {
-                            this.scene.start("GameOverArcade",{score:score});
-                            snowballAni.destroy();
-                            ermineAni.destroy();
-                            ermineAniATKGame.destroy();
-                            // snowballAniDestroyBoss.destroy();
-                            HeartAni.destroy();
-                            golemAni.destroy();
-                            golemATK.destroy();
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.W
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.A
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.S
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.D
-                            );
-                            this.input.keyboard.removeKey(
-                                Phaser.Input.Keyboard.KeyCodes.SPACE
-                            );
-                            hpOpen=0;
-                            countATKermine=10;
-                        },
-                        callbackScope: this,
-                        loop: false,
-                        paused: false,
-                    });
-                }
                 for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                     if (playerHeart < i + 1) {
                         heartGroup.getChildren()[i].setVisible(false);
@@ -402,47 +384,6 @@ class BossFightArcade extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverArcade",{score:score});
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        // snowballAniDestroyBoss.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                        countATKermine=10;
-                                                        atk-=5;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -495,47 +436,6 @@ class BossFightArcade extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverArcade",{score:score});
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        // snowballAniDestroyBoss.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                        countATKermine=10;
-                                                        atk-=5;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -588,47 +488,6 @@ class BossFightArcade extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverArcade",{score:score});
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        // snowballAniDestroyBoss.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                        countATKermine=10;
-                                                        atk-=5;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -681,47 +540,6 @@ class BossFightArcade extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverArcade",{score:score});
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        // snowballAniDestroyBoss.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                        countATKermine=10;
-                                                        atk-=5;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -774,47 +592,6 @@ class BossFightArcade extends Phaser.Scene {
                                         }
                                         if (ermine.immortal == false) {
                                             playerHeart--;
-                                            if (playerHeart <= 0) {
-                                                open=0;
-                                                ermine.immortal = true;
-                                                snowballEvent.paused = true;
-                                                this.cameras.main.fadeOut(2000);
-                                                this.time.addEvent({
-                                                    delay: 2000,
-                                                    callback: function () {
-                                                        this.scene.start("GameOverArcade",{score:score});
-                                                        snowballAni.destroy();
-                                                        ermineAni.destroy();
-                                                        ermineAniATKGame.destroy();
-                                                        HeartAni.destroy();
-                                                        // snowballAniDestroyBoss.destroy();
-                                                        golemAni.destroy();
-                                                        golemATK.destroy();
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.W
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.A
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.S
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.D
-                                                        );
-                                                        this.input.keyboard.removeKey(
-                                                            Phaser.Input.Keyboard.KeyCodes.SPACE
-                                                        );
-                                                        playerHeart=5;
-                                                        hpOpen=0;
-                                                        countATKermine=10;
-                                                        atk-=1;
-                                                    },
-                                                    callbackScope: this,
-                                                    loop: false,
-                                                    paused: false,
-                                                });
-                                            }
                                             for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                                                 if (playerHeart < i + 1) {
                                                     heartGroup.getChildren()[i].setVisible(false);
@@ -886,10 +663,10 @@ class BossFightArcade extends Phaser.Scene {
         scoreOverLabel = this.add.dynamicBitmapText(this.game.renderer.width - 250, 50, 'ZFT', 'Score : 0', 25)
             .setDepth(1000)
             .setTint(0x61390A);
-
     }
 
     update(delta, time) {
+        console.log(atk);
         //Show X Y
         this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATKGolem + " | " + golemHp);
 
@@ -927,7 +704,7 @@ class BossFightArcade extends Phaser.Scene {
                     ermine.setVelocityX(0);
                 }
                 if(keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)){
-                    if(countATKermine<=10 && countATKermine>0){
+                    if(countBullet<=10 && countBullet>0){
                     ermine.anims.play("ermineAniATKGame", true);
                     this.time.addEvent({
                         delay: 650,
@@ -940,13 +717,13 @@ class BossFightArcade extends Phaser.Scene {
     
                     timeSinceLastAttack = delta;
                 }
-                    else if(countATKermine==0){
+                    else if(countBullet==0){
                         ermine.anims.play("ermineAni", true);
                     }
                 }
                 if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
-                    if(countATKermine<=10 && countATKermine>0){
-                        countATKermine--;
+                    if(countBullet<=10 && countBullet>0){
+                        countBullet--;
                         bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                             .setScale(0.35);
                         bullet.depth= bullet.y-100;
@@ -963,22 +740,33 @@ class BossFightArcade extends Phaser.Scene {
                     this.physics.add.overlap(bullet, snowball, hitSnowball);
                     timeSinceLastAttackBullet = delta;
                     }
-                    else if(countATKermine==0){
-                        this.time.addEvent({
-                            delay: 5000,
-                            callback: function(){
-                                countATKermine=10;
-                            },
-                            callbackScope:this,
-                            loop:false,
-                            paused:false
-                        });
+                }
+                if(countBullet==0){
+                    Reload++;
+                    console.log(Reload);
+                    if(Reload>=500){
+                        countBullet=10;
+                        Reload=0;
                     }
                 }
 
             }
-            for (let i = bulletShowGroup.getChildren().length ; i >= 0; i--) {
-                if (countATKermine < i + 1) {
+            if (playerHeart <= 0) {
+                ermine.immortal = true;
+                snowballEvent.paused = true;
+                if(fade==0){
+                    this.cameras.main.fadeOut(2000);
+                }
+                this.time.addEvent({
+                    delay: 2000,
+                    callback: GameOverScene ,
+                    callbackScope: this,
+                    loop: false,
+                    paused: false,
+                });
+            }
+            for (let i = bulletShowGroup.getChildren().length-1 ; i >= 0; i--) {
+                if (countBullet < i + 1) {
                     bulletShowGroup.getChildren()[i].setVisible(false);
                 } else {
                     bulletShowGroup.getChildren()[i].setVisible(true);
@@ -1005,38 +793,7 @@ class BossFightArcade extends Phaser.Scene {
             this.cameras.main.fadeOut(2000);
             this.time.addEvent({
                 delay: 2000,
-                callback: function () {
-                    this.scene.start("Arcade",{score:score});
-                    snowballAni.destroy();
-                    ermineAni.destroy();
-                    ermineAniATKGame.destroy();
-                    HeartAni.destroy();
-                    golemAni.destroy();
-                    golemATK.destroy();
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.W
-                    );
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.A
-                    );
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.S
-                    );
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.D
-                    );
-                    this.input.keyboard.removeKey(
-                        Phaser.Input.Keyboard.KeyCodes.SPACE
-                    );
-                    golemHp = 1;
-                    hpOpen=0;
-                    finish=0;
-                    atk-=1;
-                    countATKermine=10;
-                    if(atk<=0){
-                        atk=1;
-                    }
-                },
+                callback: Win ,
                 callbackScope: this,
                 loop: false,
                 paused: false,
@@ -1046,7 +803,6 @@ class BossFightArcade extends Phaser.Scene {
 
         if (hpOpen == 0 && golemHp <=maxHp) {
             golemHp++;
-            open=0;
             if(golemHp >= maxHp){
                 hpOpen = 1;
             }
@@ -1072,6 +828,38 @@ class BossFightArcade extends Phaser.Scene {
         }
         function hitSnowball(bullet, golem) {
             bullet.destroy();
+        }
+        function GameOverScene(){
+            this.scene.start("GameOverArcade",{score:score});
+            snowballAni.destroy();
+            golemAni.destroy();
+            ermineAni.destroy();
+            ermineAniATKGame.destroy();
+            HeartAni.destroy();
+            snowballAniDestroyBoss.destroy();
+            golemATK.destroy();
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.W);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.D);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.SPACE);        
+        }
+
+        function Win(){
+            atk-=1;
+            this.scene.start("Arcade",{score:score});
+            snowballAni.destroy();
+            golemAni.destroy();
+            ermineAni.destroy();
+            ermineAniATKGame.destroy();
+            HeartAni.destroy();
+            snowballAniDestroyBoss.destroy();
+            golemATK.destroy();
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.W);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.D);
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.SPACE);   
         }
     }
 }
