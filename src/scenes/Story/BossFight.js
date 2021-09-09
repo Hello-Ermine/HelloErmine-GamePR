@@ -704,9 +704,6 @@ class BossFight extends Phaser.Scene {
                 if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
                     console.log(countBullet);
                     if(countBullet>0){
-                        if(ReloadBullet.paused==false){
-                            ReloadBullet.paused=true;
-                        }
                         countBullet--;
                         bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
                             .setScale(0.35);
@@ -732,7 +729,6 @@ class BossFight extends Phaser.Scene {
                         Reload=0;
                     }
                 }
-
             }
             if (playerHeart <= 0) {
                 ermine.setVelocityX(-100);

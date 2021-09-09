@@ -159,7 +159,7 @@ class GameScene extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = false;
+        ermine.immortal = true;
 
         //ermineATK
         ermineAniATK = this.anims.create({
@@ -268,9 +268,9 @@ class GameScene extends Phaser.Scene {
             key: "snowmanAniDestroy",
             frames: this.anims.generateFrameNumbers("snowman",{
                 start: 8,
-                end: 9,
+                end: 11,
             }),
-            duration:350,
+            duration:500,
             framerate:1,
             callbackScope:this
         });
@@ -290,6 +290,13 @@ class GameScene extends Phaser.Scene {
                 snowman.setVelocityX(Phaser.Math.Between(-700, -1000));
                 snowman.anims.play("snowmanAni", true);
                 this.physics.add.overlap(ermine, snowman, snowmanDestroy, () => {
+                    if(snowman.anims.currentAnim.key == 'snowmanAniDestroy'){
+                        this.tweens.add({
+                            targets: snowman,
+                            alpha:0.1,
+                            duration: 1000
+                        });
+                    }
                     if (scratch == 0) {
                         if (ermine.immortal == false) {
                             playerHeart--;
@@ -330,7 +337,7 @@ class GameScene extends Phaser.Scene {
 
         function snowmanDestroy(ermine, snowman) {
             snowman.flipX=false;
-            snowman.anims.play('snowmanAniDestroy');
+            snowman.anims.play('snowmanAniDestroy',true);
         }
 
         function snowballPlay(ermine,snowball){
@@ -353,7 +360,7 @@ class GameScene extends Phaser.Scene {
         });
 
         fadeChange = this.time.addEvent({
-            delay: 10000,
+            delay: 60000,
             callback: function () {
                 ermine.immortal=true;
                 ermine.setCollideWorldBounds(false);
@@ -442,7 +449,7 @@ class GameScene extends Phaser.Scene {
             }
             speedforchange += 1;
             //8600
-            if (speedforchange > 1000) {
+            if (speedforchange > 8600) {
                 ermine.immortal=true;
                 ermine.setVelocityX(500);
             }
