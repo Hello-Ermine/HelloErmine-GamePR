@@ -62,7 +62,7 @@ class GameScene extends Phaser.Scene {
         });
     }
     init(data) {
-        playerHeart = 1;
+        playerHeart = 5;
         countDestroy=0;
         fade=0;
         speedforchange=0;
@@ -159,7 +159,7 @@ class GameScene extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = true;
+        ermine.immortal = false;
 
         //ermineATK
         ermineAniATK = this.anims.create({
@@ -203,14 +203,14 @@ class GameScene extends Phaser.Scene {
 
         //Snow ball Event
         snowballEvent = this.time.addEvent({
-            delay: Phaser.Math.Between(700, 1500),
+            delay: Phaser.Math.Between(700, 900),
             callback: function () {
                 snowball = this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
                     .setScale(0.65)
                     .setSize(230, 60)
                     .setOffset(30, 220);
                 snowGroup.add(snowball);
-                snowball.setVelocityX(Phaser.Math.Between(-700,-900));
+                snowball.setVelocityX(-1000);
                 snowball.anims.play("snowballAni", true);
                 this.physics.add.overlap(ermine, snowball,snowballPlay,() => {
                     if(snowball.anims.currentAnim.key == 'snowballAniDestroy'){

@@ -95,7 +95,6 @@ class BossFightArcade extends Phaser.Scene {
         timeSinceLastAttack= 0;
         countATKGolem = 0;
         open = 0;
-        rand=5;
         countBullet=10;
         fade=0;
         Reload=0;
