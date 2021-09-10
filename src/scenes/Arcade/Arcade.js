@@ -476,6 +476,7 @@ class Arcade extends Phaser.Scene {
             speedforchange += 1;
             if (speedforchange > 8600) {
                 ermine.setVelocityX(500);
+                ermine.immortal=true;
             }
             speedscore+=1;
             if(speedscore>=500){
