@@ -665,7 +665,6 @@ class BossFightArcade extends Phaser.Scene {
     }
 
     update(delta, time) {
-        console.log(atk);
         //Show X Y
         this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATKGolem + " | " + golemHp);
 
@@ -786,7 +785,6 @@ class BossFightArcade extends Phaser.Scene {
 
         if (golemHp <= 0 && finish == 0) {
             finish++;
-            score+=50;
             snowballEvent.paused = true;
             golem.setVelocityY(0);
             this.cameras.main.fadeOut(2000);
@@ -846,7 +844,7 @@ class BossFightArcade extends Phaser.Scene {
 
         function Win(){
             atk-=1;
-            this.scene.start("Arcade",{score:score});
+            this.scene.start("Arcade",{score:50});
             snowballAni.destroy();
             golemAni.destroy();
             ermineAni.destroy();
