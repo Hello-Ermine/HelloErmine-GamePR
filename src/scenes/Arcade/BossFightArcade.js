@@ -245,7 +245,7 @@ class BossFightArcade extends Phaser.Scene {
         });
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(false);
-        ermine.immortal = true;
+        ermine.immortal = false;
 
         ermineAniATKGame=this.anims.create({
             key:"ermineAniATKGame",
@@ -747,7 +747,6 @@ class BossFightArcade extends Phaser.Scene {
                         Reload=0;
                     }
                 }
-
             }
             if (playerHeart <= 0) {
                 ermine.immortal = true;
