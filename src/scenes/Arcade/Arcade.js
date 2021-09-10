@@ -62,7 +62,7 @@ class Arcade extends Phaser.Scene {
         });
     }
     init(data) {
-        playerHeart = 1;
+        playerHeart = 5;
         countDestroy = 0;
         fade = 0;
         speedforchange = 0;
@@ -175,7 +175,7 @@ class Arcade extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = true;
+        ermine.immortal = false;
 
         //ermineATK
         ermineAniATK = this.anims.create({
@@ -378,7 +378,7 @@ class Arcade extends Phaser.Scene {
         });
 
         fadeChange = this.time.addEvent({
-            delay: 10000,
+            delay: 60000,
             callback: function () {
                 ermine.immortal = true;
                 ermine.setCollideWorldBounds(false);
