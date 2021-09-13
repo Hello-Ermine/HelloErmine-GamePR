@@ -822,7 +822,7 @@ class BossFight extends Phaser.Scene {
         }
 
         function Win(){
-            this.scene.start("WinScene");
+            this.scene.start("outro");
             snowballAni.destroy();
             golemAni.destroy();
             ermineAni.destroy();

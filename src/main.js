@@ -11,6 +11,8 @@ import CutSceneBossFight from './scenes/Story/CutSceneBossfight';
 import Arcade from './scenes/Arcade/Arcade';
 import BossFightArcade from './scenes/Arcade/BossFightArcade';
 import WinScene from './scenes/WinScene';
+import intro from './scenes/Story/intro';
+import outro from './scenes/Story/outro';
 
 
 const config = {
@@ -21,17 +23,22 @@ const config = {
     parent: 'content',
     width: 1280,
     height: 720,
+    dom: {
+        createContainer: true,
+        width: 1280,
+        height: 720,
+    },
     physics: {
         default: 'arcade',
         arcade: {
             debug: false,
-            // gravity: {y:300}
         }
     },
     scene: [
         MainMenu,
         TutorialScene,
         TutorialScene02,
+        intro,
         GameScene,
         CutSceneBossFight,
         BossFight,
@@ -39,8 +46,8 @@ const config = {
         Arcade,
         BossFightArcade,
         GameOverArcade,
-        WinScene,
-        // Default
+        outro,
+        // WinScene,
     ],
 
 };

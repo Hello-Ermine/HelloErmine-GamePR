@@ -354,7 +354,7 @@ class MainMenu extends Phaser.Scene {
                 transEvent = this.time.addEvent({
                     delay: 500,
                     callback: function () {
-                        this.scene.start('GameScene');
+                        this.scene.start('intro');
                         ermineAtkAni.destroy();
                         golemAni.destroy();
                         this.scene.destroy();
