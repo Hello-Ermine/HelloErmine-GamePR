@@ -7,6 +7,7 @@ let foreGround;
 let middleGround;
 let backGround;
 let skybox;
+let lowbox;
 
 //Character
 let ermine;
@@ -45,7 +46,7 @@ let keyAtk;
 let countDestroy = 0;
 let fade = 0;
 let speedforchange = 0;
-let speedscore=0;
+let speedscore = 0;
 let score = 0;
 let snowballspeed = 700;
 let timingscore=0;
@@ -68,7 +69,7 @@ class Arcade extends Phaser.Scene {
         timingscore=0;
         fade = 0;
         speedforchange = 0;
-        speedscore=0;
+        speedscore = 0;
         scratch = 0;
         timeSinceLastAttack = 0;
         if(data.score>0){
@@ -92,10 +93,10 @@ class Arcade extends Phaser.Scene {
         this.load.image("skyblock", "src/image/background/SkyBlock.png");
 
         //Animation
-        this.load.spritesheet("ermine","src/image/Character/ermine/ermineAll.png",{ frameWidth: 500, frameHeight: 300 });
-        this.load.spritesheet( "snowball","src/image/Character/Snowball w_destroyed Sheet.png",{ frameWidth: 300, frameHeight: 300 });
+        this.load.spritesheet("ermine", "src/image/Character/ermine/ermineAll.png", { frameWidth: 500, frameHeight: 300 });
+        this.load.spritesheet("snowball", "src/image/Character/Snowball w_destroyed Sheet.png", { frameWidth: 300, frameHeight: 300 });
         this.load.spritesheet("snowman", "src/image/Character/SnowmanFall64.png", { frameWidth: 670, frameHeight: 670, });
-        this.load.spritesheet("heart", "src/image/object/heart.png", {frameWidth: 64,frameHeight: 66,});
+        this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
 
         //font
         this.load.bitmapFont('ZFT', 'src/image/object/ZFT_0.png', 'src/fonts/ZFT_3/ZFT.fnt');
@@ -123,12 +124,20 @@ class Arcade extends Phaser.Scene {
             .tileSprite(0, -150, 1280, 720, "backGround")
             .setOrigin(0, 0)
             .setDepth(3);
-
+        //top
         skybox = this.physics.add
             .image(0, 0, "skyblock")
             .setScale(5, 0.8)
             .setVisible()
             .setImmovable();
+        //low
+        lowbox = this.physics.add
+            .image(0, 850, "skyblock")
+            .setScale(5, 0.8)
+            .setVisible()
+            .setImmovable()
+            .setDepth(10000000000);
+
         ermine = this.physics.add
             .sprite(190, 360, "ermine")
             .setScale(0.45)
@@ -137,6 +146,7 @@ class Arcade extends Phaser.Scene {
 
         //collider
         this.physics.add.collider(ermine, skybox);
+        this.physics.add.collider(ermine, lowbox);
         this.physics.add.collider(ermine, backGround);
 
         //Heart Group
@@ -227,7 +237,7 @@ class Arcade extends Phaser.Scene {
             delay: Phaser.Math.Between(700, 1500),
             callback: function () {
                 snowball = this.physics.add
-                    .sprite(this.game.renderer.width + 100,Phaser.Math.Between(150, 550),"snowball")
+                    .sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
                     .setScale(0.65)
                     .setSize(230, 60)
                     .setOffset(30, 220);
@@ -235,7 +245,7 @@ class Arcade extends Phaser.Scene {
                 snowball.setVelocityX(-snowballspeed);
                 snowball.anims.play("snowballAni", true);
                 this.physics.add.overlap(ermine, snowball, snowballPlay, () => {
-                    if ( snowball.anims.currentAnim.key == "snowballAniDestroy") {
+                    if (snowball.anims.currentAnim.key == "snowballAniDestroy") {
                         this.tweens.add({
                             targets: snowball,
                             alpha: 0,
@@ -244,7 +254,7 @@ class Arcade extends Phaser.Scene {
                     }
                     if (ermine.immortal == false) {
                         playerHeart--;
-                        for (let i = heartGroup.getChildren().length - 1;i >= 0;i--) {
+                        for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
                             if (playerHeart < i + 1) {
                                 heartGroup.getChildren()[i].setVisible(false);
                             } else {
@@ -286,15 +296,15 @@ class Arcade extends Phaser.Scene {
             callbackScope: this,
         });
 
-        snowmanAniDestroy=this.anims.create({
+        snowmanAniDestroy = this.anims.create({
             key: "snowmanAniDestroy",
-            frames: this.anims.generateFrameNumbers("snowman",{
+            frames: this.anims.generateFrameNumbers("snowman", {
                 start: 8,
                 end: 11,
             }),
-            duration:500,
-            framerate:1,
-            callbackScope:this
+            duration: 500,
+            framerate: 1,
+            callbackScope: this
         });
 
         //create snowman group for destroy
@@ -312,24 +322,24 @@ class Arcade extends Phaser.Scene {
                 snowManGroup.add(snowman);
                 snowman.setVelocityX(Phaser.Math.Between(-700, -1000));
                 snowman.anims.play("snowmanAni", true);
-                this.physics.add.overlap(ermine,snowman,snowmanDestroy,() => {
-                    if(snowman.anims.currentAnim.key == 'snowmanAniDestroy'){
+                this.physics.add.overlap(ermine, snowman, snowmanDestroy, () => {
+                    if (snowman.anims.currentAnim.key == 'snowmanAniDestroy') {
                         this.tweens.add({
                             targets: snowman,
-                            alpha:0,
+                            alpha: 0,
                             duration: 1000,
-                            callbackScope:this,
+                            callbackScope: this,
                         });
                     }
-                        if (scratch == 0) {
-                            if (ermine.immortal == false) {
-                                playerHeart--;
-                                for (let i = heartGroup.getChildren().length - 1;i >= 0;i--) {
-                                    if (playerHeart < i + 1) {
-                                        heartGroup.getChildren()[i].setVisible(false);} 
-                                    else {
-                                        heartGroup.getChildren()[i].setVisible(true);
-                                    }
+                    if (scratch == 0) {
+                        if (ermine.immortal == false) {
+                            playerHeart--;
+                            for (let i = heartGroup.getChildren().length - 1; i >= 0; i--) {
+                                if (playerHeart < i + 1) {
+                                    heartGroup.getChildren()[i].setVisible(false);
+                                }
+                                else {
+                                    heartGroup.getChildren()[i].setVisible(true);
                                 }
                                 ermine.immortal = true;
                                 ermine.flickerTimer = this.time.addEvent({
@@ -352,9 +362,30 @@ class Arcade extends Phaser.Scene {
                                     score+=10;
                                     timingscore=0;
                                     console.log(countDestroy);
-                                }
+                            }
+                            ermine.immortal = true;
+                            ermine.flickerTimer = this.time.addEvent({
+                                delay: 100,
+                                callback: function () {
+                                    ermine.setVisible(!ermine.visible);
+                                    if (ermine.flickerTimer.repeatCount == 0) {
+                                        ermine.immortal = false;
+                                        ermine.setVisible(true);
+                                        ermine.flickerTimer.remove();
+                                    }
+                                },
+                                repeat: 15,
+                            });
+                        }
+                    } else if (scratch == 1) {
+                        countDestroy++;
+                        timingscore += 10;
+                        if (timingscore >= 30) {
+                            score += 10;
+                            timingscore = 0;
                         }
                     }
+                }
                 );
                 snowman.depth = snowman.y;
             },
@@ -364,8 +395,8 @@ class Arcade extends Phaser.Scene {
         });
 
         function snowmanDestroy(ermine, snowman) {
-            snowman.flipX=false;
-            snowman.anims.play('snowmanAniDestroy',true);
+            snowman.flipX = false;
+            snowman.anims.play('snowmanAniDestroy', true);
             // snowman.alpha=1;
         }
 
@@ -382,7 +413,7 @@ class Arcade extends Phaser.Scene {
 
         changeScene = this.time.addEvent({
             delay: 2000,
-            callback: ChangeScene ,
+            callback: ChangeScene,
             callbackScope: this,
             paused: true,
         });
@@ -404,7 +435,7 @@ class Arcade extends Phaser.Scene {
             paused: false
         });
 
-        function ChangeScene(){
+        function ChangeScene() {
             ermine.setVelocity(0);
             this.scene.start("BossFightArcade", { playerHeart: playerHeart,score:score,countDestroy:countDestroy});
             snowballAni.destroy();
@@ -413,7 +444,7 @@ class Arcade extends Phaser.Scene {
             ermineAniATK.destroy();
             HeartAni.destroy();
             snowballAniDestroy.destroy();
-            snowmanAniDestroy.destroy();             
+            snowmanAniDestroy.destroy();
             this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.W);
             this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
             this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
@@ -485,33 +516,33 @@ class Arcade extends Phaser.Scene {
             }
             speedforchange += 1;
             if (speedforchange > 8600) {
-                ermine.immortal=true;
+                ermine.immortal = true;
                 ermine.setVelocityX(500);
             }
-            speedscore+=1;
-            if(speedscore>=500){
-                score+=10;
-                speedscore=0;
+            speedscore += 1;
+            if (speedscore >= 500) {
+                score += 10;
+                speedscore = 0;
             }
-        } 
+        }
         if (playerHeart <= 0) {
             ermine.setVelocityY(0);
             ermine.setVelocityX(-100);
-                ermine.immortal = true;
-                snowManEvent.paused = true;
-                snowballEvent.paused = true;
-                if(fade==0){
-                    this.cameras.main.fadeOut(2000);
-                    if ("camerafadeoutprogress") {
-                        this.cameras.main.fadeOut(1000);
-                    }
-                    fade++;
+            ermine.immortal = true;
+            snowManEvent.paused = true;
+            snowballEvent.paused = true;
+            if (fade == 0) {
+                this.cameras.main.fadeOut(2000);
+                if ("camerafadeoutprogress") {
+                    this.cameras.main.fadeOut(1000);
                 }
-                this.time.addEvent({
-                    delay: 2000,
-                    callback: GameOverScene,
-                    callbackScope: this,
-                });
+                fade++;
+            }
+            this.time.addEvent({
+                delay: 2000,
+                callback: GameOverScene,
+                callbackScope: this,
+            });
         }
 
         //destroy snowGroup when x = -150
@@ -539,7 +570,7 @@ class Arcade extends Phaser.Scene {
             this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
             this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
             this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.D);
-            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.SPACE);             
+            this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         }
     }
 }

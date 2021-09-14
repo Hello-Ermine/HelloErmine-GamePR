@@ -6,6 +6,7 @@ let middleGround;
 let backGround;
 let skybox;
 let skybox2;
+let lowbox;
 
 //Character
 let golem;
@@ -139,10 +140,20 @@ class BossFight extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(3);
 
-        skybox = this.physics.add.image(0, 0, "skyblock")
+        //top
+        skybox = this.physics.add
+            .image(0, 0, "skyblock")
             .setScale(5, 0.8)
             .setVisible()
             .setImmovable();
+        //low
+        lowbox = this.physics.add
+            .image(0, 850, "skyblock")
+            .setScale(5, 0.8)
+            .setVisible()
+            .setImmovable()
+            .setDepth(10000000000);
+
         skybox2 = this.physics.add.image(925, 215, "skyblock")
             .setOrigin(0, 0)
             .setScale(0.65, 0.93)
@@ -210,6 +221,7 @@ class BossFight extends Phaser.Scene {
             .setOffset(200, 150);
         this.physics.add.collider(ermine, skybox);
         this.physics.add.collider(ermine, skybox2);
+        this.physics.add.collider(ermine, lowbox);
         this.physics.add.collider(ermine, backGround);
         //ermine Aanimation
         ermineAni = this.anims.create({
