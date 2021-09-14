@@ -355,15 +355,8 @@ class Arcade extends Phaser.Scene {
                                     repeat: 15,
                                 });
                             }
-                        } else if (scratch == 1) {
-                                timingscore+=10;
-                                if(timingscore>=30){
-                                    countDestroy+=1;
-                                    score+=10;
-                                    timingscore=0;
-                                    console.log(countDestroy);
-                            }
-                            ermine.immortal = true;
+                        }   
+                        ermine.immortal = true;
                             ermine.flickerTimer = this.time.addEvent({
                                 delay: 100,
                                 callback: function () {
@@ -377,12 +370,12 @@ class Arcade extends Phaser.Scene {
                                 repeat: 15,
                             });
                         }
-                    } else if (scratch == 1) {
-                        countDestroy++;
-                        timingscore += 10;
-                        if (timingscore >= 30) {
-                            score += 10;
-                            timingscore = 0;
+                        else if (scratch == 1) {
+                            timingscore+=10;
+                            if(timingscore>=30){
+                                countDestroy+=1;
+                                score+=10;
+                                timingscore=0;
                         }
                     }
                 }
