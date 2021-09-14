@@ -24,18 +24,21 @@ class outro extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('scene1','src/videoStory/Outro09.jpg');
-        this.load.image('scene2','src/videoStory/Outro10.jpg');
-        this.load.image('scene3','src/videoStory/Outro11.jpg');
-        this.load.image('scene4','src/videoStory/Outro12.jpg');
-        this.load.image('scene5','src/videoStory/Outro13.jpg');
-        this.load.image('scene6','src/videoStory/Outro14.jpg');
-        this.load.image('scene7','src/videoStory/Outro15.jpg');
-        this.load.image('scene8','src/videoStory/Outro16.jpg');
+        this.load.image('scene1','src/image/videoStory/Outro09.jpg');
+        this.load.image('scene2','src/image/videoStory/Outro10.jpg');
+        this.load.image('scene3','src/image/videoStory/Outro11.jpg');
+        this.load.image('scene4','src/image/videoStory/Outro12.jpg');
+        this.load.image('scene5','src/image/videoStory/Outro13.jpg');
+        this.load.image('scene6','src/image/videoStory/Outro14.jpg');
+        this.load.image('scene7','src/image/videoStory/Outro15.jpg');
+        this.load.image('scene8','src/image/videoStory/Outro16.jpg');
     }
     
     create() {
-        scene1=this.add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2,this.cameras.main.worldView.y + this.cameras.main.height / 2,'scene1').setScale(1);
+        scene1=this.add.image(
+            this.cameras.main.worldView.x + this.cameras.main.width / 2
+            ,this.cameras.main.worldView.y + this.cameras.main.height / 2,
+            'scene1').setScale(1);
         scene1.alpha=0;
         this.tweens.add({
             targets: scene1,

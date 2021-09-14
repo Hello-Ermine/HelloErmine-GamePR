@@ -176,7 +176,7 @@ class Arcade extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = true;
+        ermine.immortal = false;
 
         //ermineATK
         ermineAniATK = this.anims.create({
@@ -483,11 +483,11 @@ class Arcade extends Phaser.Scene {
                 ermine.immortal=true;
                 ermine.setVelocityX(500);
             }
-            // speedscore+=1;
-            // if(speedscore>=500){
-            //     score+=10;
-            //     speedscore=0;
-            // }
+            speedscore+=1;
+            if(speedscore>=500){
+                score+=10;
+                speedscore=0;
+            }
         } 
         if (playerHeart <= 0) {
             ermine.setVelocityY(0);

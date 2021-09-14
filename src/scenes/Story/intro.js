@@ -24,18 +24,21 @@ class intro extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('scene1','src/videoStory/scene01.jpg');
-        this.load.image('scene2','src/videoStory/scene02.jpg');
-        this.load.image('scene3','src/videoStory/scene03.jpg');
-        this.load.image('scene4','src/videoStory/scene04.jpg');
-        this.load.image('scene5','src/videoStory/scene05.jpg');
-        this.load.image('scene6','src/videoStory/scene06.jpg');
-        this.load.image('scene7','src/videoStory/scene07.jpg');
-        this.load.image('scene8','src/videoStory/scene08.jpg');
+        this.load.image('scene1','src/image/videoStory/scene01.jpg');
+        this.load.image('scene2','src/image/videoStory/scene02.jpg');
+        this.load.image('scene3','src/image/videoStory/scene03.jpg');
+        this.load.image('scene4','src/image/videoStory/scene04.jpg');
+        this.load.image('scene5','src/image/videoStory/scene05.jpg');
+        this.load.image('scene6','src/image/videoStory/scene06.jpg');
+        this.load.image('scene7','src/image/videoStory/scene07.jpg');
+        this.load.image('scene8','src/image/videoStory/scene08.jpg');
     }
 
     create() {
-        scene1=this.add.image(this.cameras.main.worldView.x + this.cameras.main.width / 2,this.cameras.main.worldView.y + this.cameras.main.height / 2,'scene1').setScale(1);
+        scene1=this.add.image(
+            this.cameras.main.worldView.x + this.cameras.main.width / 2,
+            this.cameras.main.worldView.y + this.cameras.main.height / 2,
+            'scene1').setScale(0.895);
         scene1.alpha=0;
         this.tweens.add({
             targets: scene1,
@@ -46,7 +49,7 @@ class intro extends Phaser.Scene {
         scene2=this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'scene2').setScale(1).setVisible(true);
+            'scene2').setScale(0.895).setVisible(true);
         scene2.alpha=0;
         changeStory1=this.time.addEvent({
             delay:1000,
@@ -64,7 +67,7 @@ class intro extends Phaser.Scene {
         scene3= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'scene3').setScale(1).setVisible(true);
+            'scene3').setScale(0.895).setVisible(true);
         scene3.alpha=0;
         changeStory2=this.time.addEvent({
             delay:1000,
@@ -82,7 +85,7 @@ class intro extends Phaser.Scene {
         scene4= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'scene4').setScale(1).setVisible(true);
+            'scene4').setScale(0.895).setVisible(true);
         scene4.alpha=0;
         changeStory3=this.time.addEvent({
             delay:1000,
@@ -100,7 +103,7 @@ class intro extends Phaser.Scene {
         scene5= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'scene5').setScale(1).setVisible(true);
+            'scene5').setScale(0.895).setVisible(true);
         scene5.alpha=0;
         changeStory4=this.time.addEvent({
             delay:1000,
@@ -118,7 +121,7 @@ class intro extends Phaser.Scene {
         scene6= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'scene6').setScale(1).setVisible(true);
+            'scene6').setScale(0.895).setVisible(true);
         scene6.alpha=0;
         changeStory5=this.time.addEvent({
             delay:1000,
@@ -136,7 +139,7 @@ class intro extends Phaser.Scene {
         scene7= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'scene7').setScale(1).setVisible(true);
+            'scene7').setScale(0.895).setVisible(true);
         scene7.alpha=0;
         changeStory6=this.time.addEvent({
             delay:1000,
@@ -154,7 +157,7 @@ class intro extends Phaser.Scene {
         scene8= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'scene8').setScale(1).setVisible(true);
+            'scene8').setScale(0.895).setVisible(true);
         scene8.alpha=0;
         changeStory7=this.time.addEvent({
             delay:1000,

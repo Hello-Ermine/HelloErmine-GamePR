@@ -17,21 +17,16 @@ import outro from './scenes/Story/outro';
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
-    type: Phaser.WEBGL,
+    type: Phaser.AUTO,
     pixelArt: true,
     roundPixels: true,
     parent: 'content',
     width: 1280,
     height: 720,
-    dom: {
-        createContainer: true,
-        width: 1280,
-        height: 720,
-    },
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
         }
     },
     scene: [
@@ -43,10 +38,10 @@ const config = {
         CutSceneBossFight,
         BossFight,
         GameOverStory,
+        outro,
         Arcade,
         BossFightArcade,
         GameOverArcade,
-        outro,
         // WinScene,
     ],
 
