@@ -53,6 +53,8 @@ let countBullet;
 let score;
 let fade=0;
 let Reload=0;
+let countDestroy;
+let countGolem;
 
 //bullet
 let bullet;
@@ -87,6 +89,8 @@ class BossFightArcade extends Phaser.Scene {
     init(data){
         playerHeart=data.playerHeart;
         score=data.score;
+        countDestroy=data.countDestroy;
+        countGolem=data.countGolem;
         golemHp=1;
         finish=0;
         hpOpen=0;
@@ -741,7 +745,6 @@ class BossFightArcade extends Phaser.Scene {
                 }
                 if(countBullet==0){
                     Reload++;
-                    console.log(Reload);
                     if(Reload>=500){
                         countBullet=10;
                         Reload=0;
@@ -791,8 +794,6 @@ class BossFightArcade extends Phaser.Scene {
                 delay: 2000,
                 callback: Win ,
                 callbackScope: this,
-                loop: false,
-                paused: false,
             });
 
         }
@@ -826,7 +827,7 @@ class BossFightArcade extends Phaser.Scene {
             bullet.destroy();
         }
         function GameOverScene(){
-            this.scene.start("GameOverArcade",{score:score});
+            this.scene.start("GameOverArcade",{score:score,countDestroy:countDestroy,countGolem:countGolem});
             snowballAni.destroy();
             golemAni.destroy();
             ermineAni.destroy();
@@ -843,6 +844,7 @@ class BossFightArcade extends Phaser.Scene {
 
         function Win(){
             atk-=1;
+            countGolem++;
             this.scene.start("Arcade",{score:50});
             snowballAni.destroy();
             golemAni.destroy();

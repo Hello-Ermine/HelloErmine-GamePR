@@ -15,9 +15,7 @@ let paper;
 //score
 let score;
 let scorePlay;
-//time
-let timeFinal;
-let timePlay;
+let SnowmanPlay;
 //rank
 let rank;
 let rankCrate = 0;
@@ -25,6 +23,8 @@ let rankVelo = 100;
 
 //Any
 let i=0;
+let snowman;
+let golem;
 
 class GameOverArcade extends Phaser.Scene {
     constructor(test) {
@@ -34,6 +34,8 @@ class GameOverArcade extends Phaser.Scene {
     }
     init(data) {
         score = data.score;
+        snowman=data.countDestroy;
+        golem=data.countGolem;
     }
 
     preload() {
@@ -149,12 +151,12 @@ class GameOverArcade extends Phaser.Scene {
             .setDepth(1000)
             .setTint(0x61390A);
 
-        timePlay = this.add.dynamicBitmapText(760, 520, 'ZFT', 'Time : 0', 50)
+        SnowmanPlay = this.add.dynamicBitmapText(760, 520, 'ZFT', 'Snoman and Golem: 0', 50)
             .setDepth(1000)
             .setTint(0x61390A);
 
         scorePlay.alpha = 0;
-        timePlay.alpha = 0;
+        SnowmanPlay.alpha = 0;
     }
 
     update(delta, time) {
@@ -162,7 +164,7 @@ class GameOverArcade extends Phaser.Scene {
         this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
 
         scorePlay.setText('Score : ' + score);
-        timePlay.setText('Time : ' + timeFinal);
+        SnowmanPlay.setText('Snoman: '+snowman+'\nGolem: '+golem);
 
 
         // score = 500;
@@ -228,7 +230,7 @@ class GameOverArcade extends Phaser.Scene {
                         delay: 250,
                         callback: function () {
                             this.tweens.add({
-                                targets: timePlay,
+                                targets: SnowmanPlay,
                                 duration: 250,
                                 alpha: 1
                             });
@@ -255,15 +257,6 @@ class GameOverArcade extends Phaser.Scene {
                 paper.setVelocityY(800);
             }
         }
-        // if (textOver.y > 100) {
-        //     textOver.setVelocityY(0);
-
-        // if (blackGround.y > 140) {
-        //     blackGround.setVelocityY(0);
-        // }else{
-        //     blackGround.setVelocityY(1000);
-        // }
-        // }
 
         if (tryAgain.y < 520) {
             tryAgain.setVelocityY(0);

@@ -49,6 +49,7 @@ let speedscore=0;
 let score = 0;
 let snowballspeed = 700;
 let timingscore=0;
+let countGolem=0;
 
 //cooldown
 let DELAY = 1000;
@@ -64,7 +65,7 @@ class Arcade extends Phaser.Scene {
     }
     init(data) {
         playerHeart = 5;
-        countDestroy = 0;
+        timingscore=0;
         fade = 0;
         speedforchange = 0;
         speedscore=0;
@@ -73,10 +74,13 @@ class Arcade extends Phaser.Scene {
         if(data.score>0){
             score+=data.score;
             snowballspeed+=100;
+            countGolem=data.countGolem;
         }
         else{
             score=0
             snowballspeed=700;
+            countDestroy = 0;
+            countGolem=0;
         }
     }
 
@@ -342,11 +346,12 @@ class Arcade extends Phaser.Scene {
                                 });
                             }
                         } else if (scratch == 1) {
-                                countDestroy++;
                                 timingscore+=10;
                                 if(timingscore>=30){
+                                    countDestroy+=1;
                                     score+=10;
                                     timingscore=0;
+                                    console.log(countDestroy);
                                 }
                         }
                     }
@@ -401,7 +406,7 @@ class Arcade extends Phaser.Scene {
 
         function ChangeScene(){
             ermine.setVelocity(0);
-            this.scene.start("BossFightArcade", { playerHeart: playerHeart,score:score});
+            this.scene.start("BossFightArcade", { playerHeart: playerHeart,score:score,countDestroy:countDestroy});
             snowballAni.destroy();
             snowmanAni.destroy();
             ermineAni.destroy();
@@ -522,7 +527,7 @@ class Arcade extends Phaser.Scene {
             }
         }
         function GameOverScene(){
-            this.scene.start("GameOverArcade",{score:score});
+            this.scene.start("GameOverArcade",{score:score,countDestroy:countDestroy,countGolem:countGolem});
             snowballAni.destroy();
             snowmanAni.destroy();
             ermineAni.destroy();
