@@ -355,20 +355,7 @@ class Arcade extends Phaser.Scene {
                                     repeat: 15,
                                 });
                             }
-                        }   
-                        ermine.immortal = true;
-                            ermine.flickerTimer = this.time.addEvent({
-                                delay: 100,
-                                callback: function () {
-                                    ermine.setVisible(!ermine.visible);
-                                    if (ermine.flickerTimer.repeatCount == 0) {
-                                        ermine.immortal = false;
-                                        ermine.setVisible(true);
-                                        ermine.flickerTimer.remove();
-                                    }
-                                },
-                                repeat: 15,
-                            });
+                            }   
                         }
                         else if (scratch == 1) {
                             timingscore+=10;
