@@ -7,6 +7,7 @@ let foreGround;
 let middleGround;
 let backGround;
 let skybox;
+let lowbox;
 
 //Character
 let ermine;
@@ -106,10 +107,20 @@ class GameScene extends Phaser.Scene {
             .setOrigin(0, 0)
             .setDepth(3);
 
-        skybox = this.physics.add.image(0, 0, "skyblock")
+        //top
+        skybox = this.physics.add
+            .image(0, 0, "skyblock")
             .setScale(5, 0.8)
             .setVisible()
             .setImmovable();
+        //low
+        lowbox = this.physics.add
+            .image(0, 850, "skyblock")
+            .setScale(5, 0.8)
+            .setVisible()
+            .setImmovable()
+            .setDepth(10000000000);
+
         ermine = this.physics.add.sprite(190, 360, "ermine")
             .setScale(0.45)
             .setSize(200, 80)
@@ -117,6 +128,7 @@ class GameScene extends Phaser.Scene {
 
         //collider
         this.physics.add.collider(ermine, skybox);
+        this.physics.add.collider(ermine, lowbox);
         this.physics.add.collider(ermine, backGround);
 
         //Heart Group
