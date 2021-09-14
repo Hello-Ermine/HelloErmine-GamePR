@@ -293,7 +293,7 @@ class GameScene extends Phaser.Scene {
                     if(snowman.anims.currentAnim.key == 'snowmanAniDestroy'){
                         this.tweens.add({
                             targets: snowman,
-                            alpha:0.1,
+                            alpha:0,
                             duration: 1000
                         });
                     }

@@ -48,6 +48,7 @@ let speedforchange = 0;
 let speedscore=0;
 let score = 0;
 let snowballspeed = 700;
+let timingscore=0;
 
 //cooldown
 let DELAY = 1000;
@@ -127,8 +128,8 @@ class Arcade extends Phaser.Scene {
         ermine = this.physics.add
             .sprite(190, 360, "ermine")
             .setScale(0.45)
-            .setSize(250, 80)
-            .setOffset(200, 150);
+            .setSize(50, 80)
+            .setOffset(300, 150);
 
         //collider
         this.physics.add.collider(ermine, skybox);
@@ -175,7 +176,7 @@ class Arcade extends Phaser.Scene {
 
         ermine.anims.play("ermineAni", true);
         ermine.setCollideWorldBounds(true);
-        ermine.immortal = false;
+        ermine.immortal = true;
 
         //ermineATK
         ermineAniATK = this.anims.create({
@@ -233,7 +234,7 @@ class Arcade extends Phaser.Scene {
                     if ( snowball.anims.currentAnim.key == "snowballAniDestroy") {
                         this.tweens.add({
                             targets: snowball,
-                            alpha: 0.1,
+                            alpha: 0,
                             duration: 1000,
                         });
                     }
@@ -301,7 +302,7 @@ class Arcade extends Phaser.Scene {
             callback: function () {
                 snowman = this.physics.add.sprite(1380, Phaser.Math.Between(150, 550), "snowman")
                     .setScale(0.45)
-                    .setSize(235, 145)
+                    .setSize(30, 145)
                     .setOffset(235, 440);
                 snowman.flipX = !snowman.flipX;
                 snowManGroup.add(snowman);
@@ -311,8 +312,9 @@ class Arcade extends Phaser.Scene {
                     if(snowman.anims.currentAnim.key == 'snowmanAniDestroy'){
                         this.tweens.add({
                             targets: snowman,
-                            alpha:0.1,
-                            duration: 1000
+                            alpha:0,
+                            duration: 1000,
+                            callbackScope:this,
                         });
                     }
                         if (scratch == 0) {
@@ -340,10 +342,12 @@ class Arcade extends Phaser.Scene {
                                 });
                             }
                         } else if (scratch == 1) {
-                            if (ermine.anims.currentAnim.key == "ermineAniATK") {
                                 countDestroy++;
-                                score += 10;
-                            }
+                                timingscore+=10;
+                                if(timingscore>=30){
+                                    score+=10;
+                                    timingscore=0;
+                                }
                         }
                     }
                 );
@@ -357,6 +361,7 @@ class Arcade extends Phaser.Scene {
         function snowmanDestroy(ermine, snowman) {
             snowman.flipX=false;
             snowman.anims.play('snowmanAniDestroy',true);
+            // snowman.alpha=1;
         }
 
         function snowballPlay(ermine, snowball) {
@@ -478,11 +483,11 @@ class Arcade extends Phaser.Scene {
                 ermine.immortal=true;
                 ermine.setVelocityX(500);
             }
-            speedscore+=1;
-            if(speedscore>=500){
-                score+=10;
-                speedscore=0;
-            }
+            // speedscore+=1;
+            // if(speedscore>=500){
+            //     score+=10;
+            //     speedscore=0;
+            // }
         } 
         if (playerHeart <= 0) {
             ermine.setVelocityY(0);
