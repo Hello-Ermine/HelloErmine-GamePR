@@ -857,8 +857,7 @@ class BossFightArcade extends Phaser.Scene {
 
         function Win(){
             atk-=1;
-            countGolem++;
-            this.scene.start("Arcade",{score:50});
+            this.scene.start("Arcade",{score:50,countGolem:1,countDestroy:0});
             snowballAni.destroy();
             golemAni.destroy();
             ermineAni.destroy();

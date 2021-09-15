@@ -205,7 +205,8 @@ class GameOverArcade extends Phaser.Scene {
 
         if( rank.y >= 350){
             rank.setVelocityY(rankVelo-=10);
-        }else if( rank.y <= 330){
+        }
+        if( rank.y <= 330){
             rank.setVelocityY(rankVelo+=10);
         }
 

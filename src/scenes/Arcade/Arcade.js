@@ -75,7 +75,8 @@ class Arcade extends Phaser.Scene {
         if(data.score>0){
             score+=data.score;
             snowballspeed+=100;
-            countGolem=data.countGolem;
+            countGolem+=data.countGolem;
+            countDestroy+=data.countDestroy;
         }
         else{
             score=0
