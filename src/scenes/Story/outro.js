@@ -175,7 +175,7 @@ class outro extends Phaser.Scene {
         end=this.time.addEvent({
             delay:1000,
             callback: function(){
-                location.reload();
+                this.scene.start("WinScene");
             },
             callbackScope:this,
             paused:true
