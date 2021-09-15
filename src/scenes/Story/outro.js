@@ -38,7 +38,7 @@ class outro extends Phaser.Scene {
         outro1=this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2
             ,this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'outro1').setScale(1);
+            'outro1').setScale(0.895);
         outro1.alpha=0;
         this.tweens.add({
             targets: outro1,
@@ -49,7 +49,7 @@ class outro extends Phaser.Scene {
         outro2=this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'outro2').setScale(1).setVisible(true);
+            'outro2').setScale(0.895).setVisible(true);
         outro2.alpha=0;
         changeStory1=this.time.addEvent({
             delay:1000,
@@ -67,7 +67,7 @@ class outro extends Phaser.Scene {
         outro3= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'outro3').setScale(1).setVisible(true);
+            'outro3').setScale(0.895).setVisible(true);
         outro3.alpha=0;
         changeStory2=this.time.addEvent({
             delay:1000,
@@ -85,7 +85,7 @@ class outro extends Phaser.Scene {
         outro4= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'outro4').setScale(1).setVisible(true);
+            'outro4').setScale(0.895).setVisible(true);
         outro4.alpha=0;
         changeStory3=this.time.addEvent({
             delay:1000,
@@ -103,7 +103,7 @@ class outro extends Phaser.Scene {
         outro5= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'outro5').setScale(1).setVisible(true);
+            'outro5').setScale(0.895).setVisible(true);
         outro5.alpha=0;
         changeStory4=this.time.addEvent({
             delay:1000,
@@ -121,7 +121,7 @@ class outro extends Phaser.Scene {
         outro6= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'outro6').setScale(1).setVisible(true);
+            'outro6').setScale(0.895).setVisible(true);
         outro6.alpha=0;
         changeStory5=this.time.addEvent({
             delay:1000,
@@ -139,7 +139,7 @@ class outro extends Phaser.Scene {
         outro7= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'outro7').setScale(1).setVisible(true);
+            'outro7').setScale(0.895).setVisible(true);
         outro7.alpha=0;
         changeStory6=this.time.addEvent({
             delay:1000,
@@ -157,7 +157,7 @@ class outro extends Phaser.Scene {
         outro8= this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
-            'outro8').setScale(1).setVisible(true);
+            'outro8').setScale(0.895).setVisible(true);
         outro8.alpha=0;
         changeStory7=this.time.addEvent({
             delay:1000,
