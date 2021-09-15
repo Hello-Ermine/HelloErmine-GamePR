@@ -36,10 +36,10 @@ const config = {
         // CutSceneBossFight,
         // BossFight,
         // GameOverStory,
-        Arcade,
-        BossFightArcade,
-        GameOverArcade,
-        // WinScene,
+        // Arcade,
+        // BossFightArcade,
+        // GameOverArcade,
+        WinScene,
         // Default
     ],
 
