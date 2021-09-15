@@ -15,49 +15,18 @@ let typewriter;
 let bitMapText;
 let nameScale = 0.5;
 
-let congText;
-let creditEvent;
-let positionText = [
-    'Head Game-Development',
-    'Head Game-Design',
-    'Developer',
-    'Character & Story Designer',
-    'Background Designer',
-    'UI Designer',
-    'Sound Effects'
-];
-let headGame = [
-    'Thanatorn Roswan',
-    'Sittikorn Boonrungkao',
-]
-let developer = [
-    'Parmat Petin',
-    'Thanatorn Roswan'
-]
-let csDesign = [
-    'Piraya Sutthiparinyanon',
-    'Vichuta Pipoppinyo',
-    'Paphada Rontee',
-]
-let bgDesign = [
-    'Cheraim Charoenchit',
-    'Chinnawat Kaewnongsang',
-    'Nichakan Sathaphon',
-    'Nuttapong Sittapong',
-    'Pasit Piyasakullert',
-]
-let uiDesign = [
-    'Sittikorn Boonrungkao'
-]
-let soundFx = [
-    'Nitipoom Suttachai',
-    'Trongsit Sinnurak',
-    'Cheraim Charoenchit',
-    'Nichakan Sathaphon'
-]
-
 let def = 12500;
 let plus = 350;
+
+//rainbow
+const rainbowColor = [0xFF5757, 0xE8A241, 0x97FF7F, 0x52BFFF, 0x995DE8];
+let rainbowColorIdx = 0;
+let rainbowColorOffset = 0;
+let delay = 0;
+let rainbowText;
+
+//Button
+let ending;
 
 class WinScene extends Phaser.Scene {
     constructor(test) {
@@ -89,6 +58,9 @@ class WinScene extends Phaser.Scene {
         this.load.image("pos5", "src/image/winScene/textPositions05.png");
         this.load.image("pos6", "src/image/winScene/textPositions06.png");
         this.load.image("pos7", "src/image/winScene/textPositions07.png")
+
+        //button
+        this.load.image('ending', 'src/image/button/end.png');
 
     }
 
@@ -126,15 +98,15 @@ class WinScene extends Phaser.Scene {
         this.time.addEvent({
             delay: 1000,
             callback: function () {
-                congText = this.add.dynamicBitmapText((this.game.renderer.width / 2) - 300, 210, 'fontZFT', '', 100)
+                rainbowText = this.add.dynamicBitmapText((this.game.renderer.width / 2) - 300, 210, 'fontZFT', `Congratulations\nThx for playing`, 100)
                     .setDepth(10);
-                congText.setText(`Congratulations`);
-                congText.alpha = 0;
+                rainbowText.setDisplayCallback(this.rainbowCallback);
+                rainbowText.alpha = 0;
 
                 this.time.addEvent({
                     callback: function () {
                         this.tweens.add({
-                            targets: congText,
+                            targets: rainbowText,
                             duration: 250,
                             alpha: 1
                         });
@@ -146,9 +118,9 @@ class WinScene extends Phaser.Scene {
                     delay: 5000,
                     callback: function () {
                         this.tweens.add({
-                            targets: congText,
-                            duration: 5500,
-                            y: this.game.renderer.height
+                            targets: rainbowText,
+                            duration: 6500,
+                            y: this.game.renderer.height + 100
                         });
                     },
                     callbackScope: this,
@@ -311,11 +283,65 @@ class WinScene extends Phaser.Scene {
             loop: false,
         });
 
+        //Button
+        this.time.addEvent({
+            delay: def + (plus * 7),
+            callback: function () {
+                ending = this.physics.add.image(this.game.renderer.width - 75, 690, 'ending')
+                    .setScale(1)
+                    .setDepth(100)
+                    .setInteractive();
+                ending.alpha = 0;
+
+                this.tweens.add({
+                    targets: ending,
+                    duration: 250,
+                    alpha: 0.5,
+                    scaleX: 0.35,
+                    scaleY: 0.35
+                });
+
+                ending.on('pointerover', () => {
+                    ending.setScale(0.4);
+                    ending.alpha = 1;
+                })
+                ending.on('pointerout', () => {
+                    ending.setScale(0.35);
+                    ending.alpha = 0.5;
+                })
+
+                ending.on('pointerup', () => {
+                    this.cameras.main.fadeOut(500)
+                    let buttonEvent = this.time.addEvent({
+                        delay: 500,
+                        callback: function () {
+                            location.reload();
+                        },
+                        callbackScope: this,
+                        loop: false,
+                    });
+                });
+            },
+            callbackScope: this,
+            loop: false,
+        });
+
+
+       
+
+
     }
 
     update(delta, time) {
         //Show X Y
         this.label.setText(` ${this.pointer.x} | ${this.pointer.y} | ${delta} | `);
+
+        rainbowColorIdx = 0;
+
+        if (delay++ === 6) {
+            rainbowColorOffset = (rainbowColorOffset + 1) % (rainbowColor.length);
+            delay = 0;
+        }
 
         this.time.addEvent({
             delay: 2500,
@@ -359,6 +385,15 @@ class WinScene extends Phaser.Scene {
             repeat: length - 1,
             delay: 50
         })
+    }
+
+    rainbowCallback(data) {
+        data.color = rainbowColor[(rainbowColorOffset + rainbowColorIdx) % rainbowColor.length];
+        rainbowColorIdx = (rainbowColorIdx + 1) % (rainbowColor.length);
+        // data.y = Math.cos(rainbowWave + rainbowColorIdx) * 5;
+        // rainbowWave += 0.009;
+
+        return data;
     }
 
 
