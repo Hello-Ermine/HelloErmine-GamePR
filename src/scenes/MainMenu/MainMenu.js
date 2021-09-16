@@ -34,6 +34,10 @@ let thirdEvent;
 let fourthEvent;
 let transEvent;
 
+//music
+let main;
+let click;
+
 class MainMenu extends Phaser.Scene {
     constructor(test) {
         super({
@@ -65,9 +69,20 @@ class MainMenu extends Phaser.Scene {
             { frameWidth: 1000, frameHeight: 1000 });
         this.load.spritesheet('golemMenu', 'src/image/Character/golem/Golem2_sprite.png',
             { frameWidth: 890, frameHeight: 890 });
+
+        this.load.audio('main','src/sound/bgSceneSounds/Menu/Main.mp3');
+        this.load.audio('click','src/sound/Effect/click.mp3');
     }
 
     create() {
+        main=this.sound.add('main',{
+            volume: 0.2,
+            loop:true,
+        });
+        main.play();
+        click=this.sound.add('click',{
+            volume:1,
+        })
         //Show X Y
         this.label = this.add.text(40, 0, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -97,9 +112,25 @@ class MainMenu extends Phaser.Scene {
         //Logo
         logo = this.add.image(this.game.renderer.width / 2, 150, 'logo')
             .setScale(0.4);
+        logo.alpha=0;
         gameLogo = this.add.image(this.game.renderer.width / 2 + 300, 250, 'game')
-            .setScale(0.08)
-            .rotation = -0.3;
+            .setScale(0.08);
+        gameLogo.rotation = -0.3;
+        gameLogo.alpha=0;
+
+        this.tweens.add({
+            targets: logo,
+            alpha:1,
+            ease: 'Linear',
+            duration: 3000,
+        });
+
+        this.tweens.add({
+            targets: gameLogo,
+            alpha:1,
+            ease: 'Linear',
+            duration: 3000,
+        });
 
         //Ermine Animation
         let ermineAni = this.anims.create({
@@ -333,6 +364,7 @@ class MainMenu extends Phaser.Scene {
             snowsmall.setScale(1);
         })
         play.on('pointerup', () => {
+            click.play();
             tutorial.destroy();
             snowbig.destroy();
             play.destroy();
@@ -350,6 +382,8 @@ class MainMenu extends Phaser.Scene {
                 snowsmall1.setScale(1);
             })
             story.on('pointerup', () => {
+                click.play();
+                main.stop();
                 this.cameras.main.fadeOut(500);
                 transEvent = this.time.addEvent({
                     delay: 500,
@@ -379,6 +413,8 @@ class MainMenu extends Phaser.Scene {
                 snowsmall2.setScale(1);
             })
             arcade.on('pointerdown', () => {
+                click.play();
+                main.stop();
                 this.cameras.main.fadeOut(500);
                 transEvent = this.time.addEvent({
                     delay: 500,
@@ -407,6 +443,7 @@ class MainMenu extends Phaser.Scene {
             })
 
             back.on('pointerup', () => {
+                click.play();
                 this.cameras.main.fadeOut(500)
                 this.time.addEvent({
                     delay: 500,
@@ -435,6 +472,8 @@ class MainMenu extends Phaser.Scene {
         })
 
         tutorial.on('pointerup', () => {
+            click.play();
+            main.stop();
             this.cameras.main.fadeOut(500)
             transEvent = this.time.addEvent({
                 delay: 500,

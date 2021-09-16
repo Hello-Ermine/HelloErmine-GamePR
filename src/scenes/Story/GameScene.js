@@ -55,6 +55,12 @@ let DELAY = 1000;
 let timeSinceLastAttack = 0;
 let scratch = 0;
 
+//sound
+let bgMusic;
+let hitSnowball;
+let hitSnowman;
+let ermineSound;
+
 
 class GameScene extends Phaser.Scene {
     constructor(fadeChange) {
@@ -85,9 +91,28 @@ class GameScene extends Phaser.Scene {
         this.load.spritesheet("snowman", "src/image/Character/SnowmanFall64.png", { frameWidth: 670, frameHeight: 670, });
         this.load.spritesheet("heart", "src/image/object/heart.png", { frameWidth: 64, frameHeight: 66, });
 
+        this.load.audio('battle','src/sound/bgSceneSounds/Boss/dungeon_theme_2.mp3');
+        this.load.audio('hitsnowball','src/sound/Effect/player-overlap.mp3');
+        this.load.audio('hitsnowman','src/sound/Effect/snowball-hits.mp3');
+        this.load.audio('scrath','src/sound/Effect/scrath1.mp3');
+
     }
 
     create() {
+        bgMusic=this.sound.add('battle',{
+            volume: 0.3,
+            loop:true,
+        });
+        bgMusic.play();
+        hitSnowball=this.sound.add('hitsnowball',{
+            volume:1,
+        })
+        hitSnowman=this.sound.add('hitsnowman',{
+            volume:1,
+        })
+        ermineSound=this.sound.add('scrath',{
+            volume:1,
+        })
         //Fade IN
         this.cameras.main.fadeIn(3000);
         //Show X Y
@@ -124,7 +149,7 @@ class GameScene extends Phaser.Scene {
         ermine = this.physics.add.sprite(190, 360, "ermine")
             .setScale(0.45)
             .setSize(50, 80)
-            .setOffset(200, 150);
+            .setOffset(300, 150);
 
         //collider
         this.physics.add.collider(ermine, skybox);
@@ -348,11 +373,13 @@ class GameScene extends Phaser.Scene {
         });
 
         function snowmanDestroy(ermine, snowman) {
+            hitSnowman.play();
             snowman.flipX=false;
             snowman.anims.play('snowmanAniDestroy',true);
         }
 
         function snowballPlay(ermine,snowball){
+            hitSnowball.play();
             snowball.anims.play("snowballAniDestroy",true);
         }
 
@@ -389,6 +416,7 @@ class GameScene extends Phaser.Scene {
         });
         
         function ChangeScene(){
+            bgMusic.stop();
             ermine.setVelocityX(0);
             if (cutScene == 0) {
                 this.scene.start("CutSceneBossFight", { playerHeart: playerHeart });
@@ -443,7 +471,7 @@ class GameScene extends Phaser.Scene {
                 ermine.setVelocityX(0);
             }
             if (keyAtk.isDown && delta >= (timeSinceLastAttack + DELAY)) {
-
+                ermineSound.play();
                 ermine.anims.play("ermineAniATK", true);
                 scratch = 1;
 
@@ -500,6 +528,7 @@ class GameScene extends Phaser.Scene {
             }
         }
         function GameOverScene(){
+            bgMusic.stop();
             this.scene.start("GameOverStory");
             snowballAni.destroy();
             snowmanAni.destroy();

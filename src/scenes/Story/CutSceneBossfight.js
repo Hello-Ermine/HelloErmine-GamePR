@@ -36,6 +36,9 @@ let question3;
 let stand = 0;
 let snowRollGroup;
 
+//sound
+let bgMusic;
+
 class CutSceneBossFight extends Phaser.Scene {
     constructor(test) {
         super({
@@ -67,9 +70,16 @@ class CutSceneBossFight extends Phaser.Scene {
 
         //Obj
         this.load.image("question", "src/image/object/question.png");
+
+        this.load.audio('cutsceneSound','src/sound/bgSceneSounds/Boss/cutscene.mp3');
     }
 
     create() {
+        bgMusic=this.sound.add('cutsceneSound',{
+            volume: 0.5,
+            loop:true,
+        });
+        bgMusic.play();
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -179,6 +189,7 @@ class CutSceneBossFight extends Phaser.Scene {
         changeScene = this.time.addEvent({
             delay: 1000,
             callback: function () {
+                bgMusic.stop();
                 this.scene.start("BossFight", { playerHeart: playerHeart });
                 ermineAni.destroy();
                 ermineAniStand.destroy();

@@ -18,6 +18,9 @@ let backTutorial;
 let switchScene;
 let backScene;
 
+let click;
+let bgMusic;
+
 class TutorialScene extends Phaser.Scene {
     constructor(test) {
         super({
@@ -48,10 +51,19 @@ class TutorialScene extends Phaser.Scene {
         this.load.image('nextTutorial', 'src/image/button/next.png');
         this.load.image('backTutorial', 'src/image/button/back.png');
 
-
+        this.load.audio('click','src/sound/Effect/click.mp3');
+        this.load.audio('tutorial','src/sound/bgSceneSounds/Menu/tutorial.mp3');
     }
 
     create() {
+        bgMusic=this.sound.add('tutorial',{
+            volume:0.8,
+            loop:true
+        });
+        bgMusic.play();
+        click=this.sound.add('click',{
+            volume:1,
+        });
         //Show X Y
         this.label = this.add.text(40, 0, '(x, y)', { fontFamily: 'Monospace' })
             .setDepth(100);
@@ -153,6 +165,8 @@ class TutorialScene extends Phaser.Scene {
         })
 
         nextTutorial.on('pointerup', () => {
+            bgMusic.stop();
+            click.play();
             this.cameras.main.fadeOut(500)
             switchScene = this.time.addEvent({
                 delay: 500,
@@ -180,6 +194,8 @@ class TutorialScene extends Phaser.Scene {
         })
 
         backTutorial.on('pointerup', () => {
+            bgMusic.stop();
+            click.play();
             this.cameras.main.fadeOut(500)
             backScene = this.time.addEvent({
                 delay: 500,

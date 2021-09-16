@@ -76,6 +76,11 @@ let hpOpen = 0;
 let DELAY = 1000;
 let timeSinceLastAttack= 0;
 
+//sound 
+let hitSnowball;
+let bgMusic;
+let hitgolem;
+
 class BossFight extends Phaser.Scene {
     constructor(test) {
         super({
@@ -83,7 +88,7 @@ class BossFight extends Phaser.Scene {
         });
     }
     init(data){
-        playerHeart=data.playerHeart;
+        playerHeart=5;
         golemHp=1;
         finish=0;
         hpOpen=0;
@@ -119,9 +124,24 @@ class BossFight extends Phaser.Scene {
         //HP Bar
         this.load.image('greenBar', 'src/image/object/health-green.png');
         this.load.image('redBar', 'src/image/object/health-red.png');
+
+        this.load.audio('battleBoss','src/sound/bgSceneSounds/Boss/Battle1.mp3');
+        this.load.audio('hitsnowball','src/sound/Effect/player-overlap.mp3');
+        this.load.audio('hitgolem','src/sound/Effect/ball-hit.mp3');
     }
 
     create() {
+        bgMusic=this.sound.add('battleBoss',{
+            volume: 0.2,
+            loop:true,
+        });
+        bgMusic.play();
+        hitSnowball=this.sound.add('hitsnowball',{
+            volume:1,
+        });
+        hitgolem=this.sound.add('hitgolem',{
+            volume:1,
+        }); 
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -217,8 +237,8 @@ class BossFight extends Phaser.Scene {
         //ermine
         ermine = this.physics.add.sprite(-100, 360, "ermine")
             .setScale(0.4)
-            .setSize(220, 80)
-            .setOffset(200, 150);
+            .setSize(50, 80)
+            .setOffset(300, 150);
         this.physics.add.collider(ermine, skybox);
         this.physics.add.collider(ermine, skybox2);
         this.physics.add.collider(ermine, lowbox);
@@ -660,6 +680,7 @@ class BossFight extends Phaser.Scene {
         }
 
         function snowballDestroy(ermine,snowball){
+            hitSnowball.play();
             snowball.anims.play("snowballAniDestroy",true);
         }
         
@@ -714,7 +735,6 @@ class BossFight extends Phaser.Scene {
                     }
                 }
                 if (keyAtk.isDown && delta > (timeSinceLastAttackBullet + delayBullet)) {
-                    console.log(countBullet);
                     if(countBullet>0){
                         countBullet--;
                         bullet = this.physics.add.image(ermine.x + 65, ermine.y + 10, 'bullet')
@@ -804,6 +824,7 @@ class BossFight extends Phaser.Scene {
             }
         }
         function hitGolem(bullet, golem) {
+            hitgolem.play();
             bullet.destroy();
             if (golemHp > 0) {
                 golemHp-=1;
@@ -818,6 +839,7 @@ class BossFight extends Phaser.Scene {
         }
 
         function GameOverScene(){
+            bgMusic.stop();
             this.scene.start("GameOverStory");
             snowballAni.destroy();
             golemAni.destroy();
@@ -834,6 +856,7 @@ class BossFight extends Phaser.Scene {
         }
 
         function Win(){
+            bgMusic.stop();
             this.scene.start("outro");
             snowballAni.destroy();
             golemAni.destroy();

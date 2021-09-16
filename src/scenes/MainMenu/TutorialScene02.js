@@ -22,6 +22,8 @@ let backScene;
 
 let ermineAni;
 
+let click;
+let bgMusic;
 class TutorialScene02 extends Phaser.Scene {
     constructor(test) {
         super({
@@ -30,6 +32,7 @@ class TutorialScene02 extends Phaser.Scene {
     }
 
     preload() {
+        
         //back ground
         this.load.image('BgToturial', 'src/image/tutorialScene/BG.png');
         this.load.image('board', 'src/image/tutorialScene/board.png');
@@ -55,9 +58,20 @@ class TutorialScene02 extends Phaser.Scene {
         this.load.image('playTutorial', 'src/image/button/Play.png');
         this.load.image('backTutorial', 'src/image/button/back.png');
 
+        this.load.audio('click','src/sound/Effect/click.mp3');
+        this.load.audio('tutorial','src/sound/bgSceneSounds/Menu/tutorial.mp3');
+
     }
 
     create() {
+        bgMusic=this.sound.add('tutorial',{
+            volume:0.8,
+            loop:true
+        });
+        bgMusic.play();
+        click=this.sound.add('click',{
+            volume:1,
+        })
         //Show X Y
         this.label = this.add.text(40, 0, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -137,6 +151,8 @@ class TutorialScene02 extends Phaser.Scene {
         })
 
         playTutorial.on('pointerup', () => {
+            bgMusic.stop();
+            click.play();
             this.cameras.main.fadeOut(500)
             switchScene = this.time.addEvent({
                 delay: 500,
@@ -164,6 +180,8 @@ class TutorialScene02 extends Phaser.Scene {
         })
 
         backTutorial.on('pointerup', () => {
+            bgMusic.stop();
+            click.play();
             this.cameras.main.fadeOut(500)
             backScene = this.time.addEvent({
                 delay: 500,
@@ -177,10 +195,6 @@ class TutorialScene02 extends Phaser.Scene {
                 loop: false,
             });
         });
-
-
-
-
     }
 
     update(delta, time) {
@@ -214,8 +228,6 @@ class TutorialScene02 extends Phaser.Scene {
 
         }
         count = 0;
-
-
     }
 }
 

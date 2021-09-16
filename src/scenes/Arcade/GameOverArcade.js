@@ -19,12 +19,15 @@ let SnowmanPlay;
 //rank
 let rank;
 let rankCrate = 0;
-let rankVelo = 100;
+let rankVelo = 10;
 
 //Any
 let i=0;
 let snowman;
 let golem;
+
+let click;
+let bgMusic;
 
 class GameOverArcade extends Phaser.Scene {
     constructor(test) {
@@ -60,9 +63,19 @@ class GameOverArcade extends Phaser.Scene {
         this.load.image("rankC", "src/image/gameOver/Rank/rank_C_pixel.png");
         this.load.image("rankD", "src/image/gameOver/Rank/rank_D_pixel.png");
 
+        this.load.audio('click','src/sound/Effect/click.mp3');
+        this.load.audio('sound','src/sound/bgSceneSounds/Menu/GameOver.mp3');
     }
 
     create() {
+        bgMusic=this.sound.add('sound',{
+            volume:0.8,
+            loop:true,
+        });
+        bgMusic.play();
+        click=this.sound.add('click',{
+            volume:1,
+        })
         //Show X Y
         this.label = this.add.text(0, 0, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -103,6 +116,8 @@ class GameOverArcade extends Phaser.Scene {
             snowbig.setScale(0.8)
         })
         tryAgain.on('pointerup', () => {
+            bgMusic.stop();
+            click.play();
             this.cameras.main.fadeOut(1000);
             transEvent = this.time.addEvent({
                 delay: 1000,
@@ -131,6 +146,7 @@ class GameOverArcade extends Phaser.Scene {
             snowsmall.setScale(0.6)
         })
         end.on('pointerup', () => {
+            click.play();
             this.cameras.main.fadeOut(1000);
             transEvent = this.time.addEvent({
                 delay: 1000,
@@ -203,10 +219,10 @@ class GameOverArcade extends Phaser.Scene {
             rank.setVelocityY(rankVelo);
         }
 
-        if( rank.y >= 350){
+        if( rank.y > 350){
             rank.setVelocityY(rankVelo-=10);
         }
-        if( rank.y <= 330){
+        if( rank.y < 330){
             rank.setVelocityY(rankVelo+=10);
         }
 
