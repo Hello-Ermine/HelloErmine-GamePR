@@ -15,6 +15,8 @@ let changeStory6;
 let outro8;
 let changeStory7;
 let end;
+let sound;
+let bgMusic;
 
 class outro extends Phaser.Scene {
     constructor(test) {
@@ -32,9 +34,21 @@ class outro extends Phaser.Scene {
         this.load.image('outro6','src/image/videoStory/Outro14.jpg');
         this.load.image('outro7','src/image/videoStory/Outro15.jpg');
         this.load.image('outro8','src/image/videoStory/Outro16.jpg');
+
+        this.load.audio('storySound2','src/sound/bgSceneSounds/Boss/cutscene.mp3');
+        this.load.audio('storySound1','src/sound/bgSceneSounds/GameScene/a-snow-lullaby-short.mp3');
     }
     
     create() {
+        sound=this.sound.add('storySound2',{
+            volume: 0.2,
+            loop:true,
+        });
+        sound.play();
+        bgMusic=this.sound.add('storySound1',{
+            volume: 0.2,
+            loop:true,
+        });
         outro1=this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2
             ,this.cameras.main.worldView.y + this.cameras.main.height / 2,
@@ -72,6 +86,8 @@ class outro extends Phaser.Scene {
         changeStory2=this.time.addEvent({
             delay:1000,
             callback: function(){
+                sound.stop();
+                bgMusic.play();
                 this.tweens.add({
                     targets: outro3,
                     duration: 5000,
@@ -175,6 +191,7 @@ class outro extends Phaser.Scene {
         end=this.time.addEvent({
             delay:1000,
             callback: function(){
+                bgMusic.stop();
                 this.scene.start("WinScene");
             },
             callbackScope:this,

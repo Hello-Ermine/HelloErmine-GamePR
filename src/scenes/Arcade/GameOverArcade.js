@@ -19,7 +19,7 @@ let SnowmanPlay;
 //rank
 let rank;
 let rankCrate = 0;
-let rankVelo = 10;
+let rankVelo = 100;
 
 //Any
 let i=0;
@@ -219,11 +219,11 @@ class GameOverArcade extends Phaser.Scene {
             rank.setVelocityY(rankVelo);
         }
 
-        if( rank.y > 350){
-            rank.setVelocityY(rankVelo-=10);
+        if( rank.y >= 350){
+            rank.setVelocityY(-rankVelo);
         }
-        if( rank.y < 330){
-            rank.setVelocityY(rankVelo+=10);
+        if( rank.y <= 330){
+            rank.setVelocityY(rankVelo);
         }
 
 

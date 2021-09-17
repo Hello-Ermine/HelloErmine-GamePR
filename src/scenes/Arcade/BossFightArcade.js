@@ -85,6 +85,7 @@ let scoreOverLabel;
 let hitSnowball;
 let bgMusic;
 let hitgolem;
+let earthquake;
 
 class BossFightArcade extends Phaser.Scene {
     constructor(test) {
@@ -143,6 +144,7 @@ class BossFightArcade extends Phaser.Scene {
         this.load.audio('battleBoss','src/sound/bgSceneSounds/Boss/Battle1.mp3');
         this.load.audio('hitsnowball','src/sound/Effect/player-overlap.mp3');
         this.load.audio('hitgolem','src/sound/Effect/ball-hit.mp3');
+        this.load.audio('earthquake','src/sound/Effect/earthquake2.mp3');
     }
 
     create() {
@@ -157,6 +159,11 @@ class BossFightArcade extends Phaser.Scene {
         hitgolem=this.sound.add('hitgolem',{
             volume:1,
         });
+        earthquake=this.sound.add('earthquake',{
+            volume: 0.2,
+            loop:true,
+        });
+        earthquake.play();
 
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
