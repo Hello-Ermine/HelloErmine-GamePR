@@ -57,7 +57,9 @@ class WinScene extends Phaser.Scene {
         this.load.image("pos4", "src/image/winScene/textPositions04.png");
         this.load.image("pos5", "src/image/winScene/textPositions05.png");
         this.load.image("pos6", "src/image/winScene/textPositions06.png");
-        this.load.image("pos7", "src/image/winScene/textPositions07.png")
+        this.load.image("pos7", "src/image/winScene/textPositions07.png");
+        this.load.image("pos8", "src/image/winScene/textPositions08.png");
+        this.load.image("pos9", "src/image/winScene/textPositions09.png");
 
         //button
         this.load.image('ending', 'src/image/button/end.png');
@@ -147,7 +149,7 @@ class WinScene extends Phaser.Scene {
         this.time.addEvent({
             delay: def + (plus * 0),
             callback: function () {
-                let pos1 = this.physics.add.image(340, 200, 'pos1')
+                let pos1 = this.physics.add.image(222, 200, 'pos1')
                     .setScale(1.5);
                 pos1.alpha = 0;
 
@@ -167,7 +169,7 @@ class WinScene extends Phaser.Scene {
         this.time.addEvent({
             delay: def + (plus * 1),
             callback: function () {
-                let pos2 = this.physics.add.image(930, 203, 'pos2')
+                let pos2 = this.physics.add.image((this.game.renderer.width / 2), 200, 'pos2')
                     .setScale(1.5);
                 pos2.alpha = 0;
 
@@ -187,7 +189,7 @@ class WinScene extends Phaser.Scene {
         this.time.addEvent({
             delay: def + (plus * 2),
             callback: function () {
-                let pos3 = this.physics.add.image(340, 325, 'pos3')
+                let pos3 = this.physics.add.image(1044, 200, 'pos3')
                     .setScale(1.5);
                 pos3.alpha = 0;
 
@@ -207,8 +209,9 @@ class WinScene extends Phaser.Scene {
         this.time.addEvent({
             delay: def + (plus * 3),
             callback: function () {
-                let pos4 = this.physics.add.image(930, 368, 'pos4')
-                    .setScale(1.5);
+                let pos4 = this.physics.add.image(222, 290, 'pos4')
+                    .setScale(1.5)
+                    .setOrigin(0.5, 0);
                 pos4.alpha = 0;
 
                 this.tweens.add({
@@ -227,8 +230,9 @@ class WinScene extends Phaser.Scene {
         this.time.addEvent({
             delay: def + (plus * 4),
             callback: function () {
-                let pos5 = this.physics.add.image(340, 480, 'pos5')
-                    .setScale(1.5);
+                let pos5 = this.physics.add.image((this.game.renderer.width / 2), 290, 'pos5')
+                    .setScale(1.5)
+                    .setOrigin(0.5, 0);
                 pos5.alpha = 0;
 
                 this.tweens.add({
@@ -247,8 +251,9 @@ class WinScene extends Phaser.Scene {
         this.time.addEvent({
             delay: def + (plus * 5),
             callback: function () {
-                let pos6 = this.physics.add.image(930, 600, 'pos6')
-                    .setScale(1.5);
+                let pos6 = this.physics.add.image(1044, 290, 'pos6')
+                    .setScale(1.5)
+                    .setOrigin(0.5, 0);
                 pos6.alpha = 0;
 
                 this.tweens.add({
@@ -267,8 +272,9 @@ class WinScene extends Phaser.Scene {
         this.time.addEvent({
             delay: def + (plus * 6),
             callback: function () {
-                let pos7 = this.physics.add.image(340, 620, 'pos7')
-                    .setScale(1.5);
+                let pos7 = this.physics.add.image(222, 450, 'pos7')
+                    .setScale(1.5)
+                    .setOrigin(0.5, 0);
                 pos7.alpha = 0;
 
                 this.tweens.add({
@@ -283,11 +289,53 @@ class WinScene extends Phaser.Scene {
             loop: false,
         });
 
-        //Button
+        //Position 8
         this.time.addEvent({
             delay: def + (plus * 7),
             callback: function () {
-                ending = this.physics.add.image(this.game.renderer.width - 75, 690, 'ending')
+                let pos8 = this.physics.add.image((this.game.renderer.width / 2), 450, 'pos8')
+                    .setScale(1.5)
+                    .setOrigin(0.5, 0);
+                pos8.alpha = 0;
+
+                this.tweens.add({
+                    targets: pos8,
+                    duration: 250,
+                    alpha: 1,
+                    scaleX: nameScale,
+                    scaleY: nameScale
+                });
+            },
+            callbackScope: this,
+            loop: false,
+        });
+
+        //Position 9
+        this.time.addEvent({
+            delay: def + (plus * 8),
+            callback: function () {
+                let pos9 = this.physics.add.image(1044, 450, 'pos9')
+                    .setScale(1.5)
+                    .setOrigin(0.5, 0);
+                pos9.alpha = 0;
+
+                this.tweens.add({
+                    targets: pos9,
+                    duration: 250,
+                    alpha: 1,
+                    scaleX: nameScale,
+                    scaleY: nameScale
+                });
+            },
+            callbackScope: this,
+            loop: false,
+        });
+
+        //Button
+        this.time.addEvent({
+            delay: def + (plus * 9),
+            callback: function () {
+                ending = this.physics.add.image(this.game.renderer.width / 2, 675, 'ending')
                     .setScale(1)
                     .setDepth(100)
                     .setInteractive();
@@ -327,7 +375,7 @@ class WinScene extends Phaser.Scene {
         });
 
 
-       
+
 
 
     }
