@@ -167,7 +167,7 @@ class GameOverArcade extends Phaser.Scene {
             .setDepth(1000)
             .setTint(0x61390A);
 
-        SnowmanPlay = this.add.dynamicBitmapText(760, 520, 'ZFT', 'Snoman and Golem: 0', 50)
+        SnowmanPlay = this.add.dynamicBitmapText(760, 500, 'ZFT', 'Snoman and Golem: 0', 50)
             .setDepth(1000)
             .setTint(0x61390A);
 
@@ -180,7 +180,7 @@ class GameOverArcade extends Phaser.Scene {
         this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
 
         scorePlay.setText('Score : ' + score);
-        SnowmanPlay.setText('Snoman: '+snowman+'\nGolem: '+golem);
+        SnowmanPlay.setText('Snowman kills : '+snowman+'\nGolem kills : '+golem);
 
 
         // score = 500;
