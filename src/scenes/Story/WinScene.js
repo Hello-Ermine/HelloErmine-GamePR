@@ -28,6 +28,9 @@ let rainbowText;
 //Button
 let ending;
 
+//sound
+let bgMusic;
+
 class WinScene extends Phaser.Scene {
     constructor(test) {
         super({
@@ -62,9 +65,16 @@ class WinScene extends Phaser.Scene {
         //button
         this.load.image('ending', 'src/image/button/end.png');
 
+        this.load.audio('endSound','src/sound/bgSceneSounds/GameScene/winter-wonderland-short.mp3');
+
     }
 
     create() {
+        bgMusic=this.sound.add('endSound',{
+            volume: 0.3,
+            loop: true,
+        });
+        bgMusic.play();
         //Show X Y
         this.label = this.add.text(10, 10, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
