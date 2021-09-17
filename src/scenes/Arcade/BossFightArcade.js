@@ -868,6 +868,7 @@ class BossFightArcade extends Phaser.Scene {
             bullet.destroy();
         }
         function GameOverScene(){
+            earthquake.stop();
             bgMusic.stop();
             this.scene.start("GameOverArcade",{score:score,countDestroy:countDestroy,countGolem:countGolem});
             snowballAni.destroy();
@@ -885,6 +886,7 @@ class BossFightArcade extends Phaser.Scene {
         }
 
         function Win(){
+            earthquake.stop();
             bgMusic.stop();
             atk-=1;
             this.scene.start("Arcade",{score:50,countGolem:1,countDestroy:0});
