@@ -15,7 +15,7 @@ let typewriter;
 let bitMapText;
 let nameScale = 0.5;
 
-let def = 1250;
+let def = 12500;
 let plus = 350;
 
 //rainbow
@@ -95,41 +95,41 @@ class WinScene extends Phaser.Scene {
         campFire.anims.play('campFireAni', true);
 
         //Congratulations
-        // this.time.addEvent({
-        //     delay: 1000,
-        //     callback: function () {
-        //         rainbowText = this.add.dynamicBitmapText((this.game.renderer.width / 2) - 300, 210, 'fontZFT', `Congratulations\nThx for playing`, 100)
-        //             .setDepth(10);
-        //         rainbowText.setDisplayCallback(this.rainbowCallback);
-        //         rainbowText.alpha = 0;
+        this.time.addEvent({
+            delay: 1000,
+            callback: function () {
+                rainbowText = this.add.dynamicBitmapText((this.game.renderer.width / 2) - 300, 210, 'fontZFT', `Congratulations\nThx for playing`, 100)
+                    .setDepth(10);
+                rainbowText.setDisplayCallback(this.rainbowCallback);
+                rainbowText.alpha = 0;
 
-        //         this.time.addEvent({
-        //             callback: function () {
-        //                 this.tweens.add({
-        //                     targets: rainbowText,
-        //                     duration: 250,
-        //                     alpha: 1
-        //                 });
-        //             },
-        //             callbackScope: this,
-        //             loop: false,
-        //         });
-        //         this.time.addEvent({
-        //             delay: 5000,
-        //             callback: function () {
-        //                 this.tweens.add({
-        //                     targets: rainbowText,
-        //                     duration: 6500,
-        //                     y: this.game.renderer.height + 100
-        //                 });
-        //             },
-        //             callbackScope: this,
-        //             loop: false,
-        //         });
-        //     },
-        //     callbackScope: this,
-        //     loop: false,
-        // });
+                this.time.addEvent({
+                    callback: function () {
+                        this.tweens.add({
+                            targets: rainbowText,
+                            duration: 250,
+                            alpha: 1
+                        });
+                    },
+                    callbackScope: this,
+                    loop: false,
+                });
+                this.time.addEvent({
+                    delay: 5500,
+                    callback: function () {
+                        this.tweens.add({
+                            targets: rainbowText,
+                            duration: 6500,
+                            y: this.game.renderer.height + 100
+                        });
+                    },
+                    callbackScope: this,
+                    loop: false,
+                });
+            },
+            callbackScope: this,
+            loop: false,
+        });
 
         //Development Team
         this.time.addEvent({
