@@ -26,18 +26,18 @@ const config = {
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
         }
     },
     scene: [
-        // MainMenu,
-        // TutorialScene,
-        // TutorialScene02,
-        // intro,
-        // GameScene,
-        // CutSceneBossFight,
-        // BossFight,
-        // GameOverStory,
+        MainMenu,
+        TutorialScene,
+        TutorialScene02,
+        intro,
+        GameScene,
+        CutSceneBossFight,
+        BossFight,
+        GameOverStory,
         outro,
         Arcade,
         BossFightArcade,

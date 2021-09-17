@@ -41,7 +41,7 @@ class GameOverStory extends Phaser.Scene {
 
     create() {
         bgMusic=this.sound.add('sound',{
-            volume:0.8,
+            volume:0.5,
             loop:true,
         });
         bgMusic.play();

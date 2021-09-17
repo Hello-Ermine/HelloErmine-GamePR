@@ -30,6 +30,7 @@ let ending;
 
 //sound
 let bgMusic;
+let click;
 
 class WinScene extends Phaser.Scene {
     constructor(test) {
@@ -66,6 +67,7 @@ class WinScene extends Phaser.Scene {
         this.load.image('ending', 'src/image/button/end.png');
 
         this.load.audio('endSound','src/sound/bgSceneSounds/GameScene/winter-wonderland-short.mp3');
+        this.load.audio('click','src/sound/Effect/click.mp3');
 
     }
 
@@ -75,6 +77,9 @@ class WinScene extends Phaser.Scene {
             loop: true,
         });
         bgMusic.play();
+        click=this.sound.add('click',{
+            volume:1,
+        });
         //Show X Y
         this.label = this.add.text(10, 10, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -321,6 +326,7 @@ class WinScene extends Phaser.Scene {
                 })
 
                 ending.on('pointerup', () => {
+                    click.play();
                     this.cameras.main.fadeOut(500)
                     let buttonEvent = this.time.addEvent({
                         delay: 500,
@@ -335,11 +341,6 @@ class WinScene extends Phaser.Scene {
             callbackScope: this,
             loop: false,
         });
-
-
-       
-
-
     }
 
     update(delta, time) {

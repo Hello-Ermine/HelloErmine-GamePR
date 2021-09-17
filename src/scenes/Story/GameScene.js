@@ -100,7 +100,7 @@ class GameScene extends Phaser.Scene {
 
     create() {
         bgMusic=this.sound.add('battle',{
-            volume: 0.3,
+            volume: 1,
             loop:true,
         });
         bgMusic.play();

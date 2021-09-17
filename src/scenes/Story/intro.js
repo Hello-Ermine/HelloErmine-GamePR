@@ -46,7 +46,7 @@ class intro extends Phaser.Scene {
         });
         bgMusic.play();
         thief=this.sound.add('thief',{
-            volume: 0.3,
+            volume: 1,
             loop:true,
         });
         scene1=this.add.image(
