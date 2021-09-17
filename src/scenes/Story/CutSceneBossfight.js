@@ -38,6 +38,7 @@ let snowRollGroup;
 
 //sound
 let bgMusic;
+let sound;
 
 class CutSceneBossFight extends Phaser.Scene {
     constructor(test) {
@@ -72,6 +73,7 @@ class CutSceneBossFight extends Phaser.Scene {
         this.load.image("question", "src/image/object/question.png");
 
         this.load.audio('cutsceneSound','src/sound/bgSceneSounds/Boss/cutscene.mp3');
+        this.load.audio('earthquake','src/sound/Effect/earthquake2.mp3');
     }
 
     create() {
@@ -80,6 +82,10 @@ class CutSceneBossFight extends Phaser.Scene {
             loop:true,
         });
         bgMusic.play();
+        sound=this.sound.add('earthquake',{
+            volume: 0.2,
+            loop:true,
+        });
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -141,6 +147,7 @@ class CutSceneBossFight extends Phaser.Scene {
         this.time.addEvent({
             delay: 1000,
             callback: function () {
+                sound.play();
                 this.tweens.add({
                     targets: ermineCutScene,
                     duration: 1400,
@@ -189,6 +196,7 @@ class CutSceneBossFight extends Phaser.Scene {
         changeScene = this.time.addEvent({
             delay: 1000,
             callback: function () {
+                sound.stop();
                 bgMusic.stop();
                 this.scene.start("BossFight", { playerHeart: playerHeart });
                 ermineAni.destroy();

@@ -80,6 +80,7 @@ let timeSinceLastAttack= 0;
 let hitSnowball;
 let bgMusic;
 let hitgolem;
+let earthquake;
 
 class BossFight extends Phaser.Scene {
     constructor(test) {
@@ -128,6 +129,7 @@ class BossFight extends Phaser.Scene {
         this.load.audio('battleBoss','src/sound/bgSceneSounds/Boss/Battle1.mp3');
         this.load.audio('hitsnowball','src/sound/Effect/player-overlap.mp3');
         this.load.audio('hitgolem','src/sound/Effect/ball-hit.mp3');
+        this.load.audio('earthquake','src/sound/Effect/earthquake2.mp3');
     }
 
     create() {
@@ -137,11 +139,16 @@ class BossFight extends Phaser.Scene {
         });
         bgMusic.play();
         hitSnowball=this.sound.add('hitsnowball',{
-            volume:1,
+            volume:0.7,
         });
         hitgolem=this.sound.add('hitgolem',{
-            volume:1,
-        }); 
+            volume:0.7,
+        });
+        earthquake=this.sound.add('earthquake',{
+            volume: 0.2,
+            loop:true,
+        });
+        earthquake.play();
         //Show X Y
         this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
             .setDepth(100);
@@ -839,6 +846,7 @@ class BossFight extends Phaser.Scene {
         }
 
         function GameOverScene(){
+            earthquake.stop();
             bgMusic.stop();
             this.scene.start("GameOverStory");
             snowballAni.destroy();
@@ -856,6 +864,7 @@ class BossFight extends Phaser.Scene {
         }
 
         function Win(){
+            earthquake.stop();
             bgMusic.stop();
             this.scene.start("outro");
             snowballAni.destroy();

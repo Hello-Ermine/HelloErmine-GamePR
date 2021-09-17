@@ -30,11 +30,11 @@ const config = {
         }
     },
     scene: [
-        MainMenu,
-        TutorialScene,
-        TutorialScene02,
-        intro,
-        GameScene,
+        // MainMenu,
+        // TutorialScene,
+        // TutorialScene02,
+        // intro,
+        // GameScene,
         CutSceneBossFight,
         BossFight,
         GameOverStory,

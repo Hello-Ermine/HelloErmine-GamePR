@@ -244,7 +244,7 @@ class GameScene extends Phaser.Scene {
             callback: function () {
                 snowball = this.physics.add.sprite(this.game.renderer.width + 100, Phaser.Math.Between(150, 550), "snowball")
                     .setScale(0.65)
-                    .setSize(230, 60)
+                    .setSize(10, 60)
                     .setOffset(30, 220);
                 snowGroup.add(snowball);
                 snowball.setVelocityX(-1000);

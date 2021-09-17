@@ -15,6 +15,8 @@ let changeStory6;
 let scene8;
 let changeStory7;
 let end;
+let bgMusic;
+let thief;
 
 class intro extends Phaser.Scene {
     constructor(test) {
@@ -32,9 +34,21 @@ class intro extends Phaser.Scene {
         this.load.image('scene6','src/image/videoStory/scene06.jpg');
         this.load.image('scene7','src/image/videoStory/scene07.jpg');
         this.load.image('scene8','src/image/videoStory/scene08.jpg');
+
+        this.load.audio('storySuond1','src/sound/bgSceneSounds/GameScene/a-snow-lullaby-short.mp3');
+        this.load.audio('thief','src/sound/bgSceneSounds/Boss/dungeon_theme_2.mp3');
     }
 
     create() {
+        bgMusic=this.sound.add('storySuond1',{
+            volume: 0.3,
+            loop:true,
+        });
+        bgMusic.play();
+        thief=this.sound.add('thief',{
+            volume: 0.3,
+            loop:true,
+        });
         scene1=this.add.image(
             this.cameras.main.worldView.x + this.cameras.main.width / 2,
             this.cameras.main.worldView.y + this.cameras.main.height / 2,
@@ -144,6 +158,8 @@ class intro extends Phaser.Scene {
         changeStory6=this.time.addEvent({
             delay:1000,
             callback: function(){
+                bgMusic.stop();
+                thief.play();
                 this.tweens.add({
                     targets: scene7,
                     duration: 5000,
@@ -175,6 +191,7 @@ class intro extends Phaser.Scene {
         end=this.time.addEvent({
             delay:1000,
             callback: function(){
+                thief.stop();
                 this.scene.start('GameScene');
             },
             callbackScope:this,
