@@ -89,7 +89,7 @@ class BossFight extends Phaser.Scene {
         });
     }
     init(data){
-        playerHeart = data.playerHeart;
+        playerHeart=5;
         golemHp=1;
         finish=0;
         hpOpen=0;
