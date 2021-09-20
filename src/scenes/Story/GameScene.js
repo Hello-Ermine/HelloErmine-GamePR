@@ -115,11 +115,6 @@ class GameScene extends Phaser.Scene {
         })
         //Fade IN
         this.cameras.main.fadeIn(3000);
-        //Show X Y
-        this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.pointer = this.input.activePointer;
-
         //Create Image
         foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
             .setOrigin(0, 0)
@@ -441,11 +436,6 @@ class GameScene extends Phaser.Scene {
     }
 
     update(delta, time) {
-        //Show X Y
-        this.label.setText(
-            "(" + this.pointer.x + ", " + this.pointer.y + ")" + "[" + delta + "]" + "[" + timeSinceLastAttack + "]"
-        );
-
         //set Depth ermine
         ermine.depth = ermine.y - (ermine.height - 254);
 

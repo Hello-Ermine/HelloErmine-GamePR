@@ -48,11 +48,6 @@ class GameOverStory extends Phaser.Scene {
         click=this.sound.add('click',{
             volume:1,
         })
-        //Show X Y
-        this.label = this.add.text(0, 0, '(x, y)', { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.pointer = this.input.activePointer;
-
         this.cameras.main.fadeIn(2000);
 
         backOver = this.physics.add.image(0, 0, 'backOver')
@@ -136,9 +131,6 @@ class GameOverStory extends Phaser.Scene {
 
 
     update(delta, time) {
-        //Show X Y
-        this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
-
         if (treePoster.x < this.game.renderer.width / 2) {
             backOver.setVelocityX(0);
             treePoster.setVelocityX(0);

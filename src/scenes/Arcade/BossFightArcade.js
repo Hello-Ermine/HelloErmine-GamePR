@@ -164,12 +164,6 @@ class BossFightArcade extends Phaser.Scene {
             loop:true,
         });
         earthquake.play();
-
-        //Show X Y
-        this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.pointer = this.input.activePointer;
-
         this.cameras.main.fadeIn(3000);
         //Create Background
         foreGround = this.add.tileSprite(0, 0, 1600, 720, "foreGround")
@@ -707,9 +701,6 @@ class BossFightArcade extends Phaser.Scene {
     }
 
     update(delta, time) {
-        //Show X Y
-        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")" + " | " + golem.y + " | " + countATKGolem + " | " + golemHp);
-
         scoreOverLabel.setText('Score : ' + score );
 
         ermine.depth = ermine.y - (ermine.height - 254);

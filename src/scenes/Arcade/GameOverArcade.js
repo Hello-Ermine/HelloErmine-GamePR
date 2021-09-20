@@ -76,11 +76,6 @@ class GameOverArcade extends Phaser.Scene {
         click=this.sound.add('click',{
             volume:1,
         })
-        //Show X Y
-        this.label = this.add.text(0, 0, '(x, y)', { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.pointer = this.input.activePointer;
-
         this.cameras.main.fadeIn(1000);
 
         backOver = this.physics.add.image(0, 0, 'backOver')
@@ -176,14 +171,9 @@ class GameOverArcade extends Phaser.Scene {
     }
 
     update(delta, time) {
-        //Show X Y
-        this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
-
         scorePlay.setText('Score : ' + score);
         SnowmanPlay.setText('Snowman kills : '+snowman+'\nGolem kills : '+golem);
 
-
-        // score = 500;
         if (rankCrate == 0) {
             if (score >= 1000) {
                 rank = this.physics.add.image(940, 340, 'rankS')

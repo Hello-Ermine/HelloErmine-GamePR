@@ -64,10 +64,6 @@ class TutorialScene extends Phaser.Scene {
         click=this.sound.add('click',{
             volume:1,
         });
-        //Show X Y
-        this.label = this.add.text(40, 0, '(x, y)', { fontFamily: 'Monospace' })
-            .setDepth(100);
-        this.pointer = this.input.activePointer;
 
         this.cameras.main.fadeIn(500);
 
@@ -213,9 +209,6 @@ class TutorialScene extends Phaser.Scene {
     }
 
     update(delta, time) {
-        this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
-
-
         if (board.y < 380) {
             board.setVelocityY(0);
             if (count == 0)

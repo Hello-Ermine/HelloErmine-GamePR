@@ -87,10 +87,6 @@ class CutSceneBossFight extends Phaser.Scene {
             loop:true,
         });
         //Show X Y
-        this.label = this.add.text(0, 0, "(x, y)", { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.pointer = this.input.activePointer;
-
         this.cameras.main.fadeIn(1500);
 
         //Create Background
@@ -263,10 +259,6 @@ class CutSceneBossFight extends Phaser.Scene {
     }
 
     update(delta, time) {
-        //Show X Y
-        this.label.setText("(" + this.pointer.x + ", " + this.pointer.y + ")");
-
-        // ermineCutScene.depth = ermineCutScene.y - (ermineCutScene.height - 254);
         golem.depth = golem.y + 75;
 
         if (ermineCutScene.x > 350) {

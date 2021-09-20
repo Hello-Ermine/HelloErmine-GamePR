@@ -83,9 +83,6 @@ class MainMenu extends Phaser.Scene {
         click=this.sound.add('click',{
             volume:1,
         })
-        //Show X Y
-        this.label = this.add.text(40, 0, '(x, y)', { fontFamily: '"Monospace"' })
-            .setDepth(100);
         this.progress1 = this.add.text(55, 25, '(x, y)', { fontFamily: '"Monospace"' })
             .setDepth(100);
         this.progress2 = this.add.text(75, 40, '(x, y)', { fontFamily: '"Monospace"' })

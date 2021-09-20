@@ -82,11 +82,6 @@ class WinScene extends Phaser.Scene {
         click=this.sound.add('click',{
             volume:1,
         });
-        //Show X Y
-        this.label = this.add.text(10, 10, '(x, y)', { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.pointer = this.input.activePointer;
-
         //fade
         this.cameras.main.fadeIn(2000);
 
@@ -392,9 +387,6 @@ class WinScene extends Phaser.Scene {
     }
 
     update(delta, time) {
-        //Show X Y
-        this.label.setText(` ${this.pointer.x} | ${this.pointer.y} | ${delta} | `);
-
         rainbowColorIdx = 0;
 
         if (delay++ === 6) {
@@ -449,9 +441,6 @@ class WinScene extends Phaser.Scene {
     rainbowCallback(data) {
         data.color = rainbowColor[(rainbowColorOffset + rainbowColorIdx) % rainbowColor.length];
         rainbowColorIdx = (rainbowColorIdx + 1) % (rainbowColor.length);
-        // data.y = Math.cos(rainbowWave + rainbowColorIdx) * 5;
-        // rainbowWave += 0.009;
-
         return data;
     }
 
