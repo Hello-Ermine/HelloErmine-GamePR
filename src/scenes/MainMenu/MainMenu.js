@@ -83,15 +83,6 @@ class MainMenu extends Phaser.Scene {
         click=this.sound.add('click',{
             volume:1,
         })
-        this.progress1 = this.add.text(55, 25, '(x, y)', { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.progress2 = this.add.text(75, 40, '(x, y)', { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.progress3 = this.add.text(90, 55, '(x, y)', { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.progress4 = this.add.text(110, 70, '(x, y)', { fontFamily: '"Monospace"' })
-            .setDepth(100);
-        this.pointer = this.input.activePointer;
 
         //fade
         this.cameras.main.fadeIn(2000);
@@ -488,11 +479,6 @@ class MainMenu extends Phaser.Scene {
     }
 
     update(delta, time) {
-        this.progress1.setText(firstEvent.getProgress().toString().substr(0, 4));
-        this.progress2.setText(secoundEvent.getProgress().toString().substr(0, 4));
-        this.progress3.setText(thirdEvent.getProgress().toString().substr(0, 4));
-        this.progress4.setText(fourthEvent.getProgress().toString().substr(0, 4));
-
         //First Round
         for (let i = 0; i < firstGroup.getChildren().length; i++) {
             if (firstGroup.getChildren()[i].x > 1400) {
