@@ -488,8 +488,6 @@ class MainMenu extends Phaser.Scene {
     }
 
     update(delta, time) {
-        //Show X Y
-        this.label.setText('(' + this.pointer.x + ', ' + this.pointer.y + ')');
         this.progress1.setText(firstEvent.getProgress().toString().substr(0, 4));
         this.progress2.setText(secoundEvent.getProgress().toString().substr(0, 4));
         this.progress3.setText(thirdEvent.getProgress().toString().substr(0, 4));
