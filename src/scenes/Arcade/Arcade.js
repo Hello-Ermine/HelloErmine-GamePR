@@ -455,13 +455,13 @@ class Arcade extends Phaser.Scene {
             this.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         }
 
-        scoreLabel = this.add.dynamicBitmapText(this.game.renderer.width - 250, 50, 'ZFT', 'Score : 0', 25)
+        scoreLabel = this.add.dynamicBitmapText(this.game.renderer.width - 250, 50, 'ZFT', 'Score : 0', 40)
             .setDepth(1000)
             .setTint(0x61390A);
     }
 
     update(delta, time) {
-        scoreLabel.setText('Score : ' + score + " : " + speedscore);
+        scoreLabel.setText('Score : ' + score );
 
         //set Depth ermine
         ermine.depth = ermine.y - (ermine.height - 254);

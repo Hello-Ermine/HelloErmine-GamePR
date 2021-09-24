@@ -695,7 +695,7 @@ class BossFightArcade extends Phaser.Scene {
             snowball.anims.play("snowballAniDestroyBoss",true);
         }
 
-        scoreOverLabel = this.add.dynamicBitmapText(this.game.renderer.width - 250, 50, 'ZFT', 'Score : 0', 25)
+        scoreOverLabel = this.add.dynamicBitmapText(this.game.renderer.width - 250, 50, 'ZFT', 'Score : 0', 40)
             .setDepth(1000)
             .setTint(0x61390A);
     }
